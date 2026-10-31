@@ -90,6 +90,23 @@ p.bio .dim{color:var(--mute)}
 a.statlink{color:inherit;text-decoration:none;display:block}
 a.statlink:hover .num,a.statlink:focus-visible .num{color:#fff}
 a.statlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:14px}
+/* contact form tile */
+button.statlink{background:none;border:0;font:inherit;color:inherit;width:100%;cursor:pointer;padding:0}
+button.statlink:hover .num,button.statlink:focus-visible .num{color:#fff}
+button.statlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:14px}
+#contactform{text-align:left}
+.flabel{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin:10px 0 4px}
+.finput{display:block;width:100%;box-sizing:border-box;background:rgba(3,13,9,.7);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:16px;padding:12px;min-height:48px}
+.finput:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
+textarea.finput{resize:vertical;min-height:96px}
+.fhoney{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.fsend{display:block;width:100%;box-sizing:border-box;margin-top:12px;min-height:48px;border:1px solid var(--jade);border-radius:10px;background:rgba(46,230,168,.12);color:var(--jade-hi);font-weight:700;font-size:16px;cursor:pointer}
+.fsend:hover{background:rgba(46,230,168,.22)}
+.fsend:disabled{opacity:.5;cursor:wait}
+.fstatus{margin-top:8px;font-size:13px;color:var(--mute);min-height:18px}
+.fstatus.ok{color:var(--jade-hi)}
+.fstatus.err{color:#ff7a7a}
+.fclose{display:block;width:100%;background:none;border:0;color:var(--mute);font-size:12px;margin-top:6px;cursor:pointer;text-decoration:underline}
 .statusline{text-align:center;margin:0 0 16px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mute)}
 .statusline .dot{color:#8fe0b3;text-shadow:0 0 8px rgba(143,224,179,.8)}
 /* latest */
@@ -189,12 +206,29 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
       <div class="num">103</div>
       <div class="sub">counted by GoatCounter</div>
     </div>
-    <div class="hud stat">
-      <a class="statlink" href="mailto:georgestriderbuilds@gmail.com?subject=Guestbook%20entry%20%E2%80%94%20Jade%20Static%20Builds%20link%20page">
+    <div class="hud stat" id="contactstat">
+      <button class="statlink" id="contactopen" type="button" aria-expanded="false" aria-controls="contactform">
         <div class="tag">Comms log</div>
-        <div class="num" style="font-size:19px;line-height:1.5">GUEST&shy;BOOK</div>
-        <div class="sub">sign &amp; leave a message →</div>
-      </a>
+        <div class="num" style="font-size:19px;line-height:1.5">SAY&nbsp;HI</div>
+        <div class="sub">send a message &rarr;</div>
+      </button>
+      <form id="contactform" hidden novalidate aria-label="Contact form">
+        <div class="tag" style="text-align:center">Comms log</div>
+        <label class="flabel" for="cname">Name</label>
+        <input class="finput" id="cname" name="name" type="text" autocomplete="name" maxlength="60" required>
+        <label class="flabel" for="ctype">Type</label>
+        <select class="finput" id="ctype" name="type">
+          <option>Idea</option>
+          <option>Bug report</option>
+          <option>Hello</option>
+        </select>
+        <label class="flabel" for="cmsg">Message</label>
+        <textarea class="finput" id="cmsg" name="message" rows="3" maxlength="2000" required></textarea>
+        <input class="fhoney" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="fsend" id="csend" type="submit">Send</button>
+        <div class="fstatus" id="fstatus" role="status" aria-live="polite"></div>
+        <button class="fclose" id="contactclose" type="button">close</button>
+      </form>
     </div>
   </div>
   <p class="statusline"><span class="dot">●</span> ALL SYSTEMS NOMINAL · 21 MODULES ONLINE</p>
@@ -296,6 +330,42 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
   }
   input.addEventListener('input',apply);
   clearBtn.addEventListener('click',function(){input.value='';apply();input.focus();});
-})();</script>
+})();/* contact form */
+(function(){
+  var open=document.getElementById('contactopen'),form=document.getElementById('contactform'),
+      close=document.getElementById('contactclose'),status=document.getElementById('fstatus'),
+      send=document.getElementById('csend');
+  if(!open||!form)return;
+  open.addEventListener('click',function(){
+    open.hidden=true;form.hidden=false;open.setAttribute('aria-expanded','true');
+    document.getElementById('cname').focus();
+  });
+  close.addEventListener('click',function(){
+    form.hidden=true;open.hidden=false;open.setAttribute('aria-expanded','false');open.focus();
+  });
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('cname').value.trim(),
+        type=document.getElementById('ctype').value,
+        msg=document.getElementById('cmsg').value.trim();
+    status.className='fstatus';
+    if(!name||!msg){status.textContent='Add your name and a message first.';status.classList.add('err');return;}
+    send.disabled=true;status.textContent='Sending...';
+    fetch('https://formspree.io/f/xwllrolw',{
+      method:'POST',
+      headers:{'Accept':'application/json','Content-Type':'application/json'},
+      body:JSON.stringify({name:name,type:type,message:msg,_subject:'Link page contact: '+type+' from '+name,_gotcha:''})
+    }).then(function(r){
+      if(r.ok){
+        status.textContent='Message sent. Thanks.';status.classList.add('ok');form.reset();
+      }else{
+        status.textContent='Something failed. Try again in a bit.';status.classList.add('err');
+      }
+    }).catch(function(){
+      status.textContent='Something failed. Try again in a bit.';status.classList.add('err');
+    }).finally(function(){send.disabled=false;});
+  });
+})();
+</script>
 </body>
 </html>
