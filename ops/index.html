@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="refresh" content="600">
+<title>Jade Static Ops</title>
+<style>
+:root{
+  --bg:#030d09; --jade:#2ee6a8; --jade-hi:#c9f7e3; --emerald:#00a86b;
+  --ink:#eef7f2; --mute:#93ab9e; --line:rgba(46,230,168,.25);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 20px;}
+header{text-align:center;margin-bottom:26px}
+.syslive{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
+  font-size:12px;letter-spacing:.25em;color:var(--jade);text-transform:uppercase}
+.sysdot{width:9px;height:9px;border-radius:50%;background:var(--jade);
+  box-shadow:0 0 12px var(--jade);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.4}}
+h1{font-size:30px;letter-spacing:.14em;margin:12px 0 4px;color:var(--jade-hi)}
+#clock{font-family:var(--mono);font-size:15px;color:var(--mute);letter-spacing:.1em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;width:100%;max-width:980px}
+.tile{border:1px solid var(--line);border-radius:14px;padding:20px 18px;
+  background:linear-gradient(180deg,rgba(14,36,26,.9),rgba(5,15,11,.95));
+  box-shadow:0 2px 14px rgba(0,0,0,.5),inset 0 1px 0 rgba(220,245,230,.07)}
+.tile .tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+  color:var(--jade);text-transform:uppercase;margin-bottom:10px}
+.tile .num{font-family:var(--mono);font-size:44px;font-weight:700;color:var(--jade-hi);
+  text-shadow:0 0 18px rgba(46,230,168,.5);line-height:1.1}
+.tile .sub{font-size:14px;color:var(--mute);margin-top:6px;line-height:1.45}
+footer{margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  color:var(--mute);text-transform:uppercase;text-align:center;line-height:2}
+a{color:var(--jade)}
+</style>
+</head>
+<body>
+<header>
+  <div class="syslive"><span class="sysdot"></span>System live</div>
+  <h1>JADE STATIC OPS</h1>
+  <div id="clock">--:--:--</div>
+</header>
+<div class="grid">
+  <div class="tile">
+    <div class="tag">Visitors // All-time</div>
+    <div class="num" id="visitors">103</div>
+    <div class="sub">link page, via GoatCounter</div>
+  </div>
+  <div class="tile">
+    <div class="tag">Systems active</div>
+    <div class="num">17</div>
+    <div class="sub">scheduled crons running</div>
+  </div>
+  <div class="tile">
+    <div class="tag">Modules online</div>
+    <div class="num">21</div>
+    <div class="sub">apps and games live</div>
+  </div>
+  <div class="tile">
+    <div class="tag">Threads streak</div>
+    <div class="num">2</div>
+    <div class="sub">clean days, zero flags</div>
+  </div>
+  <div class="tile">
+    <div class="tag">Latest release</div>
+    <div class="num" style="font-size:26px">VEIL BREACH</div>
+    <div class="sub">Jade Static [JSR001] &middot; 126 BPM techno &middot; <a href="https://soundcloud.com/jadestatic/veil-breach">SoundCloud</a></div>
+  </div>
+  <div class="tile">
+    <div class="tag">Last deploy</div>
+    <div class="num" style="font-size:26px">CONTACT FORM</div>
+    <div class="sub">link page guestbook tile &middot; Oct 31</div>
+  </div>
+</div>
+<footer>
+  Jade Static Builds &middot; unlisted ops board<br>
+  <span id="updated">updated Oct 31, 2026</span> &middot; refreshes every 10 min
+</footer>
+<script>
+function tick(){
+  var d=new Date(),p=function(n){return String(n).padStart(2,'0');};
+  document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+}
+tick();setInterval(tick,1000);
+</script>
+</body>
+</html>
