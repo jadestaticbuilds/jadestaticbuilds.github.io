@@ -103,9 +103,14 @@ body.locked{overflow:hidden}
 .shake{animation:shk .4s}
 @keyframes shk{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-5px)}}
 
+
+#rain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
+header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
+
 </style>
 </head>
 <body class="locked">
+<canvas id="rain"></canvas>
 <div id="gate">
   <img class="emblem" src="../avatar.jpg" alt="Jade Static Builds" style="width:64px;height:64px">
   <div class="g-title">JADE STATIC OPS</div>
@@ -237,6 +242,51 @@ document.addEventListener('keydown',function(e){
 });
 try{if(localStorage.getItem('ops-unlocked')==='1'){document.body.classList.remove('locked');}}catch(e){}
 render();
+})();
+</script>
+<script>
+(function(){
+var cv=document.getElementById('rain');
+if(!cv||!cv.getContext)return;
+var ctx=cv.getContext('2d');
+var glyphs="01アイウエオカキクケコサシスセソタチツテトナニヌネノ0123456789";
+var fs=16,cols=[],W=0,H=0;
+function mkchars(len){var a=[];for(var i=0;i<len;i++)a.push(glyphs[Math.floor(Math.random()*glyphs.length)]);return a;}
+function resize(){
+  W=cv.width=Math.floor(window.innerWidth);
+  H=cv.height=Math.floor(window.innerHeight);
+  var n=Math.ceil(W/28);cols=[];
+  for(var i=0;i<n;i++){
+    if(Math.random()<0.4)continue;
+    var len=6+Math.floor(Math.random()*10);
+    cols.push({x:i*28+Math.random()*8,y:Math.random()*H,sp:0.6+Math.random()*1.2,len:len,ch:mkchars(len)});
+  }
+}
+resize();window.addEventListener('resize',resize);
+var last=0;
+function frame(t){
+  requestAnimationFrame(frame);
+  if(t-last<66)return;
+  last=t;
+  if(document.hidden)return;
+  ctx.fillStyle="rgba(2,8,6,0.12)";
+  ctx.fillRect(0,0,W,H);
+  ctx.font=fs+"px ui-monospace,Menlo,monospace";
+  for(var i=0;i<cols.length;i++){
+    var c=cols[i];
+    for(var j=0;j<c.len;j++){
+      if(Math.random()<0.06)c.ch[j]=glyphs[Math.floor(Math.random()*glyphs.length)];
+      var yy=c.y-j*fs;
+      if(yy<-fs||yy>H+fs)continue;
+      if(j===0)ctx.fillStyle="#d8fbe9";
+      else{var a=1-j/c.len;ctx.fillStyle="rgba(46,230,168,"+(0.12+a*0.55).toFixed(2)+")";}
+      ctx.fillText(c.ch[j],c.x,yy);
+    }
+    c.y+=c.sp*fs*0.4;
+    if(c.y-c.len*fs>H){c.y=-Math.random()*H*0.25;c.sp=0.6+Math.random()*1.2;c.ch=mkchars(c.len);}
+  }
+}
+requestAnimationFrame(frame);
 })();
 </script>
 <script>
