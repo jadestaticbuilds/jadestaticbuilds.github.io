@@ -7,75 +7,156 @@
 <title>Jade Static Ops</title>
 <style>
 :root{
-  --bg:#030d09; --jade:#2ee6a8; --jade-hi:#c9f7e3; --emerald:#00a86b;
-  --ink:#eef7f2; --mute:#93ab9e; --line:rgba(46,230,168,.25);
+  --bg:#020806; --jade:#2ee6a8; --jade-hi:#c9f7e3; --emerald:#00a86b;
+  --ink:#eef7f2; --mute:#8fa89b; --violet:#7a5cff; --cyan:#41e6ff;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 20px;}
-header{text-align:center;margin-bottom:26px}
+  min-height:100vh;padding:30px 26px 40px;overflow-x:hidden;
+  background-image:
+    linear-gradient(rgba(46,230,168,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(46,230,168,.035) 1px,transparent 1px);
+  background-size:44px 44px;}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.14) 3px 4px);}
+header{text-align:center;margin-bottom:8px;position:relative}
+.emblem{width:84px;height:84px;border-radius:50%;margin:0 auto 10px;display:block;
+  border:2px solid var(--jade);box-shadow:0 0 26px rgba(46,230,168,.55),inset 0 0 14px rgba(46,230,168,.25);}
 .syslive{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);
-  font-size:12px;letter-spacing:.25em;color:var(--jade);text-transform:uppercase}
+  font-size:12px;letter-spacing:.3em;color:var(--jade);text-transform:uppercase}
 .sysdot{width:9px;height:9px;border-radius:50%;background:var(--jade);
   box-shadow:0 0 12px var(--jade);animation:pulse 2s infinite}
-@keyframes pulse{50%{opacity:.4}}
-h1{font-size:30px;letter-spacing:.14em;margin:12px 0 4px;color:var(--jade-hi)}
-#clock{font-family:var(--mono);font-size:15px;color:var(--mute);letter-spacing:.1em}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:14px;width:100%;max-width:980px}
-.tile{border:1px solid var(--line);border-radius:14px;padding:20px 18px;
-  background:linear-gradient(180deg,rgba(14,36,26,.9),rgba(5,15,11,.95));
-  box-shadow:0 2px 14px rgba(0,0,0,.5),inset 0 1px 0 rgba(220,245,230,.07)}
-.tile .tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;
+@keyframes pulse{50%{opacity:.35}}
+h1{font-size:32px;letter-spacing:.16em;margin:10px 0 2px;color:var(--jade-hi);
+  text-shadow:0 0 24px rgba(46,230,168,.45)}
+#clock{font-family:var(--mono);font-size:15px;color:var(--mute);letter-spacing:.12em}
+h2.sect{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--jade);
+  text-transform:uppercase;margin:30px 0 14px;text-align:center}
+h2.sect::before{content:"◈ "}
+h2.sect::after{content:" ◈"}
+.iso{perspective:1400px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:14px;max-width:1060px;margin:0 auto;transform:rotateX(6deg);transform-origin:top center}
+.tile{position:relative;border-radius:14px;padding:20px 18px;min-height:118px;
+  background:linear-gradient(165deg,rgba(10,28,20,.94),rgba(3,10,7,.96));
+  border:1px solid transparent;
+  background-clip:padding-box;}
+.tile::before{content:"";position:absolute;inset:-1px;border-radius:15px;padding:1px;z-index:-1;
+  background:conic-gradient(from 200deg,var(--jade),var(--cyan),var(--violet),var(--emerald),var(--jade));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:.75}
+.tile .tag{font-family:var(--mono);font-size:10px;letter-spacing:.24em;
   color:var(--jade);text-transform:uppercase;margin-bottom:10px}
-.tile .num{font-family:var(--mono);font-size:44px;font-weight:700;color:var(--jade-hi);
-  text-shadow:0 0 18px rgba(46,230,168,.5);line-height:1.1}
-.tile .sub{font-size:14px;color:var(--mute);margin-top:6px;line-height:1.45}
-footer{margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
-  color:var(--mute);text-transform:uppercase;text-align:center;line-height:2}
-a{color:var(--jade)}
+.tile .num{font-family:var(--mono);font-size:42px;font-weight:700;color:var(--jade-hi);
+  text-shadow:0 0 18px rgba(46,230,168,.55);line-height:1.05}
+.tile .sub{font-size:13px;color:var(--mute);margin-top:6px;line-height:1.5}
+.bar{height:10px;border-radius:6px;background:rgba(46,230,168,.12);margin-top:12px;overflow:hidden}
+.bar>i{display:block;height:100%;width:82%;border-radius:6px;
+  background:linear-gradient(90deg,var(--emerald),var(--jade),var(--cyan));
+  box-shadow:0 0 12px rgba(46,230,168,.7)}
+.rows{max-width:1060px;margin:0 auto;display:grid;gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.panel{border-radius:14px;padding:18px;position:relative;
+  background:linear-gradient(165deg,rgba(10,28,20,.92),rgba(3,10,7,.95));
+  border:1px solid rgba(46,230,168,.22);
+  box-shadow:inset 0 1px 0 rgba(220,245,230,.08),0 4px 22px rgba(0,0,0,.5)}
+.panel h3{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--cyan);
+  text-transform:uppercase;margin:0 0 12px}
+.sysrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  padding:7px 0;border-bottom:1px dashed rgba(46,230,168,.14);font-size:14px}
+.sysrow:last-child{border-bottom:0}
+.sysrow .n{color:var(--ink)}
+.sysrow .t{font-family:var(--mono);font-size:12px;color:var(--jade);white-space:nowrap}
+.mods{max-width:1060px;margin:0 auto;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+.mod{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border:1px solid rgba(46,230,168,.22);border-radius:10px;padding:10px 12px;background:linear-gradient(165deg,rgba(10,28,20,.92),rgba(3,10,7,.95))}
+.mod .mn{font-size:13px;color:var(--ink)}
+.mod .mv{font-family:var(--mono);font-size:11px;color:var(--jade);white-space:nowrap}
+.watch{max-width:1060px;margin:0 auto;display:grid;gap:14px;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+footer{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  color:var(--mute);text-transform:uppercase;text-align:center;line-height:2.1}
+@media (max-width:640px){.tiles{transform:none}}
 </style>
 </head>
 <body>
 <header>
+  <img class="emblem" src="../avatar.jpg" alt="Jade Static Builds">
   <div class="syslive"><span class="sysdot"></span>System live</div>
   <h1>JADE STATIC OPS</h1>
   <div id="clock">--:--:--</div>
 </header>
-<div class="grid">
-  <div class="tile">
-    <div class="tag">Visitors // All-time</div>
-    <div class="num" id="visitors">103</div>
-    <div class="sub">link page, via GoatCounter</div>
+
+<h2 class="sect">Vitals</h2>
+<div class="iso"><div class="tiles">
+  <div class="tile"><div class="tag">Visitors // All-time</div><div class="num" id="visitors">103</div><div class="sub">link page, via GoatCounter</div></div>
+  <div class="tile"><div class="tag">Visits // Today</div><div class="num">38</div><div class="sub">Oct 31, biggest day yet</div></div>
+  <div class="tile"><div class="tag">Next milestone</div><div class="num">125</div><div class="sub">103 of 125 &middot; 82%</div><div class="bar"><i></i></div></div>
+  <div class="tile"><div class="tag">Modules online</div><div class="num">21</div><div class="sub">apps and games live</div></div>
+</div></div>
+
+
+<h2 class="sect">Modules</h2>
+<div class="mods">
+    <div class="mod"><span class="mn">Glitch Studio</span><span class="mv">sw v25</span></div>
+    <div class="mod"><span class="mn">Ride Check</span><span class="mv">hold-off fix</span></div>
+    <div class="mod"><span class="mn">Field Kit</span><span class="mv">v1</span></div>
+    <div class="mod"><span class="mn">Prompt Playbook</span><span class="mv">v1</span></div>
+    <div class="mod"><span class="mn">Sound Lab</span><span class="mv">subgenres</span></div>
+    <div class="mod"><span class="mn">Glitch Snake</span><span class="mv">quality pass</span></div>
+    <div class="mod"><span class="mn">Glitch Breakout</span><span class="mv">halloween</span></div>
+    <div class="mod"><span class="mn">Pyramid Builder</span><span class="mv">divine</span></div>
+    <div class="mod"><span class="mn">Myth Choices</span><span class="mv">v1</span></div>
+    <div class="mod"><span class="mn">Rider Dodger</span><span class="mv">quality pass</span></div>
+    <div class="mod"><span class="mn">Veil Skiff</span><span class="mv">v1</span></div>
+    <div class="mod"><span class="mn">Magnetician</span><span class="mv">iter 2</span></div>
+    <div class="mod"><span class="mn">Pantheon Clash</span><span class="mv">b1740</span></div>
+    <div class="mod"><span class="mn">Brief Builder</span><span class="mv">v1</span></div>
+    <div class="mod"><span class="mn">Beat Tapper</span><span class="mv">arrange</span></div>
+    <div class="mod"><span class="mn">Hadal Drift</span><span class="mv">ms 1</span></div>
+    <div class="mod"><span class="mn">Salt Rush</span><span class="mv">ms 1</span></div>
+    <div class="mod"><span class="mn">The Last Fare</span><span class="mv">ms 1</span></div>
+    <div class="mod"><span class="mn">Ironline</span><span class="mv">ms 1</span></div>
+    <div class="mod"><span class="mn">Whiteout</span><span class="mv">ms 1</span></div>
+    <div class="mod"><span class="mn">Dead Orbit</span><span class="mv">ms 1</span></div>
+</div>
+
+<h2 class="sect">In motion</h2>
+<div class="rows">
+  <div class="panel"><h3>Daily</h3>
+    <div class="sysrow"><span class="n">Comic strip</span><span class="t">08:43</span></div>
+    <div class="sysrow"><span class="n">Social trend check</span><span class="t">09:00</span></div>
+    <div class="sysrow"><span class="n">GoatCounter check</span><span class="t">09:43</span></div>
+    <div class="sysrow"><span class="n">Muse breakthrough scan</span><span class="t">09:43</span></div>
+    <div class="sysrow"><span class="n">Threads pipeline</span><span class="t">10:43</span></div>
+    <div class="sysrow"><span class="n">Avatar background watch</span><span class="t">11:43</span></div>
   </div>
-  <div class="tile">
-    <div class="tag">Systems active</div>
-    <div class="num">17</div>
-    <div class="sub">scheduled crons running</div>
+  <div class="panel"><h3>Weekly</h3>
+    <div class="sysrow"><span class="n">Threads performance</span><span class="t">Mon 09:43</span></div>
+    <div class="sysrow"><span class="n">Systems review</span><span class="t">Mon 10:43</span></div>
+    <div class="sysrow"><span class="n">Prompt Playbook review</span><span class="t">Wed 13:43</span></div>
+    <div class="sysrow"><span class="n">App improvement check</span><span class="t">Thu 14:43</span></div>
+    <div class="sysrow"><span class="n">Delegation radar</span><span class="t">Fri 11:00</span></div>
+    <div class="sysrow"><span class="n">Quality-bar audit</span><span class="t">Sat 10:43</span></div>
+    <div class="sysrow"><span class="n">Self-improvement review</span><span class="t">Sun 18:43</span></div>
   </div>
-  <div class="tile">
-    <div class="tag">Modules online</div>
-    <div class="num">21</div>
-    <div class="sub">apps and games live</div>
-  </div>
-  <div class="tile">
-    <div class="tag">Threads streak</div>
-    <div class="num">2</div>
-    <div class="sub">clean days, zero flags</div>
-  </div>
-  <div class="tile">
-    <div class="tag">Latest release</div>
-    <div class="num" style="font-size:26px">VEIL BREACH</div>
-    <div class="sub">Jade Static [JSR001] &middot; 126 BPM techno &middot; <a href="https://soundcloud.com/jadestatic/veil-breach">SoundCloud</a></div>
-  </div>
-  <div class="tile">
-    <div class="tag">Last deploy</div>
-    <div class="num" style="font-size:26px">CONTACT FORM</div>
-    <div class="sub">link page guestbook tile &middot; Oct 31</div>
+  <div class="panel"><h3>Reminders</h3>
+    <div class="sysrow"><span class="n">Motorcycle payment</span><span class="t">Mon Nov 2</span></div>
+    <div class="sysrow"><span class="n">Car insurance (bill only)</span><span class="t">Thu Nov 5</span></div>
+    <div class="sysrow"><span class="n">Car payment</span><span class="t">Thu Nov 19</span></div>
+    <div class="sysrow"><span class="n">Phone bill</span><span class="t">Thu Nov 26</span></div>
   </div>
 </div>
+
+<h2 class="sect">Watch list</h2>
+<div class="watch">
+  <div class="tile"><div class="tag">FL claim C011587058</div><div class="num" style="font-size:22px">LIKELY PROCESSED</div><div class="sub">$150.74 &middot; payment expected ~mid-Nov</div></div>
+  <div class="tile"><div class="tag">Threads streak</div><div class="num">2</div><div class="sub">clean days, zero flags &middot; cap 2/day</div></div>
+  <div class="tile"><div class="tag">New badges</div><div class="num">11</div><div class="sub">expire Nov 11</div></div>
+  <div class="tile"><div class="tag">Latest release</div><div class="num" style="font-size:22px">VEIL BREACH</div><div class="sub">Jade Static [JSR001] &middot; SoundCloud</div></div>
+</div>
+
 <footer>
   Jade Static Builds &middot; unlisted ops board<br>
   <span id="updated">updated Oct 31, 2026</span> &middot; refreshes every 10 min
