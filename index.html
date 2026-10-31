@@ -82,7 +82,7 @@ img.avatar{width:132px;height:132px;object-fit:cover;border-radius:50%;display:b
 p.bio{color:var(--ink);margin:8px 0 0;font-weight:500}
 p.bio .dim{color:var(--mute)}
 /* stats row */
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 14px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0 0 14px}
 .stat{padding:14px 12px;text-align:center;margin:0}
 .stat .num{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--jade-hi);
   text-shadow:0 0 16px rgba(143,224,179,.5);margin:6px 0 2px}
@@ -90,23 +90,6 @@ p.bio .dim{color:var(--mute)}
 a.statlink{color:inherit;text-decoration:none;display:block}
 a.statlink:hover .num,a.statlink:focus-visible .num{color:#fff}
 a.statlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:14px}
-/* contact form tile */
-button.statlink{background:none;border:0;font:inherit;color:inherit;width:100%;cursor:pointer;padding:0}
-button.statlink:hover .num,button.statlink:focus-visible .num{color:#fff}
-button.statlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:14px}
-#contactform{text-align:left}
-.flabel{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin:10px 0 4px}
-.finput{display:block;width:100%;box-sizing:border-box;background:rgba(3,13,9,.7);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:16px;padding:12px;min-height:48px}
-.finput:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
-textarea.finput{resize:vertical;min-height:96px}
-.fhoney{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-.fsend{display:block;width:100%;box-sizing:border-box;margin-top:12px;min-height:48px;border:1px solid var(--jade);border-radius:10px;background:rgba(46,230,168,.12);color:var(--jade-hi);font-weight:700;font-size:16px;cursor:pointer}
-.fsend:hover{background:rgba(46,230,168,.22)}
-.fsend:disabled{opacity:.5;cursor:wait}
-.fstatus{margin-top:8px;font-size:13px;color:var(--mute);min-height:18px}
-.fstatus.ok{color:var(--jade-hi)}
-.fstatus.err{color:#ff7a7a}
-.fclose{display:block;width:100%;background:none;border:0;color:var(--mute);font-size:12px;margin-top:6px;cursor:pointer;text-decoration:underline}
 .statusline{text-align:center;margin:0 0 16px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mute)}
 .statusline .dot{color:#8fe0b3;text-shadow:0 0 8px rgba(143,224,179,.8)}
 /* latest */
@@ -187,6 +170,12 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
 @media (min-width:1440px){
   main{max-width:1380px;grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+.opdot{width:9px;height:9px;border-radius:50%;background:#4ade80;box-shadow:0 0 9px #4ade80;flex:none;align-self:center}
+.deploys{list-style:none;margin:10px 0 0;display:grid;gap:8px}
+.deploys li{display:flex;gap:10px;align-items:baseline;font-size:13.5px}
+.dwhen{flex:none;font-size:11px;color:var(--mute);border:1px solid var(--line);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.ver{font-size:11px;color:var(--mute);font-weight:400}
 </style>
 </head>
 <body>
@@ -203,39 +192,34 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
   <div class="stats">
     <div class="hud stat">
       <div class="tag">Visitors // All-time</div>
-      <div class="num">103</div>
+      <div class="num">74</div>
       <div class="sub">counted by GoatCounter</div>
     </div>
-    <div class="hud stat" id="contactstat">
-      <button class="statlink" id="contactopen" type="button" aria-expanded="false" aria-controls="contactform">
+    <div class="hud stat">
+      <a class="statlink" href="mailto:georgestriderbuilds@gmail.com?subject=Guestbook%20entry%20%E2%80%94%20Jade%20Static%20Builds%20link%20page">
         <div class="tag">Comms log</div>
-        <div class="num" style="font-size:19px;line-height:1.5">SAY&nbsp;HI</div>
-        <div class="sub">send a message &rarr;</div>
-      </button>
-      <form id="contactform" hidden novalidate aria-label="Contact form">
-        <div class="tag" style="text-align:center">Comms log</div>
-        <label class="flabel" for="cname">Name</label>
-        <input class="finput" id="cname" name="name" type="text" autocomplete="name" maxlength="60" required>
-        <label class="flabel" for="ctype">Type</label>
-        <select class="finput" id="ctype" name="type">
-          <option>Idea</option>
-          <option>Bug report</option>
-          <option>Hello</option>
-        </select>
-        <label class="flabel" for="cmsg">Message</label>
-        <textarea class="finput" id="cmsg" name="message" rows="3" maxlength="2000" required></textarea>
-        <input class="fhoney" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="fsend" id="csend" type="submit">Send</button>
-        <div class="fstatus" id="fstatus" role="status" aria-live="polite"></div>
-        <button class="fclose" id="contactclose" type="button">close</button>
-      </form>
+        <div class="num" style="font-size:19px;line-height:1.5">GUEST&shy;BOOK</div>
+        <div class="sub">sign &amp; leave a message →</div>
+      </a>
+    </div>
+    <div class="hud stat">
+      <div class="tag">Catalog</div>
+      <div class="num">21</div>
+      <div class="sub">15 games · 5 tools · 1 weather</div>
     </div>
   </div>
-  <p class="statusline"><span class="dot">●</span> ALL SYSTEMS NOMINAL · 21 MODULES ONLINE</p>
+  <p class="statusline"><span class="dot">●</span> ALL SYSTEMS NOMINAL · 21 MODULES ONLINE <span class="ver">· status verified Oct 31, 2026</span></p>
 
   <div class="hud latest-panel">
-    <div class="tag" style="margin-bottom:8px">Latest deploy</div>
+    <div class="tag" style="margin-bottom:8px">Recent deploys</div>
     <a class="latestlink" href="https://jadestaticbuilds.github.io/dead-orbit/"><span class="ltitle">✨ Latest: Dead Orbit</span><small>A space salvage trajectory game. Plot slingshot burns, grapple drifting wrecks, dock them home.</small></a>
+    <ul class="deploys">
+      <li><span class="dwhen">Oct 31</span><span>All 21 app logos recolored — deep jade icons on mint badges</span></li>
+      <li><span class="dwhen">Oct 31</span><span>Jade Dusk Stone theme · bio line “A collaborative effort between mind and machine”</span></li>
+      <li><span class="dwhen">Oct 30</span><span>Magnetician shipped — 12-level magnetism puzzler</span></li>
+      <li><span class="dwhen">Oct 29</span><span>Veil Skiff launched — White Veil galaxy navigator</span></li>
+      <li><span class="dwhen">Oct 28</span><span>Sound Lab expansion · Pyramid Builder + Myth Story Choices published</span></li>
+    </ul>
   </div>
 
   <div class="cmdbar">
@@ -246,37 +230,37 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
 
   <h2 class="sectionhead">Games</h2>
   <h3 class="subhead">Arcade</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/glitch-snake/"><img class="barlogo" src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Snake<small>Browser Snake with wrap walls, colour changes on every bite, frenzy mode, and a death explosion. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img class="barlogo" src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Breakout<small>Breakout where every smashed brick glitches the board. Multi-ball, wider paddle, and shield power-ups. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/rider-dodger/"><img class="barlogo" src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Rider Dodger<small>You are the rider. Rain is the enemy. Dodge drops, jump puddles, and outrun gusts. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/veil-skiff/"><img class="barlogo" src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Veil Skiff<span class="new">NEW</span><small>Pilot Pip's skiff through the White Veil galaxy. Ride the gold currents, dodge void fractures, and regrow your hull. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/glitch-snake/"><img class="barlogo" src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Snake<small>Browser Snake with wrap walls, colour changes on every bite, frenzy mode, and a death explosion. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img class="barlogo" src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Breakout<small>Breakout where every smashed brick glitches the board. Multi-ball, wider paddle, and shield power-ups. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/rider-dodger/"><img class="barlogo" src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Rider Dodger<small>You are the rider. Rain is the enemy. Dodge drops, jump puddles, and outrun gusts. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/veil-skiff/"><img class="barlogo" src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Veil Skiff<span class="new">NEW</span><small>Pilot Pip's skiff through the White Veil galaxy. Ride the gold currents, dodge void fractures, and regrow your hull. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Rhythm</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/beat-tapper/"><img class="barlogo" src="logos/beat-tapper.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Beat Tapper<span class="new">NEW</span><small>Tap the falling notes on the beat. Four lanes, three synth patterns, combo streaks, and a pitch that rises as you nail it. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/beat-tapper/"><img class="barlogo" src="logos/beat-tapper.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Beat Tapper<span class="new">NEW</span><small>Tap the falling notes on the beat. Four lanes, three synth patterns, combo streaks, and a pitch that rises as you nail it. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Puzzle</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/magnetician/"><img class="barlogo" src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Magnetician<span class="new">NEW</span><small>A 2.5D magnetism puzzler. Place magnets, flip poles, fire induction coils, and guide the steel orb home through 12 levels. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/magnetician/"><img class="barlogo" src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Magnetician<span class="new">NEW</span><small>A 2.5D magnetism puzzler. Place magnets, flip poles, fire induction coils, and guide the steel orb home through 12 levels. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Card</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img class="barlogo" src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Pantheon Clash<span class="new">NEW</span><small>Gods from Egypt, Greece, and Norse battle in a 5-round card clash. Crown your patron, play your gods. No magic cards, ever. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img class="barlogo" src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Pantheon Clash<span class="new">NEW</span><small>Gods from Egypt, Greece, and Norse battle in a 5-round card clash. Crown your patron, play your gods. No magic cards, ever. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Strategy</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img class="barlogo" src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Pyramid Builder<span class="new">NEW</span><small>Rule a reign, ride the Nile flood, and raise a pyramid in 12 years. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/ironline/"><img class="barlogo" src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ironline<span class="new">NEW</span><small>A dieselpunk rail switchyard puzzler. Route ten trains to the right platforms, no wrecks on the line. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/whiteout/"><img class="barlogo" src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Whiteout<span class="new">NEW</span><small>An arctic survival game. Keep the fire lit through the polar night, brave the storms for fuel. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img class="barlogo" src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Pyramid Builder<span class="new">NEW</span><small>Rule a reign, ride the Nile flood, and raise a pyramid in 12 years. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/ironline/"><img class="barlogo" src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ironline<span class="new">NEW</span><small>A dieselpunk rail switchyard puzzler. Route ten trains to the right platforms, no wrecks on the line. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/whiteout/"><img class="barlogo" src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Whiteout<span class="new">NEW</span><small>An arctic survival game. Keep the fire lit through the polar night, brave the storms for fuel. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Story</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/myth-choices/"><img class="barlogo" src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Myth Story Choices<span class="new">NEW</span><small>Play through Ra, Osiris and Isis, and the weighing of the heart — your choices, the real myths. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/the-last-fare/"><img class="barlogo" src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="bartext">The Last Fare<span class="new">NEW</span><small>A noir cab-driving story game. Five passengers, five confessions, fifteen endings. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/myth-choices/"><img class="barlogo" src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Myth Story Choices<span class="new">NEW</span><small>Play through Ra, Osiris and Isis, and the weighing of the heart — your choices, the real myths. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/the-last-fare/"><img class="barlogo" src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="bartext">The Last Fare<span class="new">NEW</span><small>A noir cab-driving story game. Five passengers, five confessions, fifteen endings. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Sailing</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/salt-rush/"><img class="barlogo" src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Salt Rush<span class="new">NEW</span><small>Wind-powered land sailing on the salt flats. Read the gusts, thread the gates, and dodge rocks and dust devils. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/salt-rush/"><img class="barlogo" src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Salt Rush<span class="new">NEW</span><small>Wind-powered land sailing on the salt flats. Read the gusts, thread the gates, and dodge rocks and dust devils. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Descent</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/hadal-drift/"><img class="barlogo" src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Hadal Drift<span class="new">NEW</span><small>A slow, atmospheric deep-sea descent. Manage your dive light's battery, collect glowing specimens, and avoid what hunts in the dark. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/hadal-drift/"><img class="barlogo" src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Hadal Drift<span class="new">NEW</span><small>A slow, atmospheric deep-sea descent. Manage your dive light's battery, collect glowing specimens, and avoid what hunts in the dark. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Orbital</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/dead-orbit/"><img class="barlogo" src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Dead Orbit<span class="new">NEW</span><small>A space salvage trajectory game. Plot slingshot burns, grapple drifting wrecks, dock them home. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/dead-orbit/"><img class="barlogo" src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Dead Orbit<span class="new">NEW</span><small>A space salvage trajectory game. Plot slingshot burns, grapple drifting wrecks, dock them home. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h2 class="sectionhead">Tools</h2>
-  <a class="link" href="https://jadestaticbuilds.github.io/glitch-studio/"><img class="barlogo" src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Studio<span class="new">NEW</span><small>Free browser glitch photo editor — Mirror, Kaleidoscope, Datamosh-style, Effects, Overlay, Color, saved looks, and image sharing</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/field-kit/"><img class="barlogo" src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Field Kit<small>Offline-first checklists, notes, conditions log, and moon phase for rides, hikes, and field work. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img class="barlogo" src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Prompt Playbook<small>Tier builder: type an idea or tap a chip and get a paste-ready prompt with goal, limits, check, and stop — plus random prompts, save, and export. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/sound-lab/"><img class="barlogo" src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Sound Lab<span class="new">NEW</span><small>16-step beat maker with 808-style and 909-style kits, acid bass, genre patterns, sidechain, MIDI export, live pads, and a song chain. No signup, no upload, sounds made in your browser.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/brief-builder/"><img class="barlogo" src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Brief Builder<span class="new">NEW</span><small>Turn a rough idea into a paste-ready delegation brief: Goal, Constraints, Check, Stop, the three key decisions, and the scope gate. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/glitch-studio/"><img class="barlogo" src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Studio<span class="new">NEW</span><small>Free browser glitch photo editor — Mirror, Kaleidoscope, Datamosh-style, Effects, Overlay, Color, saved looks, and image sharing</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/field-kit/"><img class="barlogo" src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Field Kit<small>Offline-first checklists, notes, conditions log, and moon phase for rides, hikes, and field work. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img class="barlogo" src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Prompt Playbook<small>Tier builder: type an idea or tap a chip and get a paste-ready prompt with goal, limits, check, and stop — plus random prompts, save, and export. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/sound-lab/"><img class="barlogo" src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Sound Lab<span class="new">NEW</span><small>16-step beat maker with 808-style and 909-style kits, acid bass, genre patterns, sidechain, MIDI export, live pads, and a song chain. No signup, no upload, sounds made in your browser.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/brief-builder/"><img class="barlogo" src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Brief Builder<span class="new">NEW</span><small>Turn a rough idea into a paste-ready delegation brief: Goal, Constraints, Check, Stop, the three key decisions, and the scope gate. No signup, no upload.</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
   <h2 class="sectionhead">Weather</h2>
-  <a class="link" href="https://jadestaticbuilds.github.io/ride-check/"><img class="barlogo" src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ride check<small>Free motorcycle ride weather — verdict, next 6 hours, wet-road warnings, ride timer, checklists</small></span><span class="chev" aria-hidden="true">›</span></a>
+  <a class="link" href="https://jadestaticbuilds.github.io/ride-check/"><img class="barlogo" src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ride check<small>Free motorcycle ride weather — verdict, next 6 hours, wet-road warnings, ride timer, checklists</small></span><span class="opdot" title="Operational — verified Oct 31, 2026"></span><span class="chev" aria-hidden="true">›</span></a>
 
   <footer>A Jade Static Builds project, built with Muse.
     <span class="veil veil-phone">Jade Deep Galaxy Protocol</span>
@@ -284,8 +268,6 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
     <span class="socials">
       <a href="https://www.instagram.com/jadestaticbuilds/" aria-label="Instagram, @jadestaticbuilds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
       <a href="https://www.threads.com/@jadestaticbuilds" aria-label="Threads, @jadestaticbuilds"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="18" text-anchor="middle" font-size="18" font-weight="700" fill="currentColor" font-family="system-ui, sans-serif">@</text></svg></a>
-      <a href="https://soundcloud.com/jadestatic" aria-label="SoundCloud, Jade Static"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 15.5v-2M5 16.5v-5M7.5 16.5V8" stroke-linecap="round"/><path d="M10 16.5h7.5a3 3 0 0 0 .5-5.96A4.5 4.5 0 0 0 10 9.2v7.3z"/></svg></a>
-      <a href="https://youtube.com/@jadestatic" aria-label="YouTube, @jadestatic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="3.5"/><path d="M10.5 9.8v4.4L14.5 12z" fill="currentColor" stroke="none"/></svg></a>
     </span>
   </footer>
 </main>
@@ -330,42 +312,6 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
   }
   input.addEventListener('input',apply);
   clearBtn.addEventListener('click',function(){input.value='';apply();input.focus();});
-})();/* contact form */
-(function(){
-  var open=document.getElementById('contactopen'),form=document.getElementById('contactform'),
-      close=document.getElementById('contactclose'),status=document.getElementById('fstatus'),
-      send=document.getElementById('csend');
-  if(!open||!form)return;
-  open.addEventListener('click',function(){
-    open.hidden=true;form.hidden=false;open.setAttribute('aria-expanded','true');
-    document.getElementById('cname').focus();
-  });
-  close.addEventListener('click',function(){
-    form.hidden=true;open.hidden=false;open.setAttribute('aria-expanded','false');open.focus();
-  });
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var name=document.getElementById('cname').value.trim(),
-        type=document.getElementById('ctype').value,
-        msg=document.getElementById('cmsg').value.trim();
-    status.className='fstatus';
-    if(!name||!msg){status.textContent='Add your name and a message first.';status.classList.add('err');return;}
-    send.disabled=true;status.textContent='Sending...';
-    fetch('https://formspree.io/f/xwllrolw',{
-      method:'POST',
-      headers:{'Accept':'application/json','Content-Type':'application/json'},
-      body:JSON.stringify({name:name,type:type,message:msg,_subject:'Link page contact: '+type+' from '+name,_gotcha:''})
-    }).then(function(r){
-      if(r.ok){
-        status.textContent='Message sent. Thanks.';status.classList.add('ok');form.reset();
-      }else{
-        status.textContent='Something failed. Try again in a bit.';status.classList.add('err');
-      }
-    }).catch(function(){
-      status.textContent='Something failed. Try again in a bit.';status.classList.add('err');
-    }).finally(function(){send.disabled=false;});
-  });
-})();
-</script>
+})();</script>
 </body>
 </html>
