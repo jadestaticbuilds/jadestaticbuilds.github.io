@@ -34,15 +34,15 @@ h1{font-size:32px;letter-spacing:.16em;margin:10px 0 2px;color:var(--jade-hi);
 #clock{font-family:var(--mono);font-size:15px;color:var(--mute);letter-spacing:.12em}
 h2.sect{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--jade);
   text-transform:uppercase;margin:30px 0 14px;text-align:center}
-h2.sect::before{content:"◈ "}
-h2.sect::after{content:" ◈"}
+h2.sect::before{content:"\25C8 "}
+h2.sect::after{content:" \25C8"}
 .iso{perspective:1400px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:14px;max-width:1060px;margin:0 auto;transform:rotateX(6deg);transform-origin:top center}
-.tile{position:relative;border-radius:14px;padding:20px 18px;min-height:118px;
+.tile{position:relative;border-radius:14px;padding:20px 18px;min-height:118px;text-align:left;
   background:linear-gradient(165deg,rgba(10,28,20,.94),rgba(3,10,7,.96));
-  border:1px solid transparent;
-  background-clip:padding-box;}
+  border:1px solid transparent;background-clip:padding-box;
+  font:inherit;color:inherit;cursor:pointer;width:100%}
 .tile::before{content:"";position:absolute;inset:-1px;border-radius:15px;padding:1px;z-index:-1;
   background:conic-gradient(from 200deg,var(--jade),var(--cyan),var(--violet),var(--emerald),var(--jade));
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
@@ -56,6 +56,14 @@ h2.sect::after{content:" ◈"}
 .bar>i{display:block;height:100%;width:82%;border-radius:6px;
   background:linear-gradient(90deg,var(--emerald),var(--jade),var(--cyan));
   box-shadow:0 0 12px rgba(46,230,168,.7)}
+.mods{max-width:1060px;margin:0 auto;display:grid;gap:10px;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.mod{display:block;border:1px solid rgba(46,230,168,.22);border-radius:10px;padding:10px 12px;
+  background:linear-gradient(165deg,rgba(10,28,20,.92),rgba(3,10,7,.95));
+  font:inherit;color:inherit;cursor:pointer;width:100%;text-align:left}
+.mod .mrow{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mod .mn{font-size:13px;color:var(--ink)}
+.mod .mv{font-family:var(--mono);font-size:11px;color:var(--jade);white-space:nowrap}
 .rows{max-width:1060px;margin:0 auto;display:grid;gap:14px;
   grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
 .panel{border-radius:14px;padding:18px;position:relative;
@@ -63,21 +71,20 @@ h2.sect::after{content:" ◈"}
   border:1px solid rgba(46,230,168,.22);
   box-shadow:inset 0 1px 0 rgba(220,245,230,.08),0 4px 22px rgba(0,0,0,.5)}
 .panel h3{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:var(--cyan);
-  text-transform:uppercase;margin:0 0 12px}
-.sysrow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
-  padding:7px 0;border-bottom:1px dashed rgba(46,230,168,.14);font-size:14px}
-.sysrow:last-child{border-bottom:0}
-.sysrow .n{color:var(--ink)}
-.sysrow .t{font-family:var(--mono);font-size:12px;color:var(--jade);white-space:nowrap}
-.mods{max-width:1060px;margin:0 auto;display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-.mod{display:flex;justify-content:space-between;align-items:baseline;gap:8px;border:1px solid rgba(46,230,168,.22);border-radius:10px;padding:10px 12px;background:linear-gradient(165deg,rgba(10,28,20,.92),rgba(3,10,7,.95))}
-.mod .mn{font-size:13px;color:var(--ink)}
-.mod .mv{font-family:var(--mono);font-size:11px;color:var(--jade);white-space:nowrap}
+  text-transform:uppercase;margin:0 0 6px}
+button.sysrow{display:flex;width:100%;justify-content:space-between;align-items:baseline;gap:10px;
+  padding:8px 0;border:0;border-bottom:1px dashed rgba(46,230,168,.14);font-size:14px;
+  background:none;color:inherit;cursor:pointer;text-align:left;font-family:inherit}
+button.sysrow .n{color:var(--ink)}
+button.sysrow .t{font-family:var(--mono);font-size:12px;color:var(--jade);white-space:nowrap}
+.detail{font-size:13px;color:var(--mute);line-height:1.55;padding:8px 2px 10px;text-align:left}
+button.sysrow + .detail{border-bottom:1px dashed rgba(46,230,168,.14);margin-bottom:2px}
 .watch{max-width:1060px;margin:0 auto;display:grid;gap:14px;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-a{color:var(--jade)}
+.x:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 footer{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
   color:var(--mute);text-transform:uppercase;text-align:center;line-height:2.1}
+a{color:var(--jade)}
 @media (max-width:640px){.tiles{transform:none}}
 </style>
 </head>
@@ -91,76 +98,75 @@ footer{margin-top:34px;font-family:var(--mono);font-size:11px;letter-spacing:.18
 
 <h2 class="sect">Vitals</h2>
 <div class="iso"><div class="tiles">
-  <div class="tile"><div class="tag">Visitors // All-time</div><div class="num" id="visitors">103</div><div class="sub">link page, via GoatCounter</div></div>
-  <div class="tile"><div class="tag">Visits // Today</div><div class="num">38</div><div class="sub">Oct 31, biggest day yet</div></div>
-  <div class="tile"><div class="tag">Next milestone</div><div class="num">125</div><div class="sub">103 of 125 &middot; 82%</div><div class="bar"><i></i></div></div>
-  <div class="tile"><div class="tag">Modules online</div><div class="num">21</div><div class="sub">apps and games live</div></div>
+  <button class="tile x" aria-expanded="false"><div class="tag">Visitors // All-time</div><div class="num">103</div><div class="sub">link page, via GoatCounter</div><div class="detail" hidden>All-time visits to the link page path. 38 came today, Oct 31, the biggest single day so far. Top referrers: unknown, reddit, facebook.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Visits // Today</div><div class="num">38</div><div class="sub">Oct 31, biggest day yet</div><div class="detail" hidden>Per-day visits as of the 4:43pm check. Yesterday was 5. The Reddit posts are driving it.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Next milestone</div><div class="num">125</div><div class="sub">103 of 125 &middot; 82%</div><div class="bar"><i></i></div><div class="detail" hidden>Milestone step is 25. The 100 milestone was crossed and reported today. Next notify at 125.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Modules online</div><div class="num">21</div><div class="sub">apps and games live</div><div class="detail" hidden>Every module has a full desktop version since the Oct 31 rollout. Tap any module below for its summary.</div></button>
 </div></div>
-
 
 <h2 class="sect">Modules</h2>
 <div class="mods">
-    <div class="mod"><span class="mn">Glitch Studio</span><span class="mv">sw v25</span></div>
-    <div class="mod"><span class="mn">Ride Check</span><span class="mv">hold-off fix</span></div>
-    <div class="mod"><span class="mn">Field Kit</span><span class="mv">v1</span></div>
-    <div class="mod"><span class="mn">Prompt Playbook</span><span class="mv">v1</span></div>
-    <div class="mod"><span class="mn">Sound Lab</span><span class="mv">subgenres</span></div>
-    <div class="mod"><span class="mn">Glitch Snake</span><span class="mv">quality pass</span></div>
-    <div class="mod"><span class="mn">Glitch Breakout</span><span class="mv">halloween</span></div>
-    <div class="mod"><span class="mn">Pyramid Builder</span><span class="mv">divine</span></div>
-    <div class="mod"><span class="mn">Myth Choices</span><span class="mv">v1</span></div>
-    <div class="mod"><span class="mn">Rider Dodger</span><span class="mv">quality pass</span></div>
-    <div class="mod"><span class="mn">Veil Skiff</span><span class="mv">v1</span></div>
-    <div class="mod"><span class="mn">Magnetician</span><span class="mv">iter 2</span></div>
-    <div class="mod"><span class="mn">Pantheon Clash</span><span class="mv">b1740</span></div>
-    <div class="mod"><span class="mn">Brief Builder</span><span class="mv">v1</span></div>
-    <div class="mod"><span class="mn">Beat Tapper</span><span class="mv">arrange</span></div>
-    <div class="mod"><span class="mn">Hadal Drift</span><span class="mv">ms 1</span></div>
-    <div class="mod"><span class="mn">Salt Rush</span><span class="mv">ms 1</span></div>
-    <div class="mod"><span class="mn">The Last Fare</span><span class="mv">ms 1</span></div>
-    <div class="mod"><span class="mn">Ironline</span><span class="mv">ms 1</span></div>
-    <div class="mod"><span class="mn">Whiteout</span><span class="mv">ms 1</span></div>
-    <div class="mod"><span class="mn">Dead Orbit</span><span class="mv">ms 1</span></div>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Glitch Studio</span><span class="mv">sw v25</span></span><span class="detail" hidden>Glitch photo editor. 6 frames, seasonal Blood Moon / Fog / Haunted effects, save-a-look, PWA.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Ride Check</span><span class="mv">hold-off fix</span></span><span class="detail" hidden>Ride and weather verdict. NWS alerts, 3-hour recent weather, checklists, ride timer.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Field Kit</span><span class="mv">v1</span></span><span class="detail" hidden>Offline field checklists, hand-entered conditions log, on-device moon phase.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Prompt Playbook</span><span class="mv">v1</span></span><span class="detail" hidden>Prompt builder. Tier picker, generator, prompt check, saved prompts.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Sound Lab</span><span class="mv">subgenres</span></span><span class="detail" hidden>16-step sequencer. 8 genres incl. Minimal, Tech House, Liquid DnB, Jungle. Record to audio.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Glitch Snake</span><span class="mv">quality pass</span></span><span class="detail" hidden>Snake with wrap walls, color shift per bite, 3-square frenzy, death explosion.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Glitch Breakout</span><span class="mv">halloween</span></span><span class="detail" hidden>Breakout. 5 cycling wall patterns, HP bricks, Spooky Halloween theme.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Pyramid Builder</span><span class="mv">divine</span></span><span class="detail" hidden>12-year pyramid strategy. Pantheon moods, miracles, royal decrees, capstone gamble.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Myth Choices</span><span class="mv">v1</span></span><span class="detail" hidden>5-chapter Egyptian story. Wisdom / Courage / Kindness traits, 18 endings, lore codex.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Rider Dodger</span><span class="mv">quality pass</span></span><span class="detail" hidden>3-lane arcade dodger. Rain, puddles, gusts. 3 hearts, distance scoring.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Veil Skiff</span><span class="mv">v1</span></span><span class="detail" hidden>White Veil arcade run. Ride currents for a flow multiplier, dodge void fractures.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Magnetician</span><span class="mv">iter 2</span></span><span class="detail" hidden>Magnet placement puzzler. 12 levels, 3 magnet types, deterministic physics.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Pantheon Clash</span><span class="mv">b1740</span></span><span class="detail" hidden>God card battler. 18 gods, 5 rounds, trait triangle. No magic cards, ever.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Brief Builder</span><span class="mv">v1</span></span><span class="detail" hidden>Meta-brief generator. Goal / Constraints / Check / Stop, one-tap copy.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Beat Tapper</span><span class="mv">arrange</span></span><span class="detail" hidden>Rhythm tap game. 4 lanes, deep house / lofi / acid techno patterns.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Hadal Drift</span><span class="mv">ms 1</span></span><span class="detail" hidden>Deep-sea descent. Light vs battery tradeoff, specimens, predators.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Salt Rush</span><span class="mv">ms 1</span></span><span class="detail" hidden>Land sailing. Wind model, gust streaks, gates, dust devils.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">The Last Fare</span><span class="mv">ms 1</span></span><span class="detail" hidden>Noir cab story. 3 fares a night, 5 passengers, 15 endings.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Ironline</span><span class="mv">ms 1</span></span><span class="detail" hidden>Dieselpunk switchyard puzzler. Fixed day timetable plus seeded Night Shift.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Whiteout</span><span class="mv">ms 1</span></span><span class="detail" hidden>Arctic survival. One 360-second polar night, fire / fuel / warmth economy.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Dead Orbit</span><span class="mv">ms 1</span></span><span class="detail" hidden>Space salvage. Plot burns, grapple drifting wrecks, dock them home.</span></button>
 </div>
 
 <h2 class="sect">In motion</h2>
 <div class="rows">
-  <div class="panel"><h3>Daily</h3>
-    <div class="sysrow"><span class="n">Comic strip</span><span class="t">08:43</span></div>
-    <div class="sysrow"><span class="n">Social trend check</span><span class="t">09:00</span></div>
-    <div class="sysrow"><span class="n">GoatCounter check</span><span class="t">09:43</span></div>
-    <div class="sysrow"><span class="n">Muse breakthrough scan</span><span class="t">09:43</span></div>
-    <div class="sysrow"><span class="n">Threads pipeline</span><span class="t">10:43</span></div>
-    <div class="sysrow"><span class="n">Avatar background watch</span><span class="t">11:43</span></div>
-  </div>
-  <div class="panel"><h3>Weekly</h3>
-    <div class="sysrow"><span class="n">Threads performance</span><span class="t">Mon 09:43</span></div>
-    <div class="sysrow"><span class="n">Systems review</span><span class="t">Mon 10:43</span></div>
-    <div class="sysrow"><span class="n">Prompt Playbook review</span><span class="t">Wed 13:43</span></div>
-    <div class="sysrow"><span class="n">App improvement check</span><span class="t">Thu 14:43</span></div>
-    <div class="sysrow"><span class="n">Delegation radar</span><span class="t">Fri 11:00</span></div>
-    <div class="sysrow"><span class="n">Quality-bar audit</span><span class="t">Sat 10:43</span></div>
-    <div class="sysrow"><span class="n">Self-improvement review</span><span class="t">Sun 18:43</span></div>
-  </div>
-  <div class="panel"><h3>Reminders</h3>
-    <div class="sysrow"><span class="n">Motorcycle payment</span><span class="t">Mon Nov 2</span></div>
-    <div class="sysrow"><span class="n">Car insurance (bill only)</span><span class="t">Thu Nov 5</span></div>
-    <div class="sysrow"><span class="n">Car payment</span><span class="t">Thu Nov 19</span></div>
-    <div class="sysrow"><span class="n">Phone bill</span><span class="t">Thu Nov 26</span></div>
-  </div>
+<div class="panel"><h3>Daily</h3>
+<button class="sysrow x" aria-expanded="false"><span class="n">Comic strip</span><span class="t">08:43</span></button><div class="detail" hidden>New 4-panel Pip and Elder strip published to the Gazette every morning.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Social trend check</span><span class="t">09:00</span></button><div class="detail" hidden>Scans glitch art, AI, and moto trends; drafts adapted post ideas.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">GoatCounter check</span><span class="t">09:43</span></button><div class="detail" hidden>Milestone watch on link page visits; syncs the displayed count.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Muse breakthrough scan</span><span class="t">09:43</span></button><div class="detail" hidden>Watches for big Meta and Muse news and new connectors. Silent unless big.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Threads pipeline</span><span class="t">10:43</span></button><div class="detail" hidden>Content radar and draft queue. Posting only on George's tap, never auto.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Avatar background watch</span><span class="t">11:43</span></button><div class="detail" hidden>Waits for custom avatar backgrounds, then switches the chat avatar.</div>
+</div>
+<div class="panel"><h3>Weekly</h3>
+<button class="sysrow x" aria-expanded="false"><span class="n">Threads performance</span><span class="t">Mon 09:43</span></button><div class="detail" hidden>Weekly report on Threads post performance.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Systems review</span><span class="t">Mon 10:43</span></button><div class="detail" hidden>Report-only review of all running systems. Max 3-4 decisions.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Prompt Playbook review</span><span class="t">Wed 13:43</span></button><div class="detail" hidden>Reviews local playbook files; findings go to the published app.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">App improvement check</span><span class="t">Thu 14:43</span></button><div class="detail" hidden>Proposal-only check on Glitch Studio and Ride Check.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Delegation radar</span><span class="t">Fri 11:00</span></button><div class="detail" hidden>Scans for delegable work. At most 3 ready-to-approve briefs.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Quality-bar audit</span><span class="t">Sat 10:43</span></button><div class="detail" hidden>All-app quality and desktop-readiness audit.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Self-improvement review</span><span class="t">Sun 18:43</span></button><div class="detail" hidden>Reviews the corrections log. Report-only.</div>
+</div>
+<div class="panel"><h3>Reminders</h3>
+<button class="sysrow x" aria-expanded="false"><span class="n">Motorcycle payment</span><span class="t">Mon Nov 2</span></button><div class="detail" hidden>Due the 6th monthly.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Car insurance</span><span class="t">Thu Nov 5</span></button><div class="detail" hidden>Due the 11th. Bill only, no comparison talk.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Car payment</span><span class="t">Thu Nov 19</span></button><div class="detail" hidden>Due the 28th monthly.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n">Phone bill</span><span class="t">Thu Nov 26</span></button><div class="detail" hidden>Due the 26th monthly.</div>
+</div>
 </div>
 
 <h2 class="sect">Watch list</h2>
 <div class="watch">
-  <div class="tile"><div class="tag">FL claim C011587058</div><div class="num" style="font-size:22px">LIKELY PROCESSED</div><div class="sub">$150.74 &middot; payment expected ~mid-Nov</div></div>
-  <div class="tile"><div class="tag">Threads streak</div><div class="num">2</div><div class="sub">clean days, zero flags &middot; cap 2/day</div></div>
-  <div class="tile"><div class="tag">New badges</div><div class="num">11</div><div class="sub">expire Nov 11</div></div>
-  <div class="tile"><div class="tag">Latest release</div><div class="num" style="font-size:22px">VEIL BREACH</div><div class="sub">Jade Static [JSR001] &middot; <a href="https://soundcloud.com/jadestatic/veil-breach">SoundCloud</a></div></div>
+<button class="tile x" aria-expanded="false"><div class="tag">FL claim C011587058</div><div class="num" style="font-size:22px">LIKELY PROCESSED</div><div class="sub">$150.74 &middot; ~mid-Nov</div><div class="detail" hidden>Account 414010469, $150.74. Filed Oct 24. Status: likely processed; payment expected around mid-Nov.</div></button>
+<button class="tile x" aria-expanded="false"><div class="tag">Threads streak</div><div class="num">2</div><div class="sub">zero flags &middot; cap 2/day</div><div class="detail" hidden>2 clean days, zero flags. Cap 2 posts per day. 14 days unlocks 3 per day.</div></button>
+<button class="tile x" aria-expanded="false"><div class="tag">New badges</div><div class="num">11</div><div class="sub">expire Nov 11</div><div class="detail" hidden>11 NEW badges live on the link page. Default 14-day expiry: Nov 11.</div></button>
+<button class="tile x" aria-expanded="false"><div class="tag">Latest release</div><div class="num" style="font-size:22px">VEIL BREACH</div><div class="sub">Jade Static [JSR001] &middot; <a href="https://soundcloud.com/jadestatic/veil-breach">SoundCloud</a></div><div class="detail" hidden>First Jade Static Records release [JSR001]. 126 BPM techno, made live on Sound Lab. YouTube video pending upload.</div></button>
 </div>
 
 <footer>
   Jade Static Builds &middot; unlisted ops board<br>
-  <span id="updated">updated Oct 31, 2026</span> &middot; refreshes every 10 min
+  <span>updated Oct 31, 2026</span> &middot; refreshes every 10 min
 </footer>
 <script>
 function tick(){
@@ -168,6 +174,13 @@ function tick(){
   document.getElementById('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
 }
 tick();setInterval(tick,1000);
+document.addEventListener('click',function(e){
+  var x=e.target.closest('.x');if(!x)return;
+  if(e.target.closest('a'))return;
+  var d=x.querySelector('.detail');if(!d)return;
+  var open=d.hidden;
+  d.hidden=!open;x.setAttribute('aria-expanded',String(open));
+});
 </script>
 </body>
 </html>
