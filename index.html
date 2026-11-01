@@ -48,15 +48,35 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .hotspot:focus-visible{outline:none}
 .hotspot:focus-visible rect{stroke:var(--teal);stroke-width:3}
 .neonsign{cursor:pointer}
-.neontext{font-family:var(--mono);font-weight:800;fill:var(--amber-hi);
-  filter:url(#amber-neon);animation:neonflicker 7s linear infinite}
+#skyP .neontext{filter:url(#amber-neon)}
+.neontext{font-family:var(--mono);font-weight:800;fill:var(--amber-hi);animation:neonflicker 7s linear infinite}
 .neonsign.d2 .neontext{animation-delay:-3.4s}
 @keyframes neonflicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.55}93%{opacity:1}95%{opacity:.8}96%{opacity:1}}
 .neonsign .hit{fill:rgba(255,195,92,0)}
 .neonsign:hover .hit{fill:rgba(255,195,92,.08)}
 .neonsign:focus-visible{outline:none}
 .neonsign:focus-visible .hit{stroke:var(--teal);stroke-width:3}
-/* drifting ships + mist across the viewport */
+/* sky life: grid breathe, ships, flickering windows (all inside the SVG scene) */
+.skyimage{animation:gridbreathe 11s ease-in-out infinite}
+@keyframes gridbreathe{0%,100%{filter:brightness(1)}50%{filter:brightness(.93)}}
+#skyL{display:none}
+.vship{opacity:0}
+.ps1{animation:pfly1 24s linear infinite}
+.ps2{animation:pfly2 37s linear infinite;animation-delay:-14s}
+.ps3{animation:pfly3 31s linear infinite;animation-delay:-9s}
+@keyframes pfly1{0%{transform:translate(-170px,380px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(1354px,330px);opacity:0}}
+@keyframes pfly2{0%{transform:translate(1354px,620px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-170px,670px) scaleX(-1);opacity:0}}
+@keyframes pfly3{0%{transform:translate(-170px,520px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(1354px,470px);opacity:0}}
+.ls1{animation:lfly1 22s linear infinite}
+.ls2{animation:lfly2 34s linear infinite;animation-delay:-13s}
+.ls3{animation:lfly3 28s linear infinite;animation-delay:-7s}
+@keyframes lfly1{0%{transform:translate(-210px,207px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(2258px,170px);opacity:0}}
+@keyframes lfly2{0%{transform:translate(2258px,346px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-210px,380px) scaleX(-1);opacity:0}}
+@keyframes lfly3{0%{transform:translate(-210px,276px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(2258px,240px);opacity:0}}
+.win{filter:url(#p-winglow);animation:winflick 7s linear infinite}
+#skyL .win{filter:url(#l-winglow)}
+@keyframes winflick{0%,100%{opacity:.85}46%{opacity:.85}48%{opacity:.1}50%{opacity:.85}76%{opacity:.85}78%{opacity:.2}80%{opacity:.85}}
+/* drifting mist across the viewport */
 .ship{position:fixed;height:8px;border-radius:6px;pointer-events:none;opacity:0;z-index:2;
   background:linear-gradient(90deg,transparent,rgba(46,230,168,.85));box-shadow:0 0 14px rgba(46,230,168,.8)}
 .ship::after{content:"";position:absolute;right:-3px;top:1px;width:6px;height:6px;border-radius:50%;
@@ -148,15 +168,46 @@ textarea.finput{resize:vertical;min-height:96px}
 <body>
 <div class="ambient" aria-hidden="true"></div>
 
-<svg class="sky" viewBox="0 0 1184 2096" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jade City skyline at night">
+<svg class="sky" id="skyP" viewBox="0 0 1184 2096" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jade City skyline at night" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <filter id="amber-neon" x="-60%" y="-60%" width="220%" height="220%">
       <feGaussianBlur stdDeviation="10" result="b1"/>
       <feGaussianBlur stdDeviation="26" result="b2"/>
       <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <linearGradient id="p-shipgrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ee6a8" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2ee6a8" stop-opacity=".9"/>
+    </linearGradient>
+    <filter id="p-shipglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="p-winglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
-  <image href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
+  <image class="skyimage" xlink:href="backdrop.webp" href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
+  <g aria-hidden="true">
+    <circle class="win" cx="590" cy="1300" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
+    <circle class="win" cx="700" cy="1280" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
+    <circle class="win" cx="950" cy="900" r="6" fill="#ffe9b8" style="animation-duration:5.4s;animation-delay:-1.2s"/>
+    <circle class="win" cx="1000" cy="1100" r="7" fill="#b8ffd9" style="animation-duration:8.6s;animation-delay:-6.0s"/>
+    <circle class="win" cx="880" cy="1150" r="5" fill="#ffe9b8" style="animation-duration:6.9s;animation-delay:-3.3s"/>
+    <circle class="win" cx="1050" cy="1430" r="6" fill="#b8ffd9" style="animation-duration:7.2s;animation-delay:-5.1s"/>
+    <circle class="win" cx="250" cy="1500" r="6" fill="#ffe9b8" style="animation-duration:5.8s;animation-delay:-0.7s"/>
+    <circle class="win" cx="350" cy="1650" r="5" fill="#b8ffd9" style="animation-duration:8.1s;animation-delay:-2.9s"/>
+    <circle class="win" cx="700" cy="1000" r="6" fill="#ffe9b8" style="animation-duration:6.6s;animation-delay:-4.0s"/>
+    <circle class="win" cx="600" cy="1150" r="5" fill="#b8ffd9" style="animation-duration:7.5s;animation-delay:-1.6s"/>
+    <circle class="win" cx="800" cy="1400" r="6" fill="#ffe9b8" style="animation-duration:5.2s;animation-delay:-3.8s"/>
+    <circle class="win" cx="450" cy="1750" r="5" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
+  </g>
+  <g aria-hidden="true">
+    <g class="vship ps1"><ellipse cx="0" cy="0" rx="62" ry="6" fill="url(#p-shipgrad)" filter="url(#p-shipglow)"/><circle cx="55" cy="0" r="8" fill="#dcf5e6" filter="url(#p-shipglow)"/></g>
+    <g class="vship ps2"><ellipse cx="0" cy="0" rx="62" ry="6" fill="url(#p-shipgrad)" filter="url(#p-shipglow)"/><circle cx="55" cy="0" r="8" fill="#dcf5e6" filter="url(#p-shipglow)"/></g>
+    <g class="vship ps3"><ellipse cx="0" cy="0" rx="62" ry="6" fill="url(#p-shipgrad)" filter="url(#p-shipglow)"/><circle cx="55" cy="0" r="8" fill="#dcf5e6" filter="url(#p-shipglow)"/></g>
+  </g>
   <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
     <rect x="100" y="565" width="145" height="330" rx="12"/>
   </g>
@@ -172,9 +223,62 @@ textarea.finput{resize:vertical;min-height:96px}
     <text class="neontext" x="592" y="1912" text-anchor="middle" font-size="58" letter-spacing="4">LEAVE A MESSAGE</text>
   </g>
 </svg>
+<svg class="sky" id="skyL" viewBox="0 0 2048 1152" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jade City skyline at night, wide view" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="amber-neon-l" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="b1"/>
+      <feGaussianBlur stdDeviation="26" result="b2"/>
+      <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="l-shipgrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2ee6a8" stop-opacity="0"/>
+      <stop offset="1" stop-color="#2ee6a8" stop-opacity=".9"/>
+    </linearGradient>
+    <filter id="l-shipglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="l-winglow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="6" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <image class="skyimage" xlink:href="backdrop-wide.webp" href="backdrop-wide.webp" x="0" y="0" width="2048" height="1152"/>
+  <g aria-hidden="true">
+    <circle class="win" cx="1126" cy="783" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
+    <circle class="win" cx="1229" cy="760" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
+    <circle class="win" cx="1597" cy="518" r="6" fill="#ffe9b8" style="animation-duration:5.4s;animation-delay:-1.2s"/>
+    <circle class="win" cx="1740" cy="634" r="7" fill="#b8ffd9" style="animation-duration:8.6s;animation-delay:-6.0s"/>
+    <circle class="win" cx="1700" cy="899" r="6" fill="#ffe9b8" style="animation-duration:6.9s;animation-delay:-3.3s"/>
+    <circle class="win" cx="512" cy="864" r="6" fill="#b8ffd9" style="animation-duration:7.2s;animation-delay:-5.1s"/>
+    <circle class="win" cx="717" cy="950" r="5" fill="#ffe9b8" style="animation-duration:5.8s;animation-delay:-0.7s"/>
+    <circle class="win" cx="922" cy="634" r="6" fill="#b8ffd9" style="animation-duration:8.1s;animation-delay:-2.9s"/>
+    <circle class="win" cx="1024" cy="720" r="5" fill="#ffe9b8" style="animation-duration:6.6s;animation-delay:-4.0s"/>
+    <circle class="win" cx="1331" cy="806" r="6" fill="#b8ffd9" style="animation-duration:7.5s;animation-delay:-1.6s"/>
+    <circle class="win" cx="820" cy="1000" r="5" fill="#ffe9b8" style="animation-duration:5.2s;animation-delay:-3.8s"/>
+    <circle class="win" cx="1433" cy="980" r="5" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
+  </g>
+  <g aria-hidden="true">
+    <g class="vship ls1"><ellipse cx="0" cy="0" rx="62" ry="6" fill="url(#l-shipgrad)" filter="url(#l-shipglow)"/><circle cx="55" cy="0" r="8" fill="#dcf5e6" filter="url(#l-shipglow)"/></g>
+    <g class="vship ls2"><ellipse cx="0" cy="0" rx="62" ry="6" fill="url(#l-shipgrad)" filter="url(#l-shipglow)"/><circle cx="55" cy="0" r="8" fill="#dcf5e6" filter="url(#l-shipglow)"/></g>
+    <g class="vship ls3"><ellipse cx="0" cy="0" rx="62" ry="6" fill="url(#l-shipgrad)" filter="url(#l-shipglow)"/><circle cx="55" cy="0" r="8" fill="#dcf5e6" filter="url(#l-shipglow)"/></g>
+  </g>
+  <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
+    <rect x="230" y="215" width="135" height="450" rx="12"/>
+  </g>
+  <g class="hotspot" data-menu="tools" tabindex="0" role="button" aria-label="Open tools menu">
+    <rect x="1520" y="665" width="360" height="170" rx="12"/>
+  </g>
+  <g class="neonsign" data-drop="socials" tabindex="0" role="button" aria-label="Open socials">
+    <rect class="hit" x="1600" y="70" width="390" height="150" rx="14"/>
+    <text class="neontext" x="1792" y="160" text-anchor="middle" font-size="92" letter-spacing="6" filter="url(#amber-neon-l)">SOCIALS</text>
+  </g>
+  <g class="neonsign d2" data-drop="message" tabindex="0" role="button" aria-label="Leave a message">
+    <rect class="hit" x="700" y="1000" width="650" height="120" rx="14"/>
+    <text class="neontext" x="1024" y="1082" text-anchor="middle" font-size="66" letter-spacing="4" filter="url(#amber-neon-l)">LEAVE A MESSAGE</text>
+  </g>
+</svg>
 
-<div class="ship ship1" aria-hidden="true"></div>
-<div class="ship ship2" aria-hidden="true"></div>
 <div class="mist mist1" aria-hidden="true"></div>
 <div class="mist mist2" aria-hidden="true"></div>
 
@@ -246,6 +350,22 @@ textarea.finput{resize:vertical;min-height:96px}
 <noscript><div style="position:fixed;top:70px;left:12px;right:12px;color:#f0f8f3;background:rgba(3,13,9,.9);padding:14px;border-radius:12px;z-index:30">This page needs JavaScript for the menu and signs.</div></noscript>
 
 <script data-goatcounter="https://georgestriderbuilds.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+/* portrait vs landscape skyline */
+(function(){
+  var p=document.getElementById('skyP'),l=document.getElementById('skyL');
+  if(!p||!l)return;
+  function fit(){
+    var land=false;
+    try{land=window.matchMedia('(orientation: landscape)').matches;}catch(e){}
+    p.style.display=land?'none':'block';
+    l.style.display=land?'block':'none';
+  }
+  window.addEventListener('resize',fit);
+  window.addEventListener('orientationchange',fit);
+  fit();
+})();
+</script>
 <script>
 (function(){
   var burger=document.getElementById('burger'),
