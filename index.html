@@ -3,14 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<script>
-/* ?view=desktop preview: force desktop theme on narrow screens */
-try {
-  if (new URLSearchParams(location.search).get("view") === "desktop") {
-    document.querySelector('meta[name="viewport"]').setAttribute("content", "width=1280");
-  }
-} catch (e) {}
-</script>
+<meta name="theme-color" content="#030d09">
 <title>Jade Static Builds</title>
 <meta name="description" content="A collaborative effort between mind and machine. Free browser apps, open source code, and socials.">
 <meta property="og:title" content="Jade Static Builds">
@@ -24,378 +17,284 @@ try {
 <style>
 :root{
   --bg0:#030d09;
-  --panel:rgba(22,54,39,.90);
   --jade:#8fe0b3;
   --jade-hi:#dcf5e6;
   --jade-dim:rgba(143,224,179,.32);
+  --amber:#ffc35c;
+  --amber-hi:#ffe2ae;
   --ink:#f0f8f3;
   --mute:#9db8a8;
-  --teal:#a8e6c1;
-  --fern:#8fb89a;
   --line:rgba(143,224,179,.28);
+  --teal:#a8e6c1;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html,body{height:100%}
 body{
   margin:0;color:var(--ink);
   font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
-  overflow-x:hidden;background:var(--bg0);min-height:100vh;
+  background:var(--bg0);overflow:hidden;overscroll-behavior:none;
+  height:100vh;height:100dvh;position:relative;
 }
-.stars{display:none}
-/* Skyline hero: aspect-locked stage kills sign drift. Stage matches the
-   image pixels exactly (1184x2096), so % hotspot coords map 1:1 on every screen. */
-.hero{position:relative;background:#030d09;overflow:hidden}
-.sky{position:relative;width:min(100%,calc(100vh*1184/2096));width:min(100%,calc(100svh*1184/2096));aspect-ratio:1184/2096;margin:0 auto;
-  background:url("backdrop.webp") center/100% 100% no-repeat,#030d09}
-.sign{position:absolute;display:block;border-radius:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.sign:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
-.sign .pulse{position:absolute;inset:-7px;border-radius:12px;border:1px solid rgba(46,230,168,0);
-  animation:signpulse 3.4s ease-in-out infinite;pointer-events:none}
-@keyframes signpulse{0%,100%{border-color:rgba(46,230,168,0);box-shadow:0 0 0 rgba(46,230,168,0)}
-  50%{border-color:rgba(46,230,168,.4);box-shadow:0 0 20px rgba(46,230,168,.35)}}
-#sign-games{left:8%;top:27%;width:12%;height:16%}
-#sign-tools{left:66%;top:45.5%;width:17%;height:7%}
-#sign-weather{left:65%;top:84%;width:18%;height:6.5%}
-.ship{position:absolute;height:8px;border-radius:6px;pointer-events:none;opacity:0;
+/* blurred ambiance fills the frame around the poster stage */
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:url("backdrop.webp") center/cover no-repeat;
+  filter:blur(60px) brightness(.5);transform:scale(1.15)}
+/* the skyline: meet = whole poster always visible, hotspots track it exactly */
+svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;display:block}
+.hotspot{cursor:pointer}
+.hotspot rect{fill:rgba(255,195,92,0);transition:fill .25s}
+.hotspot:hover rect{fill:rgba(255,195,92,.10)}
+.hotspot:focus-visible{outline:none}
+.hotspot:focus-visible rect{stroke:var(--teal);stroke-width:3}
+.neonsign{cursor:pointer}
+.neontext{font-family:var(--mono);font-weight:800;fill:var(--amber-hi);
+  filter:url(#amber-neon);animation:neonflicker 7s linear infinite}
+.neonsign.d2 .neontext{animation-delay:-3.4s}
+@keyframes neonflicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.55}93%{opacity:1}95%{opacity:.8}96%{opacity:1}}
+.neonsign .hit{fill:rgba(255,195,92,0)}
+.neonsign:hover .hit{fill:rgba(255,195,92,.08)}
+.neonsign:focus-visible{outline:none}
+.neonsign:focus-visible .hit{stroke:var(--teal);stroke-width:3}
+/* drifting ships + mist across the viewport */
+.ship{position:fixed;height:8px;border-radius:6px;pointer-events:none;opacity:0;z-index:2;
   background:linear-gradient(90deg,transparent,rgba(46,230,168,.85));box-shadow:0 0 14px rgba(46,230,168,.8)}
 .ship::after{content:"";position:absolute;right:-3px;top:1px;width:6px;height:6px;border-radius:50%;
   background:#dcf5e6;box-shadow:0 0 10px #dcf5e6}
 .ship1{top:16%;width:46px;animation:fly1 26s linear infinite}
-.ship2{top:36%;width:34px;animation:fly2 41s linear infinite;animation-delay:-17s}
+.ship2{top:37%;width:34px;animation:fly2 41s linear infinite;animation-delay:-17s}
 @keyframes fly1{0%{transform:translate(-10vw,0);opacity:0}7%{opacity:.9}93%{opacity:.9}
   100%{transform:translate(110vw,-5vh);opacity:0}}
 @keyframes fly2{0%{transform:translate(110vw,0) scaleX(-1);opacity:0}7%{opacity:.75}93%{opacity:.75}
   100%{transform:translate(-10vw,4vh) scaleX(-1);opacity:0}}
-.mist{position:absolute;pointer-events:none;opacity:.55;
+.mist{position:fixed;pointer-events:none;opacity:.5;z-index:2;
   background:radial-gradient(closest-side,rgba(143,224,179,.15),rgba(143,224,179,0))}
-.mist1{left:-12%;top:50%;width:72%;height:26%;animation:drift1 48s ease-in-out infinite alternate}
-.mist2{left:32%;top:68%;width:82%;height:24%;animation:drift2 64s ease-in-out infinite alternate}
+.mist1{left:-12%;top:52%;width:70%;height:24%;animation:drift1 48s ease-in-out infinite alternate}
+.mist2{left:30%;top:70%;width:76%;height:22%;animation:drift2 64s ease-in-out infinite alternate}
 @keyframes drift1{from{transform:translateX(-12%)}to{transform:translateX(24%)}}
 @keyframes drift2{from{transform:translateX(20%)}to{transform:translateX(-18%)}}
-.heroword{position:absolute;top:16px;left:0;right:0;z-index:2;text-align:center;pointer-events:none;
-  font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--jade-hi);
-  text-shadow:0 0 12px rgba(46,230,168,.6),0 1px 6px rgba(3,13,9,.9)}
-.scrollcue{position:absolute;bottom:12px;left:0;right:0;z-index:2;text-align:center;pointer-events:none;
-  color:var(--jade);font-size:20px;opacity:.7;animation:cue 2.6s ease-in-out infinite}
-@keyframes cue{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(7px);opacity:.85}}
-
-main{max-width:520px;margin:0 auto;padding:28px 18px 48px;position:relative;z-index:1}
-.tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--jade);text-transform:uppercase}
-.hud{
-  position:relative;background:rgba(3,13,9,.62);
-  -webkit-backdrop-filter:blur(8px) saturate(1.15);backdrop-filter:blur(8px) saturate(1.15);
-  border:1px solid var(--line);border-radius:14px;
-  box-shadow:inset 0 1px 0 rgba(220,245,230,.12), 0 0 22px rgba(143,224,179,.07);
-  padding:18px;margin:0 0 14px;
-}
-.hud::before,.hud::after{content:"";position:absolute;width:16px;height:16px;border:2px solid var(--jade);opacity:.85;pointer-events:none}
-.hud::before{top:-1px;left:-1px;border-right:0;border-bottom:0;border-top-left-radius:14px}
-.hud::after{bottom:-1px;right:-1px;border-left:0;border-top:0;border-bottom-right-radius:14px}
-/* header */
-.banner{text-align:center;padding:22px 18px 20px}
-.banner h1{
-  margin:10px 0 6px;font-size:30px;letter-spacing:.12em;font-weight:800;
-  background:linear-gradient(180deg,#ffffff 15%,var(--jade-hi) 55%,var(--jade) 85%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 14px rgba(143,224,179,.35));
-}
-img.avatar{width:132px;height:132px;object-fit:cover;border-radius:50%;display:block;margin:2px auto 12px;
-  border:2px solid var(--jade);box-shadow:0 0 26px rgba(143,224,179,.35), inset 0 0 0 3px rgba(3,13,9,.6)}
-p.bio{color:var(--ink);margin:8px 0 0;font-weight:500}
-p.bio .dim{color:var(--mute)}
-/* stats row */
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 14px}
-.stat{padding:14px 12px;text-align:center;margin:0}
-.stat .num{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--jade-hi);
-  text-shadow:0 0 16px rgba(143,224,179,.5);margin:6px 0 2px}
-.stat .sub{font-size:12px;color:var(--mute)}
-a.statlink{color:inherit;text-decoration:none;display:block}
-a.statlink:hover .num,a.statlink:focus-visible .num{color:#fff}
-a.statlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:14px}
-/* contact form tile */
-button.statlink{background:none;border:0;font:inherit;color:inherit;width:100%;cursor:pointer;padding:0}
-button.statlink:hover .num,button.statlink:focus-visible .num{color:#fff}
-button.statlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px;border-radius:14px}
-#contactform{text-align:left}
-.flabel{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin:10px 0 4px}
-.finput{display:block;width:100%;box-sizing:border-box;background:rgba(3,13,9,.7);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:16px;padding:12px;min-height:48px}
+/* top bar */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:20;height:60px;
+  display:flex;align-items:center;gap:12px;padding:0 14px;
+  background:linear-gradient(180deg,rgba(3,13,9,.85),rgba(3,13,9,0));
+  padding-top:env(safe-area-inset-top,0)}
+.burger{width:46px;height:46px;flex-shrink:0;background:rgba(3,13,9,.55);border:1px solid var(--line);
+  border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.burger span{display:block;width:20px;height:2px;background:var(--jade-hi);border-radius:2px;
+  box-shadow:0 0 8px rgba(143,224,179,.7);transition:transform .25s,opacity .25s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.burger:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.brandmark{display:flex;align-items:center;gap:10px;min-width:0}
+.brandmark img{width:34px;height:34px;border-radius:50%;border:1px solid var(--jade);
+  box-shadow:0 0 14px rgba(143,224,179,.4);flex-shrink:0}
+.brandmark b{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--jade-hi);font-weight:700;
+  text-shadow:0 0 12px rgba(143,224,179,.5);white-space:nowrap}
+/* dropdown panels */
+.panel{position:fixed;z-index:19;top:calc(60px + env(safe-area-inset-top,0));left:12px;right:12px;
+  max-width:480px;max-height:calc(100vh - 92px);max-height:calc(100dvh - 92px);overflow-y:auto;
+  -webkit-overflow-scrolling:touch;background:rgba(3,13,9,.88);
+  -webkit-backdrop-filter:blur(12px) saturate(1.2);backdrop-filter:blur(12px) saturate(1.2);
+  border:1px solid var(--line);border-radius:16px;padding:8px 8px 14px;
+  box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(143,224,179,.08)}
+@media(min-width:520px){.panel{left:16px;right:auto;width:440px}}
+.panel[hidden]{display:none}
+.cathead{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:var(--jade);
+  text-transform:uppercase;margin:14px 10px 6px;display:flex;align-items:center;gap:10px;border-radius:8px}
+.cathead::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.cathead.flash{animation:catflash 1.4s ease-in-out}
+@keyframes catflash{0%,100%{background:transparent}30%{background:rgba(46,230,168,.22)}}
+.approw{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink);
+  padding:9px 10px;border-radius:12px;min-height:60px}
+.approw:hover,.approw:focus-visible{background:rgba(143,224,179,.10);outline:none}
+.approw:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+.approw img{width:44px;height:44px;border-radius:11px;flex-shrink:0;
+  border:1px solid rgba(143,224,179,.4);box-shadow:0 0 10px rgba(143,224,179,.15)}
+.approw .nm{font-weight:700;font-size:16px;text-shadow:0 1px 8px rgba(3,13,9,.9)}
+span.new{display:inline-block;background:linear-gradient(180deg,var(--jade-hi),var(--jade));color:#06231a;
+  font-size:10px;font-weight:800;letter-spacing:.08em;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.socrow{display:flex;align-items:center;gap:14px;color:var(--ink);text-decoration:none;
+  padding:13px 12px;border-radius:12px;font-weight:700;font-size:16px}
+.socrow:hover,.socrow:focus-visible{background:rgba(143,224,179,.10);outline:none}
+.socrow:focus-visible{outline:2px solid var(--teal);outline-offset:-2px}
+.socrow .ic{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;flex-shrink:0;
+  border-radius:50%;border:1px solid var(--jade-dim);color:var(--jade-hi);background:rgba(3,13,9,.6)}
+.socrow svg{width:22px;height:22px}
+.socrow small{display:block;font-weight:500;color:var(--mute);font-size:13px}
+.paneltitle{font-family:var(--mono);font-size:12px;letter-spacing:.28em;color:var(--jade);
+  text-transform:uppercase;margin:12px 10px 4px}
+/* message form */
+.flabel{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mute);margin:10px 10px 4px}
+.finput{display:block;width:calc(100% - 20px);margin:0 10px;box-sizing:border-box;
+  background:rgba(3,13,9,.7);border:1px solid var(--line);border-radius:8px;color:var(--ink);
+  font-size:16px;padding:12px;min-height:48px}
 .finput:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:var(--teal)}
 textarea.finput{resize:vertical;min-height:96px}
 .fhoney{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-.fsend{display:block;width:100%;box-sizing:border-box;margin-top:12px;min-height:48px;border:1px solid var(--jade);border-radius:10px;background:rgba(46,230,168,.12);color:var(--jade-hi);font-weight:700;font-size:16px;cursor:pointer}
+.fsend{display:block;width:calc(100% - 20px);margin:12px 10px 0;min-height:48px;cursor:pointer;
+  border:1px solid var(--jade);border-radius:10px;background:rgba(46,230,168,.12);
+  color:var(--jade-hi);font-weight:700;font-size:16px}
 .fsend:hover{background:rgba(46,230,168,.22)}
 .fsend:disabled{opacity:.5;cursor:wait}
-.fstatus{margin-top:8px;font-size:13px;color:var(--mute);min-height:18px}
+.fstatus{margin:8px 10px 0;font-size:13px;color:var(--mute);min-height:18px}
 .fstatus.ok{color:var(--jade-hi)}
 .fstatus.err{color:#ff7a7a}
-.fclose{display:block;width:100%;background:none;border:0;color:var(--mute);font-size:12px;margin-top:6px;cursor:pointer;text-decoration:underline}
-.statusline{text-align:center;margin:0 0 16px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mute)}
-.statusline .dot{color:#8fe0b3;text-shadow:0 0 8px rgba(143,224,179,.8)}
-/* latest */
-.latest-panel{border-color:rgba(143,224,179,.55);box-shadow:inset 0 1px 0 rgba(220,245,230,.14),0 0 28px rgba(143,224,179,.12)}
-a.latestlink{display:block;color:var(--ink);text-decoration:none;font-weight:700;font-size:17px}
-a.latestlink small{display:block;font-weight:500;color:var(--mute);font-size:14px;margin-top:6px}
-a.latestlink:hover,a.latestlink:focus-visible{outline:none}
-a.latestlink:hover .ltitle,a.latestlink:focus-visible .ltitle{color:var(--jade-hi)}
-.latest-panel:focus-within{outline:2px solid var(--teal);outline-offset:2px}
-/* App directory: the 23 bars live collapsed behind one sign */
-button.dirtoggle{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
-  font-family:var(--mono);font-size:13px;letter-spacing:.26em;color:var(--jade-hi);cursor:pointer;
-  background:rgba(3,13,9,.62);-webkit-backdrop-filter:blur(8px) saturate(1.15);backdrop-filter:blur(8px) saturate(1.15);
-  border:1px solid var(--jade-dim);border-radius:12px;padding:17px 16px;margin:4px 0 6px;
-  text-shadow:0 0 12px rgba(46,230,168,.5)}
-button.dirtoggle:hover,button.dirtoggle:focus-visible{border-color:var(--jade);outline:none}
-button.dirtoggle:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-button.dirtoggle .chev{margin:0;font-size:16px;transition:transform .25s}
-button.dirtoggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
-main.dir-collapsed .sectionhead,main.dir-collapsed .subhead,main.dir-collapsed a.link{display:none}
-#dir-games,#dir-tools,#dir-weather{scroll-margin-top:14px}
-/* app bars */
-a.link{
-  display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);
-  background:rgba(3,13,9,.30);
-  -webkit-backdrop-filter:blur(7px) saturate(1.15);backdrop-filter:blur(7px) saturate(1.15);
-  border:1px solid var(--line);border-left:3px solid var(--jade);
-  border-radius:12px;padding:14px 16px;margin:0 0 12px;min-height:64px;
-  box-shadow:0 2px 10px rgba(0,0,0,.45), inset 0 1px 0 rgba(220,245,230,.08);
-}
-a.link:hover,a.link:focus-visible{border-color:var(--jade);border-left-color:var(--jade-hi);background:rgba(3,13,9,.45);
-  box-shadow:0 2px 14px rgba(0,0,0,.5), 0 0 18px rgba(143,224,179,.18);outline:none}
-a.link:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-img.barlogo{width:48px;height:48px;border-radius:12px;flex-shrink:0;
-  border:1px solid rgba(143,224,179,.4);box-shadow:0 0 12px rgba(143,224,179,.15)}
-.bartext{font-weight:700;font-size:17px;text-shadow:0 1px 10px rgba(3,13,9,.95),0 0 2px rgba(3,13,9,.9)}
-.bartext small{display:block;font-weight:500;color:var(--mute);font-size:13.5px;margin-top:3px;line-height:1.45}
-.chev{margin-left:auto;color:var(--jade);font-size:20px;flex-shrink:0;opacity:.85}
-span.new{display:inline-block;background:linear-gradient(180deg,var(--jade-hi),var(--jade));color:#06231a;
-  font-size:11px;font-weight:800;letter-spacing:.08em;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
-/* section headers */
-.sectionhead{font-family:var(--mono);font-size:13px;letter-spacing:.28em;color:var(--jade);text-transform:uppercase;
-  margin:26px 2px 10px;display:flex;align-items:center;gap:10px}
-.sectionhead::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
-.subhead{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--mute);text-transform:uppercase;margin:16px 2px 8px}
-/* Generative UI desktop: command bar + system-live indicator, hidden on phone */
-.cmdbar{display:none}
-.syslive{display:none}
-.veil-desk{display:none}
-/* footer */
-footer{color:var(--mute);font-size:13px;margin-top:26px;text-align:center}
-footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color:var(--jade);opacity:.85;display:block;margin-top:10px}
-.socials{display:flex;justify-content:center;gap:14px;margin-top:14px}
-.socials a{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;
-  background:rgba(3,13,9,.6);-webkit-backdrop-filter:blur(7px) saturate(1.15);backdrop-filter:blur(7px) saturate(1.15);border:1px solid var(--jade-dim);color:var(--jade-hi);text-decoration:none}
-.socials a:hover,.socials a:focus-visible{border-color:var(--jade);box-shadow:0 0 14px rgba(143,224,179,.25);outline:none}
-.socials a:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.socials svg{width:22px;height:22px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-/* Generative UI desktop theme: 1024px and up. Phone rendering untouched. */
-@media (min-width:1024px){
-  main{max-width:1080px;padding:32px 32px 56px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
-  main>.hud,main>.stats,main>.statusline,main>.cmdbar,main>.dirtoggle,main>.sectionhead,main>.subhead,main>footer{grid-column:1/-1}
-  a.link{margin:0}
-  .cmdbar{display:flex;align-items:center;gap:10px;
-    background:rgba(3,13,9,.62);
-    -webkit-backdrop-filter:blur(8px) saturate(1.15);backdrop-filter:blur(8px) saturate(1.15);
-    border:1px solid var(--jade);border-radius:12px;padding:10px 14px;
-    box-shadow:0 0 18px rgba(143,224,179,.18), inset 0 1px 0 rgba(220,245,230,.12)}
-  .cmdbar::before{content:">";font-family:var(--mono);color:var(--jade);font-weight:700}
-  .cmdbar input{flex:1;min-width:0;background:transparent;border:0;outline:none;color:var(--ink);
-    font-family:var(--mono);font-size:15px;letter-spacing:.03em}
-  .cmdbar input::placeholder{color:var(--mute);opacity:1}
-  .cmdbar button{flex-shrink:0;background:transparent;border:1px solid var(--jade-dim);border-radius:8px;
-    color:var(--jade-hi);font-size:14px;line-height:1;padding:6px 10px;cursor:pointer}
-  .cmdbar button:hover,.cmdbar button:focus-visible{border-color:var(--jade);outline:none}
-  .cmdcount{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mute);white-space:nowrap}
-  .syslive{display:flex;align-items:center;gap:8px;position:absolute;top:12px;right:16px;
-    font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--jade)}
-  .sysdot{width:8px;height:8px;border-radius:50%;background:var(--jade);
-    box-shadow:0 0 10px rgba(143,224,179,.9);animation:syspulse 2.2s ease-in-out infinite}
-  @keyframes syspulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.78)}}
-  .sectionhead{color:var(--jade-hi);text-shadow:0 0 14px rgba(143,224,179,.5)}
-  .latest-panel{padding:26px 30px}
-  .latest-panel a.latestlink{font-size:20px}
-  .veil-phone{display:none}
-  .veil-desk{display:block}
-}
-@media (min-width:1440px){
-  main{max-width:1380px;grid-template-columns:repeat(3,minmax(0,1fr))}
-}
 </style>
 </head>
 <body>
-<div class="stars" aria-hidden="true"></div>
-<header class="hero" aria-label="Jade City skyline">
-  <div class="sky">
-    <a class="sign" id="sign-games" href="#dir-games" aria-label="Games directory"><span class="pulse" aria-hidden="true"></span></a>
-    <a class="sign" id="sign-tools" href="#dir-tools" aria-label="Tools directory"><span class="pulse" aria-hidden="true"></span></a>
-    <a class="sign" id="sign-weather" href="#dir-weather" aria-label="Weather directory"><span class="pulse" aria-hidden="true"></span></a>
-    <div class="ship ship1" aria-hidden="true"></div>
-    <div class="ship ship2" aria-hidden="true"></div>
-    <div class="mist mist1" aria-hidden="true"></div>
-    <div class="mist mist2" aria-hidden="true"></div>
-    <div class="heroword" aria-hidden="true">JADE STATIC BUILDS</div>
-    <div class="scrollcue" aria-hidden="true">&#8964;</div>
+<div class="ambient" aria-hidden="true"></div>
+
+<svg class="sky" viewBox="0 0 1184 2096" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jade City skyline at night">
+  <defs>
+    <filter id="amber-neon" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="10" result="b1"/>
+      <feGaussianBlur stdDeviation="26" result="b2"/>
+      <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <image href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
+  <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
+    <rect x="100" y="565" width="145" height="330" rx="12"/>
+  </g>
+  <g class="hotspot" data-menu="tools" tabindex="0" role="button" aria-label="Open tools menu">
+    <rect x="775" y="950" width="210" height="140" rx="12"/>
+  </g>
+  <g class="neonsign" data-drop="socials" tabindex="0" role="button" aria-label="Open socials">
+    <rect class="hit" x="790" y="205" width="390" height="140" rx="14"/>
+    <text class="neontext" x="985" y="305" text-anchor="middle" font-size="78" letter-spacing="6">SOCIALS</text>
+  </g>
+  <g class="neonsign d2" data-drop="message" tabindex="0" role="button" aria-label="Leave a message">
+    <rect class="hit" x="300" y="1825" width="585" height="125" rx="14"/>
+    <text class="neontext" x="592" y="1912" text-anchor="middle" font-size="58" letter-spacing="4">LEAVE A MESSAGE</text>
+  </g>
+</svg>
+
+<div class="ship ship1" aria-hidden="true"></div>
+<div class="ship ship2" aria-hidden="true"></div>
+<div class="mist mist1" aria-hidden="true"></div>
+<div class="mist mist2" aria-hidden="true"></div>
+
+<header class="topbar">
+  <button class="burger" id="burger" aria-expanded="false" aria-controls="appmenu" aria-label="App menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="brandmark">
+    <img src="avatar.jpg" alt="Jade Static Builds logo">
+    <b>JADE STATIC BUILDS</b>
   </div>
 </header>
-<main class="dir-collapsed">
-  <div class="hud banner">
-    <div class="tag">Welcome // Transmission received</div>
-    <div class="syslive" aria-hidden="true"><span class="sysdot"></span>SYSTEM LIVE</div>
-    <img class="avatar" src="avatar.jpg" alt="Jade Static Builds logo">
-    <h1>JADE STATIC BUILDS</h1>
-    <p class="bio">A collaborative effort between mind and machine. <span class="dim">Miami, FL · the Internet</span></p>
-  </div>
 
-  <div class="stats">
-    <div class="hud stat">
-      <div class="tag">Visitors // All-time</div>
-      <div class="num">120</div>
-      <div class="sub">counted by GoatCounter</div>
-    </div>
-    <div class="hud stat" id="contactstat">
-      <button class="statlink" id="contactopen" type="button" aria-expanded="false" aria-controls="contactform">
-        <div class="tag">Comms log</div>
-        <div class="num" style="font-size:19px;line-height:1.5">SAY&nbsp;HI</div>
-        <div class="sub">send a message &rarr;</div>
-      </button>
-      <form id="contactform" hidden novalidate aria-label="Contact form">
-        <div class="tag" style="text-align:center">Comms log</div>
-        <label class="flabel" for="cname">Name</label>
-        <input class="finput" id="cname" name="name" type="text" autocomplete="name" maxlength="60" required>
-        <label class="flabel" for="ctype">Type</label>
-        <select class="finput" id="ctype" name="type">
-          <option>Idea</option>
-          <option>Bug report</option>
-          <option>Hello</option>
-        </select>
-        <label class="flabel" for="cmsg">Message</label>
-        <textarea class="finput" id="cmsg" name="message" rows="3" maxlength="2000" required></textarea>
-        <input class="fhoney" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="fsend" id="csend" type="submit">Send</button>
-        <div class="fstatus" id="fstatus" role="status" aria-live="polite"></div>
-        <button class="fclose" id="contactclose" type="button">close</button>
-      </form>
-    </div>
-  </div>
-  <p class="statusline"><span class="dot">●</span> ALL SYSTEMS NOMINAL · 22 MODULES ONLINE</p>
+<nav class="panel" id="appmenu" hidden aria-label="All apps">
+  <div class="cathead" id="cat-games">Games</div>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-snake/"><img src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="nm">Glitch Snake</span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="nm">Glitch Breakout</span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/rider-dodger/"><img src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="nm">Rider Dodger</span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/veil-skiff/"><img src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="nm">Veil Skiff<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/beat-tapper/"><img src="logos/beat-tapper.webp" alt="" loading="lazy" decoding="async"><span class="nm">Beat Tapper<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/magnetician/"><img src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="nm">Magnetician<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/tincture/"><img src="logos/tincture.webp" alt="" loading="lazy" decoding="async"><span class="nm">Tincture<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/six-deep/"><img src="logos/six-deep.webp" alt="" loading="lazy" decoding="async"><span class="nm">Six Deep<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="nm">Pantheon Clash<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="nm">Pyramid Builder<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/ironline/"><img src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="nm">Ironline<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/whiteout/"><img src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="nm">Whiteout<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/myth-choices/"><img src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="nm">Myth Story Choices<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/the-last-fare/"><img src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="nm">The Last Fare<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/salt-rush/"><img src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="nm">Salt Rush<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/hadal-drift/"><img src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="nm">Hadal Drift<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/dead-orbit/"><img src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="nm">Dead Orbit<span class="new">NEW</span></span></a>
+  <div class="cathead" id="cat-tools">Tools</div>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-studio/"><img src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="nm">Glitch Studio<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/field-kit/"><img src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="nm">Field Kit</span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="nm">Prompt Playbook</span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/sound-lab/"><img src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="nm">Sound Lab<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/brief-builder/"><img src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="nm">Brief Builder<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/ride-check/"><img src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="nm">Ride Check</span></a>
+</nav>
 
-  <div class="hud latest-panel">
-    <div class="tag" style="margin-bottom:8px">Latest deploy</div>
-    <a class="latestlink" href="https://jadestaticbuilds.github.io/six-deep/"><span class="ltitle">✨ Latest: Six Deep</span><small>A candy ball-sort puzzler. Tubes go 6 deep, 10 colors, and every board is guaranteed solvable.</small></a>
-  </div>
+<div class="panel" id="socialsdrop" hidden aria-label="Socials">
+  <div class="paneltitle">Find us</div>
+  <a class="socrow" href="https://www.instagram.com/jadestaticbuilds/"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></span><span>Instagram<small>@jadestaticbuilds</small></span></a>
+  <a class="socrow" href="https://www.threads.com/@jadestaticbuilds"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="18" text-anchor="middle" font-size="18" font-weight="700" fill="currentColor" font-family="system-ui, sans-serif">@</text></svg></span><span>Threads<small>@jadestaticbuilds</small></span></a>
+  <a class="socrow" href="https://soundcloud.com/jadestatic"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 15.5v-2M5 16.5v-5M7.5 16.5V8" stroke-linecap="round"/><path d="M10 16.5h7.5a3 3 0 0 0 .5-5.96A4.5 4.5 0 0 0 10 9.2v7.3z"/></svg></span><span>SoundCloud<small>Jade Static</small></span></a>
+  <a class="socrow" href="https://youtube.com/@jadestatic"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="3.5"/><path d="M10.5 9.8v4.4L14.5 12z" fill="currentColor" stroke="none"/></svg></span><span>YouTube<small>@jadestatic</small></span></a>
+</div>
 
-  <button class="dirtoggle" id="dirtoggle" aria-expanded="false">
-    <span id="dirlabel">App directory</span><span class="chev" aria-hidden="true">&#8964;</span>
-  </button>
-  <div class="cmdbar">
-    <input id="cmdfilter" type="search" placeholder="Type to find a module..." aria-label="Filter modules" autocomplete="off">
-    <span class="cmdcount" id="cmdcount" aria-live="polite">23 of 23 modules</span>
-    <button id="cmdclear" type="button" aria-label="Clear filter">✕</button>
-  </div>
+<div class="panel" id="messagedrop" hidden aria-label="Leave a message">
+  <div class="paneltitle">Leave a message</div>
+  <form id="contactform" novalidate aria-label="Contact form">
+    <label class="flabel" for="cname">Name</label>
+    <input class="finput" id="cname" name="name" type="text" autocomplete="name" maxlength="60" required>
+    <label class="flabel" for="ctype">Type</label>
+    <select class="finput" id="ctype" name="type">
+      <option>Idea</option>
+      <option>Bug report</option>
+      <option>Hello</option>
+    </select>
+    <label class="flabel" for="cmsg">Message</label>
+    <textarea class="finput" id="cmsg" name="message" rows="3" maxlength="2000" required></textarea>
+    <input class="fhoney" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button class="fsend" id="csend" type="submit">Send</button>
+    <div class="fstatus" id="fstatus" role="status" aria-live="polite"></div>
+  </form>
+</div>
 
-  <h2 class="sectionhead" id="dir-games">Games</h2>
-  <h3 class="subhead">Arcade</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/glitch-snake/"><img class="barlogo" src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Snake<small>Browser Snake with wrap walls, colour changes on every bite, frenzy mode, and a death explosion. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img class="barlogo" src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Breakout<small>Breakout where every smashed brick glitches the board. Multi-ball, wider paddle, and shield power-ups. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/rider-dodger/"><img class="barlogo" src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Rider Dodger<small>You are the rider. Rain is the enemy. Dodge drops, jump puddles, and outrun gusts. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/veil-skiff/"><img class="barlogo" src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Veil Skiff<span class="new">NEW</span><small>Pilot Pip's skiff through the White Veil galaxy. Ride the gold currents, dodge void fractures, and regrow your hull. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Rhythm</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/beat-tapper/"><img class="barlogo" src="logos/beat-tapper.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Beat Tapper<span class="new">NEW</span><small>Tap the falling notes on the beat. Four lanes, three synth patterns, combo streaks, and a pitch that rises as you nail it. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Puzzle</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/magnetician/"><img class="barlogo" src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Magnetician<span class="new">NEW</span><small>A 2.5D magnetism puzzler. Place magnets, flip poles, fire induction coils, and guide the steel orb home through 12 levels. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/tincture/"><img class="barlogo" src="logos/tincture.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Tincture<span class="new">NEW</span><small>An alchemist's elixir-sorting ritual. Sort volatile elixirs into their flasks — prismatic elixirs, spare flasks, deep undo. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/six-deep/"><img class="barlogo" src="logos/six-deep.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Six Deep<span class="new">NEW</span><small>A candy ball-sort puzzler. Tubes go 6 deep, 10 colors, and every board is guaranteed solvable. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Card</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img class="barlogo" src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Pantheon Clash<span class="new">NEW</span><small>Gods from Egypt, Greece, and Norse battle in a 5-round card clash. Crown your patron, play your gods. No magic cards, ever. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Strategy</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img class="barlogo" src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Pyramid Builder<span class="new">NEW</span><small>Rule a reign, ride the Nile flood, and raise a pyramid in 12 years. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/ironline/"><img class="barlogo" src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ironline<span class="new">NEW</span><small>A dieselpunk rail switchyard puzzler. Route ten trains to the right platforms, no wrecks on the line. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/whiteout/"><img class="barlogo" src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Whiteout<span class="new">NEW</span><small>An arctic survival game. Keep the fire lit through the polar night, brave the storms for fuel. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Story</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/myth-choices/"><img class="barlogo" src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Myth Story Choices<span class="new">NEW</span><small>Play through Ra, Osiris and Isis, and the weighing of the heart — your choices, the real myths. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/the-last-fare/"><img class="barlogo" src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="bartext">The Last Fare<span class="new">NEW</span><small>A noir cab-driving story game. Five passengers, five confessions, fifteen endings. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Sailing</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/salt-rush/"><img class="barlogo" src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Salt Rush<span class="new">NEW</span><small>Wind-powered land sailing on the salt flats. Read the gusts, thread the gates, and dodge rocks and dust devils. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Descent</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/hadal-drift/"><img class="barlogo" src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Hadal Drift<span class="new">NEW</span><small>A slow, atmospheric deep-sea descent. Manage your dive light's battery, collect glowing specimens, and avoid what hunts in the dark. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h3 class="subhead">Orbital</h3>
-  <a class="link" href="https://jadestaticbuilds.github.io/dead-orbit/"><img class="barlogo" src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Dead Orbit<span class="new">NEW</span><small>A space salvage trajectory game. Plot slingshot burns, grapple drifting wrecks, dock them home. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h2 class="sectionhead" id="dir-tools">Tools</h2>
-  <a class="link" href="https://jadestaticbuilds.github.io/glitch-studio/"><img class="barlogo" src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Studio<span class="new">NEW</span><small>Free browser glitch photo editor — Mirror, Kaleidoscope, Datamosh-style, Effects, Overlay, Color, saved looks, and image sharing</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/field-kit/"><img class="barlogo" src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Field Kit<small>Offline-first checklists, notes, conditions log, and moon phase for rides, hikes, and field work. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img class="barlogo" src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Prompt Playbook<small>Tier builder: type an idea or tap a chip and get a paste-ready prompt with goal, limits, check, and stop — plus random prompts, save, and export. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/sound-lab/"><img class="barlogo" src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Sound Lab<span class="new">NEW</span><small>16-step beat maker with 808-style and 909-style kits, acid bass, genre patterns, sidechain, MIDI export, live pads, and a song chain. No signup, no upload, sounds made in your browser.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <a class="link" href="https://jadestaticbuilds.github.io/brief-builder/"><img class="barlogo" src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Brief Builder<span class="new">NEW</span><small>Turn a rough idea into a paste-ready delegation brief: Goal, Constraints, Check, Stop, the three key decisions, and the scope gate. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h2 class="sectionhead" id="dir-weather">Weather</h2>
-  <a class="link" href="https://jadestaticbuilds.github.io/ride-check/"><img class="barlogo" src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ride check<small>Free motorcycle ride weather — verdict, next 6 hours, wet-road warnings, ride timer, checklists</small></span><span class="chev" aria-hidden="true">›</span></a>
+<noscript><div style="position:fixed;top:70px;left:12px;right:12px;color:#f0f8f3;background:rgba(3,13,9,.9);padding:14px;border-radius:12px;z-index:30">This page needs JavaScript for the menu and signs.</div></noscript>
 
-  <footer>A Jade Static Builds project, built with Muse.
-    <span class="veil veil-phone">Jade Deep Galaxy Protocol</span>
-    <span class="veil veil-desk">Generative Protocol</span>
-    <span class="socials">
-      <a href="https://www.instagram.com/jadestaticbuilds/" aria-label="Instagram, @jadestaticbuilds"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg></a>
-      <a href="https://www.threads.com/@jadestaticbuilds" aria-label="Threads, @jadestaticbuilds"><svg viewBox="0 0 24 24" aria-hidden="true"><text x="12" y="18" text-anchor="middle" font-size="18" font-weight="700" fill="currentColor" font-family="system-ui, sans-serif">@</text></svg></a>
-      <a href="https://soundcloud.com/jadestatic" aria-label="SoundCloud, Jade Static"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2.5 15.5v-2M5 16.5v-5M7.5 16.5V8" stroke-linecap="round"/><path d="M10 16.5h7.5a3 3 0 0 0 .5-5.96A4.5 4.5 0 0 0 10 9.2v7.3z"/></svg></a>
-      <a href="https://youtube.com/@jadestatic" aria-label="YouTube, @jadestatic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="3.5"/><path d="M10.5 9.8v4.4L14.5 12z" fill="currentColor" stroke="none"/></svg></a>
-    </span>
-  </footer>
-</main>
 <script data-goatcounter="https://georgestriderbuilds.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 <script>
-/* Desktop command bar: live-filter the module bars, no backend. */
 (function(){
-  var input=document.getElementById('cmdfilter');
-  var clearBtn=document.getElementById('cmdclear');
-  var countEl=document.getElementById('cmdcount');
-  if(!input||!clearBtn||!countEl)return;
-  var bars=Array.prototype.slice.call(document.querySelectorAll('a.link'));
-  var heads=Array.prototype.slice.call(document.querySelectorAll('.sectionhead,.subhead'));
-  var data=bars.map(function(b){
-    var ctx='',prev=b.previousElementSibling;
-    while(prev&&prev.classList&&(prev.classList.contains('subhead')||prev.classList.contains('sectionhead'))){
-      ctx=prev.textContent+' '+ctx;
-      prev=prev.previousElementSibling;
-    }
-    return {el:b,text:(b.textContent+' '+ctx).toLowerCase()};
-  });
-  function apply(){
-    var q=input.value.trim().toLowerCase(),n=0;
-    data.forEach(function(d){
-      var show=!q||d.text.indexOf(q)>-1;
-      d.el.style.display=show?'':'none';
-      if(show)n++;
-    });
-    heads.forEach(function(h){
-      var el=h.nextElementSibling,vis=false,isSection=h.classList.contains('sectionhead');
-      while(el&&el.classList){
-        if(el.classList.contains('link')){
-          if(el.style.display!=='none'){vis=true;break;}
-        }else if(el.classList.contains('sectionhead')||(el.classList.contains('subhead')&&!isSection)){
-          break;
-        }
-        el=el.nextElementSibling;
-      }
-      h.style.display=vis?'':'none';
-    });
-    countEl.textContent=n+' of '+bars.length+' modules';
+  var burger=document.getElementById('burger'),
+      menu=document.getElementById('appmenu'),
+      socials=document.getElementById('socialsdrop'),
+      message=document.getElementById('messagedrop'),
+      panels=[menu,socials,message];
+  function closeAll(){panels.forEach(function(p){p.hidden=true;});burger.setAttribute('aria-expanded','false');}
+  function toggle(panel){
+    var willOpen=panel.hidden;
+    closeAll();
+    if(willOpen){panel.hidden=false;if(panel===menu)burger.setAttribute('aria-expanded','true');}
   }
-  input.addEventListener('input',apply);
-  clearBtn.addEventListener('click',function(){input.value='';apply();input.focus();});
-})();/* contact form */
+  burger.addEventListener('click',function(){toggle(menu);});
+  function flashCat(id){
+    var h=document.getElementById(id);
+    if(!h)return;
+    h.scrollIntoView({block:'nearest'});
+    h.classList.remove('flash');void h.offsetWidth;h.classList.add('flash');
+  }
+  function activate(el){
+    if(el.classList.contains('hotspot')){
+      var cat=el.getAttribute('data-menu');
+      var wasHidden=menu.hidden;
+      closeAll();
+      menu.hidden=false;burger.setAttribute('aria-expanded','true');
+      setTimeout(function(){flashCat(cat==='games'?'cat-games':'cat-tools');},60);
+    }else if(el.classList.contains('neonsign')){
+      toggle(document.getElementById(el.getAttribute('data-drop')==='socials'?'socialsdrop':'messagedrop'));
+    }
+  }
+  document.querySelectorAll('.hotspot,.neonsign').forEach(function(el){
+    el.addEventListener('click',function(){activate(el);});
+    el.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){e.preventDefault();activate(el);}
+    });
+  });
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  document.addEventListener('pointerdown',function(e){
+    if(e.target.closest('.panel')||e.target.closest('.topbar')||e.target.closest('.hotspot')||e.target.closest('.neonsign'))return;
+    closeAll();
+  });
+})();
+/* contact form */
 (function(){
-  var open=document.getElementById('contactopen'),form=document.getElementById('contactform'),
-      close=document.getElementById('contactclose'),status=document.getElementById('fstatus'),
+  var form=document.getElementById('contactform'),
+      status=document.getElementById('fstatus'),
       send=document.getElementById('csend');
-  if(!open||!form)return;
-  open.addEventListener('click',function(){
-    open.hidden=true;form.hidden=false;open.setAttribute('aria-expanded','true');
-    document.getElementById('cname').focus();
-  });
-  close.addEventListener('click',function(){
-    form.hidden=true;open.hidden=false;open.setAttribute('aria-expanded','false');open.focus();
-  });
+  if(!form)return;
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var name=document.getElementById('cname').value.trim(),
@@ -417,29 +316,6 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
     }).catch(function(){
       status.textContent='Something failed. Try again in a bit.';status.classList.add('err');
     }).finally(function(){send.disabled=false;});
-  });
-})();
-</script>
-<script>
-/* App directory: collapsed behind one sign; category signs expand + scroll. */
-(function(){
-  var main=document.querySelector('main'),toggle=document.getElementById('dirtoggle'),
-      label=document.getElementById('dirlabel');
-  if(!main||!toggle)return;
-  function setDir(open){
-    main.classList.toggle('dir-collapsed',!open);
-    toggle.setAttribute('aria-expanded',open?'true':'false');
-    label.textContent=open?'Hide app directory':'App directory';
-  }
-  toggle.addEventListener('click',function(){setDir(main.classList.contains('dir-collapsed'));});
-  document.querySelectorAll('a.sign').forEach(function(a){
-    a.addEventListener('click',function(e){
-      var t=document.querySelector(a.getAttribute('href'));
-      if(!t)return;
-      e.preventDefault();
-      if(main.classList.contains('dir-collapsed'))setDir(true);
-      setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'});},70);
-    });
   });
 })();
 </script>
