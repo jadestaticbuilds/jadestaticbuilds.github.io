@@ -114,10 +114,33 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 .dlist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:9px}
 .dlist li{display:flex;gap:10px;align-items:baseline;font-size:13.5px}
 .dw{flex:none;font-family:var(--mono);font-size:11px;color:var(--mute);border:1px solid rgba(46,230,168,.25);border-radius:6px;padding:2px 7px;white-space:nowrap}
+
+/* --- ambient animation upgrade (transform/opacity only; iPad-safe) --- */
+.mdot{animation:dotpulse 2.8s ease-in-out infinite}
+@keyframes dotpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.78)}}
+.bar{position:relative}
+.bar>i{position:relative;overflow:hidden}
+.bar>i::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(100deg,transparent 25%,rgba(255,255,255,.5) 50%,transparent 75%);
+  transform:translateX(-110%);animation:barshine 3.4s ease-in-out infinite}
+@keyframes barshine{0%{transform:translateX(-110%)}55%,100%{transform:translateX(110%)}}
+.sweep{position:fixed;left:0;right:0;top:0;height:24vh;z-index:40;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(46,230,168,.08) 45%,rgba(46,230,168,.08) 55%,transparent);
+  transform:translateY(-32vh);animation:sweepY 20s linear infinite}
+@keyframes sweepY{0%{transform:translateY(-32vh)}100%{transform:translateY(125vh)}}
+.rise{opacity:0;transform:translateY(16px);animation:riseIn .7s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes riseIn{to{opacity:1;transform:translateY(0)}}
+#motes{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.85}
+@media (prefers-reduced-motion:reduce){
+  .mdot,.bar>i::after,.sweep,.rise{animation:none!important}
+  .rise{opacity:1;transform:none}
+}
 </style>
 </head>
 <body class="locked">
 <canvas id="rain"></canvas>
+<canvas id="motes" aria-hidden="true"></canvas>
+<div class="sweep" aria-hidden="true"></div>
 <div id="gate">
   <img class="emblem" src="../avatar.jpg" alt="Jade Static Builds" style="width:64px;height:64px">
   <div class="g-title">JADE STATIC OPS</div>
@@ -319,6 +342,89 @@ document.addEventListener('click',function(e){
   var open=d.hidden;
   d.hidden=!open;x.setAttribute('aria-expanded',String(open));
 });
+</script>
+
+<script>
+/* ambient upgrade: staggered entrances */
+(function(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var els=document.querySelectorAll('.tile,.mod,.sysrow'),i;
+  for(i=0;i<els.length;i++){
+    els[i].classList.add('rise');
+    els[i].style.animationDelay=Math.min(i*35,1600)+'ms';
+  }
+})();
+/* ambient upgrade: animated counters (from last-seen values) */
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var prev={},cur={};
+  try{prev=JSON.parse(localStorage.getItem('ops-nums')||'{}');}catch(e){}
+  function animate(el,from,to){
+    var t0=null,dur=1200;
+    function step(t){
+      if(!t0)t0=t;
+      var p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(from+(to-from)*e);
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  document.querySelectorAll('.tile').forEach(function(tile){
+    var numEl=tile.querySelector('.num'),tagEl=tile.querySelector('.tag');
+    if(!numEl||!tagEl)return;
+    var txt=numEl.textContent.trim();
+    if(!/^\d+$/.test(txt))return;
+    var target=parseInt(txt,10),key=tagEl.textContent.trim();
+    cur[key]=target;
+    if(reduce)return;
+    var from=(prev[key]!==undefined)?prev[key]:0;
+    if(from!==target)animate(numEl,from,target);
+  });
+  try{localStorage.setItem('ops-nums',JSON.stringify(cur));}catch(e){}
+})();
+/* ambient upgrade: drifting jade motes (pairs with rain; 15fps, pauses hidden) */
+(function(){
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var cv=document.getElementById('motes');
+  if(!cv||!cv.getContext)return;
+  var ctx=cv.getContext('2d'),W=0,H=0,motes=[];
+  var sp=document.createElement('canvas');sp.width=sp.height=24;
+  var sctx=sp.getContext('2d');
+  var g=sctx.createRadialGradient(12,12,0,12,12,12);
+  g.addColorStop(0,'rgba(170,245,205,1)');
+  g.addColorStop(0.4,'rgba(120,220,170,0.45)');
+  g.addColorStop(1,'rgba(120,220,170,0)');
+  sctx.fillStyle=g;sctx.fillRect(0,0,24,24);
+  function spawn(anyY){
+    return {x:Math.random()*W,y:anyY?Math.random()*H:H+12,
+      s:6+Math.random()*10,vy:0.15+Math.random()*0.35,
+      ph:Math.random()*6.28,sw:0.3+Math.random()*0.7,a:0.25+Math.random()*0.45};
+  }
+  function resize(){
+    W=cv.width=Math.floor(window.innerWidth);
+    H=cv.height=Math.floor(window.innerHeight);
+    motes=[];
+    var n=Math.max(14,Math.floor(W/60)),i;
+    for(i=0;i<n;i++)motes.push(spawn(true));
+  }
+  resize();window.addEventListener('resize',resize);
+  var last=0;
+  function frame(t){
+    requestAnimationFrame(frame);
+    if(t-last<66)return;last=t;
+    if(document.hidden)return;
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<motes.length;i++){
+      var m=motes[i];
+      m.y-=m.vy;m.ph+=0.03;m.x+=Math.sin(m.ph)*m.sw*0.3;
+      if(m.y<-24)motes[i]=spawn(false);
+      ctx.globalAlpha=Math.max(0,m.a*(0.6+0.4*Math.sin(m.ph*2)));
+      ctx.drawImage(sp,m.x-m.s/2,m.y-m.s/2,m.s,m.s);
+    }
+    ctx.globalAlpha=1;
+  }
+  requestAnimationFrame(frame);
+})();
 </script>
 </body>
 </html>
