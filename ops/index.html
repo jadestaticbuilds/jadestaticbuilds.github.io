@@ -109,6 +109,10 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 
 
 .mdot{width:8px;height:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jade);flex:none}
+.mdot.amber{background:#ffb347;box-shadow:0 0 8px #ffb347}
+.mdot.dim{background:#5a6b62;box-shadow:none;animation:none}
+.sysrow .mdot{display:inline-block;margin-right:9px;vertical-align:1px}
+#spark{width:100%;height:56px;display:block;margin-top:10px}
 .mleft{display:flex;align-items:center;gap:8px}
 .snote{font-size:12px;color:var(--mute);margin:2px 0 12px}
 .dlist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:9px}
@@ -163,13 +167,20 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 
 <h2 class="sect">Vitals</h2>
 <div class="iso"><div class="tiles">
-  <button class="tile x" aria-expanded="false"><div class="tag">Visitors // All-time</div><div class="num">103</div><div class="sub">link page, via GoatCounter</div><div class="detail" hidden>All-time visits to the link page path. 38 came today, Oct 31, the biggest single day so far. Top referrers: unknown, reddit, facebook.</div></button>
-  <button class="tile x" aria-expanded="false"><div class="tag">Visits // Today</div><div class="num">38</div><div class="sub">Oct 31, biggest day yet</div><div class="detail" hidden>Per-day visits as of the 4:43pm check. Yesterday was 5. The Reddit posts are driving it.</div></button>
-  <button class="tile x" aria-expanded="false"><div class="tag">Next milestone</div><div class="num">125</div><div class="sub">103 of 125 &middot; 82%</div><div class="bar"><i></i></div><div class="detail" hidden>Milestone step is 25. The 100 milestone was crossed and reported today. Next notify at 125.</div></button>
-  <button class="tile x" aria-expanded="false"><div class="tag">Modules online</div><div class="num">21</div><div class="sub">15 games · 5 tools · 1 weather</div><div class="detail" hidden>Every module has a full desktop version since the Oct 31 rollout. Tap any module below for its summary.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Visitors // All-time</div><div class="num" id="v-total">103</div><div class="sub">link page, via GoatCounter</div><div class="detail" hidden>All-time visits to the link page path. 38 came today, Oct 31, the biggest single day so far. Top referrers: unknown, reddit, facebook.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Visits // Today</div><div class="num" id="v-today">38</div><div class="sub">Oct 31, biggest day yet</div><div class="detail" hidden>Per-day visits as of the 4:43pm check. Yesterday was 5. The Reddit posts are driving it.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Next milestone</div><div class="num" id="v-next">125</div><div class="sub" id="v-nextsub">103 of 125 &middot; 82%</div><div class="bar"><i id="v-bar"></i></div><div class="detail" hidden>Milestone step is 25. The 100 milestone was crossed and reported today. Next notify at 125.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Modules online</div><div class="num" id="v-mods">22</div><div class="sub">16 games · 5 tools · 1 weather</div><div class="detail" hidden>Tap any module below for its summary.</div></button>
 </div></div>
 
-<h2 class="sect">Modules</h2><p class="snote">Status verified Oct 31, 2026 · all 21 online</p>
+<h2 class="sect">Growth</h2>
+<div class="iso"><div class="tiles">
+  <button class="tile x" aria-expanded="false"><div class="tag">Commits // 7 days</div><div class="num" id="g-commits">295</div><div class="sub">across 24 app repos</div><div class="detail" hidden>Every commit to the app repos in the last 7 days, counted nightly. Oct 24–31 covered the six-app build week.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Newest module</div><div class="num" style="font-size:22px" id="g-newest">TINCTURE</div><div class="sub" id="g-newestsub">shipped Oct 31</div><div class="detail" hidden>Ball-sort alchemy puzzler. Ring of flasks around a central crucible, prismatic elixirs, every deal solver-verified.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Visit trend</div><canvas id="spark" width="300" height="56"></canvas><div class="sub" id="g-sub">daily visits · building history</div><div class="detail" hidden>30-day sparkline of link page visits, refreshed every morning by the data job. History starts Oct 31 and fills in day by day.</div></button>
+</div></div>
+
+<h2 class="sect">Modules</h2><p class="snote">Status verified Oct 31, 2026 · all 22 online</p>
 <div class="mods">
 <button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Glitch Studio</span></span><span class="mv">sw v25</span></span><span class="detail" hidden>Glitch photo editor. 6 frames, seasonal Blood Moon / Fog / Haunted effects, save-a-look, PWA.</span></button>
 <button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Ride Check</span></span><span class="mv">hold-off fix</span></span><span class="detail" hidden>Ride and weather verdict. NWS alerts, 3-hour recent weather, checklists, ride timer.</span></button>
@@ -192,6 +203,7 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 <button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Ironline</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Dieselpunk switchyard puzzler. Fixed day timetable plus seeded Night Shift.</span></button>
 <button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Whiteout</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Arctic survival. One 360-second polar night, fire / fuel / warmth economy.</span></button>
 <button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Dead Orbit</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Space salvage. Plot burns, grapple drifting wrecks, dock them home.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Tincture</span></span><span class="mv">mandala</span></span><span class="detail" hidden>Ball-sort alchemy. Ring of flasks around a crucible, prismatic elixirs, solver-verified deals.</span></button>
 </div>
 
 <h2 class="sect">Deploys</h2>
@@ -231,6 +243,32 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 </div>
 </div>
 
+<h2 class="sect">Systems</h2>
+<div class="rows">
+<div class="panel"><h3>Heartbeat · daily</h3>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="daily-white-veil-strip"></span>Comic strip</span><span class="t" data-sys="daily-white-veil-strip">today 08:43</span></button><div class="detail" hidden>Morning strip published to the Gazette. Last run completed and verified live.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="daily-social-trend-check"></span>Social trend check</span><span class="t" data-sys="daily-social-trend-check">today 09:00</span></button><div class="detail" hidden>Trend scan with adapted post ideas. Proposal-only, never publishes.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="daily-goatcounter-visit-check"></span>GoatCounter check</span><span class="t" data-sys="daily-goatcounter-visit-check">today 09:43</span></button><div class="detail" hidden>Milestone watch on link page visits. Silent unless a milestone is crossed.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="daily-muse-automation-digest"></span>Muse breakthrough scan</span><span class="t" data-sys="daily-muse-automation-digest">today 09:43</span></button><div class="detail" hidden>Watches for big Meta and Muse news. Silent unless big.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="threads-content-pipeline"></span>Threads pipeline</span><span class="t" data-sys="threads-content-pipeline">today 10:43</span></button><div class="detail" hidden>Content radar and draft queue. Posting only on George's tap.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot dim" data-dot="avatar-dark-background-watch"></span>Avatar background watch</span><span class="t" data-sys="avatar-dark-background-watch">starts Nov 1, 11:43</span></button><div class="detail" hidden>Waits for custom avatar backgrounds, then switches the chat avatar. First run tomorrow.</div>
+</div>
+<div class="panel"><h3>Heartbeat · weekly</h3>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="weekly-quality-bar-audit"></span>Quality-bar audit</span><span class="t" data-sys="weekly-quality-bar-audit">today 10:43</span></button><div class="detail" hidden>All-app quality and desktop-readiness audit. Ran clean today.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="weekly-delegation-radar"></span>Delegation radar</span><span class="t" data-sys="weekly-delegation-radar">Fri 11:00</span></button><div class="detail" hidden>Scans for delegable work. Drafted 2 proposals yesterday.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="daily-prompt-playbook-review"></span>Prompt Playbook review</span><span class="t" data-sys="daily-prompt-playbook-review">Thu 13:43</span></button><div class="detail" hidden>Weekly review of the playbook files. Report-only.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot" data-dot="daily-app-improvement-check"></span>App improvement check</span><span class="t" data-sys="daily-app-improvement-check">Thu 14:43</span></button><div class="detail" hidden>Proposal-only check on Glitch Studio and Ride Check.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot dim" data-dot="weekly-threads-performance-check"></span>Threads performance</span><span class="t" data-sys="weekly-threads-performance-check">starts Mon Nov 2</span></button><div class="detail" hidden>Weekly Threads performance report. First run Monday.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot dim" data-dot="weekly-systems-review"></span>Systems review</span><span class="t" data-sys="weekly-systems-review">starts Mon Nov 2</span></button><div class="detail" hidden>Report-only review of all running systems. First run Monday.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot dim" data-dot="self-improvement-review"></span>Self-improvement review</span><span class="t" data-sys="self-improvement-review">starts Sun 18:43</span></button><div class="detail" hidden>Reviews the corrections log. Report-only. First run tomorrow evening.</div>
+</div>
+<div class="panel"><h3>Connectors</h3>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot"></span>GitHub</span><span class="t" data-sys="conn-github">linked</span></button><div class="detail" hidden>Repo access for all 25 Jade Static Builds repositories.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot"></span>Instagram</span><span class="t" data-sys="conn-instagram">linked</span></button><div class="detail" hidden>@jadestaticbuilds, professional account. Publishing via connector.</div>
+<button class="sysrow x" aria-expanded="false"><span class="n"><span class="mdot"></span>Threads</span><span class="t" data-sys="conn-threads">linked</span></button><div class="detail" hidden>@jadestaticbuilds. Publishing via connector, approval per post.</div>
+</div>
+</div>
+
 <h2 class="sect">Watch list</h2>
 <div class="watch">
 
@@ -241,7 +279,7 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 
 <footer>
   Jade Static Builds &middot; unlisted ops board<br>
-  <span>updated Oct 31, 2026</span> &middot; refreshes every 10 min
+  <span>updated Oct 31, 2026</span> &middot; refreshes every 10 min &middot; <span id="dataage">data: Oct 31, 4:43pm</span>
 </footer>
 <script>
 (function(){
@@ -425,6 +463,83 @@ document.addEventListener('click',function(e){
     ctx.globalAlpha=1;
   }
   requestAnimationFrame(frame);
+})();
+</script>
+<script>
+/* ops data (2C): refresh tiles from ops/data.json; baked values are the fallback */
+(function(){
+  function pad(n){return String(n).padStart(2,'0');}
+  function dayLabel(iso){
+    var d=new Date(iso),now=new Date(),hm=pad(d.getHours())+':'+pad(d.getMinutes());
+    if(d.toDateString()===now.toDateString())return 'today '+hm;
+    if(d.toDateString()===new Date(now.getTime()-864e5).toDateString())return 'yday '+hm;
+    return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' '+hm;
+  }
+  function ageStr(ts){
+    var mins=Math.max(0,Math.round((Date.now()-new Date(ts).getTime())/6e4));
+    if(mins<1)return 'just now';
+    if(mins<60)return mins+'m ago';
+    var h=Math.floor(mins/60);
+    return h<24?h+'h '+(mins%60)+'m ago':Math.floor(h/24)+'d ago';
+  }
+  function setNum(id,v){var el=document.getElementById(id);if(el&&v!==undefined&&v!==null)el.textContent=v;}
+  function drawSpark(hist){
+    var cv=document.getElementById('spark');if(!cv||!cv.getContext||!hist||hist.length<2)return;
+    var ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+    var vals=hist.map(function(p){return p.v;});
+    var max=Math.max.apply(null,vals.concat([1]));
+    ctx.clearRect(0,0,W,H);ctx.beginPath();
+    vals.forEach(function(v,i){
+      var x=8+i*(W-16)/(vals.length-1),y=H-6-(v/max)*(H-14);
+      if(i)ctx.lineTo(x,y);else ctx.moveTo(x,y);
+    });
+    ctx.strokeStyle='#2ee6a8';ctx.lineWidth=2;ctx.stroke();
+    ctx.lineTo(W-8,H);ctx.lineTo(8,H);ctx.closePath();
+    var g=ctx.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'rgba(46,230,168,.28)');g.addColorStop(1,'rgba(46,230,168,0)');
+    ctx.fillStyle=g;ctx.fill();
+    var sub=document.getElementById('g-sub');
+    if(sub)sub.textContent='daily visits · last '+vals.length+' days';
+  }
+  fetch('data.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d)return;
+    if(d.visits){
+      setNum('v-total',d.visits.total);setNum('v-today',d.visits.today);
+      if(d.visits.total){
+        var total=d.visits.total,next=Math.ceil(total/25)*25,pct=Math.round(total/next*100);
+        setNum('v-next',next);
+        var sub=document.getElementById('v-nextsub');if(sub)sub.innerHTML=total+' of '+next+' &middot; '+pct+'%';
+        var bar=document.getElementById('v-bar');if(bar)bar.style.width=pct+'%';
+      }
+      if(d.visits.history)drawSpark(d.visits.history);
+    }
+    if(d.growth){
+      setNum('g-commits',d.growth.commits7d);setNum('v-mods',d.growth.modules);
+      if(d.growth.newModules30d&&d.growth.newModules30d.length){
+        var nm=d.growth.newModules30d[d.growth.newModules30d.length-1].split('/').pop();
+        var ne=document.getElementById('g-newest');if(ne)ne.textContent=nm.toUpperCase();
+      }
+    }
+    if(d.systems){
+      Object.keys(d.systems).forEach(function(id){
+        var s=d.systems[id];
+        var t=document.querySelector('[data-sys="'+id+'"]');
+        if(t&&s.last)t.textContent=dayLabel(s.last);
+        var dot=document.querySelector('[data-dot="'+id+'"]');
+        if(dot){dot.classList.remove('amber','dim');
+          if(s.status==='failed'||s.status==='stale')dot.classList.add('amber');
+          else if(s.status==='scheduled')dot.classList.add('dim');}
+      });
+    }
+    if(d.connectors){
+      Object.keys(d.connectors).forEach(function(id){
+        var t=document.querySelector('[data-sys="conn-'+id+'"]');
+        if(t)t.textContent=d.connectors[id];
+      });
+    }
+    var age=document.getElementById('dataage');
+    if(age&&d.updated)age.textContent='data: '+ageStr(d.updated);
+  }).catch(function(){});
 })();
 </script>
 </body>
