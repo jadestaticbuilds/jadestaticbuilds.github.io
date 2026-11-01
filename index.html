@@ -56,6 +56,12 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .neonsign:hover .hit{fill:rgba(255,195,92,.08)}
 .neonsign:focus-visible{outline:none}
 .neonsign:focus-visible .hit{stroke:var(--teal);stroke-width:3}
+/* searchlight beam sweeping the clouds */
+.beamsweep{transform-box:fill-box;transform-origin:50% 100%;animation:beamsweep 16s ease-in-out infinite alternate}
+.beamsweep.l{animation-duration:19s;animation-delay:-6s}
+@keyframes beamsweep{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+.beamsrc{animation:beamsrc 3.2s ease-in-out infinite}
+@keyframes beamsrc{0%,100%{opacity:.9}50%{opacity:.45}}
 /* sky life: grid breathe, ships, flickering windows (all inside the SVG scene) */
 .skyimage{animation:gridbreathe 11s ease-in-out infinite}
 @keyframes gridbreathe{0%,100%{filter:brightness(1)}50%{filter:brightness(.93)}}
@@ -187,8 +193,21 @@ textarea.finput{resize:vertical;min-height:96px}
       <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <linearGradient id="p-beamgrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff6df" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff6df" stop-opacity=".8"/>
+    </linearGradient>
+    <filter id="p-beamblur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
   </defs>
   <image class="skyimage" xlink:href="backdrop.webp" href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
+  <g transform="translate(983,1153)" aria-hidden="true">
+    <circle class="beamsrc" cx="0" cy="0" r="16" fill="#fff6df" filter="url(#p-beamblur)"/>
+    <g class="beamsweep">
+      <polygon points="0,0 -70,-1050 70,-1050" fill="url(#p-beamgrad)" filter="url(#p-beamblur)" opacity=".5"/>
+    </g>
+  </g>
   <g aria-hidden="true">
     <circle class="win" cx="590" cy="1300" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
     <circle class="win" cx="700" cy="1280" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
@@ -242,8 +261,21 @@ textarea.finput{resize:vertical;min-height:96px}
       <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
+    <linearGradient id="l-beamgrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff6df" stop-opacity="0"/>
+      <stop offset="1" stop-color="#fff6df" stop-opacity=".8"/>
+    </linearGradient>
+    <filter id="l-beamblur" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
   </defs>
   <image class="skyimage" xlink:href="backdrop-wide.webp" href="backdrop-wide.webp" x="0" y="0" width="2048" height="1152"/>
+  <g transform="translate(1706,478)" aria-hidden="true">
+    <circle class="beamsrc" cx="0" cy="0" r="14" fill="#fff6df" filter="url(#l-beamblur)"/>
+    <g class="beamsweep l">
+      <polygon points="0,0 -60,-760 60,-760" fill="url(#l-beamgrad)" filter="url(#l-beamblur)" opacity=".5"/>
+    </g>
+  </g>
   <g aria-hidden="true">
     <circle class="win" cx="1126" cy="783" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
     <circle class="win" cx="1229" cy="760" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
