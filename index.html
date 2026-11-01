@@ -43,15 +43,44 @@ body{
   padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
   overflow-x:hidden;background:var(--bg0);min-height:100vh;
 }
-/* Jade City ambient skyline backdrop */
-body::before{
-  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    linear-gradient(180deg, rgba(3,13,9,.12), rgba(3,13,9,0) 32%, rgba(3,13,9,0) 60%, rgba(3,13,9,.66)),
-    url("backdrop.webp") center top / cover no-repeat,
-    #030d09;
-}
 .stars{display:none}
+/* Skyline hero: aspect-locked stage kills sign drift. Stage matches the
+   image pixels exactly (1184x2096), so % hotspot coords map 1:1 on every screen. */
+.hero{position:relative;background:#030d09;overflow:hidden}
+.sky{position:relative;width:min(100%,calc(100vh*1184/2096));width:min(100%,calc(100svh*1184/2096));aspect-ratio:1184/2096;margin:0 auto;
+  background:url("backdrop.webp") center/100% 100% no-repeat,#030d09}
+.sign{position:absolute;display:block;border-radius:10px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sign:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+.sign .pulse{position:absolute;inset:-7px;border-radius:12px;border:1px solid rgba(46,230,168,0);
+  animation:signpulse 3.4s ease-in-out infinite;pointer-events:none}
+@keyframes signpulse{0%,100%{border-color:rgba(46,230,168,0);box-shadow:0 0 0 rgba(46,230,168,0)}
+  50%{border-color:rgba(46,230,168,.4);box-shadow:0 0 20px rgba(46,230,168,.35)}}
+#sign-games{left:8%;top:27%;width:12%;height:16%}
+#sign-tools{left:66%;top:45.5%;width:17%;height:7%}
+#sign-weather{left:65%;top:84%;width:18%;height:6.5%}
+.ship{position:absolute;height:8px;border-radius:6px;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(46,230,168,.85));box-shadow:0 0 14px rgba(46,230,168,.8)}
+.ship::after{content:"";position:absolute;right:-3px;top:1px;width:6px;height:6px;border-radius:50%;
+  background:#dcf5e6;box-shadow:0 0 10px #dcf5e6}
+.ship1{top:16%;width:46px;animation:fly1 26s linear infinite}
+.ship2{top:36%;width:34px;animation:fly2 41s linear infinite;animation-delay:-17s}
+@keyframes fly1{0%{transform:translate(-10vw,0);opacity:0}7%{opacity:.9}93%{opacity:.9}
+  100%{transform:translate(110vw,-5vh);opacity:0}}
+@keyframes fly2{0%{transform:translate(110vw,0) scaleX(-1);opacity:0}7%{opacity:.75}93%{opacity:.75}
+  100%{transform:translate(-10vw,4vh) scaleX(-1);opacity:0}}
+.mist{position:absolute;pointer-events:none;opacity:.55;
+  background:radial-gradient(closest-side,rgba(143,224,179,.15),rgba(143,224,179,0))}
+.mist1{left:-12%;top:50%;width:72%;height:26%;animation:drift1 48s ease-in-out infinite alternate}
+.mist2{left:32%;top:68%;width:82%;height:24%;animation:drift2 64s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translateX(-12%)}to{transform:translateX(24%)}}
+@keyframes drift2{from{transform:translateX(20%)}to{transform:translateX(-18%)}}
+.heroword{position:absolute;top:16px;left:0;right:0;z-index:2;text-align:center;pointer-events:none;
+  font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--jade-hi);
+  text-shadow:0 0 12px rgba(46,230,168,.6),0 1px 6px rgba(3,13,9,.9)}
+.scrollcue{position:absolute;bottom:12px;left:0;right:0;z-index:2;text-align:center;pointer-events:none;
+  color:var(--jade);font-size:20px;opacity:.7;animation:cue 2.6s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(7px);opacity:.85}}
+
 main{max-width:520px;margin:0 auto;padding:28px 18px 48px;position:relative;z-index:1}
 .tag{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--jade);text-transform:uppercase}
 .hud{
@@ -111,6 +140,18 @@ a.latestlink small{display:block;font-weight:500;color:var(--mute);font-size:14p
 a.latestlink:hover,a.latestlink:focus-visible{outline:none}
 a.latestlink:hover .ltitle,a.latestlink:focus-visible .ltitle{color:var(--jade-hi)}
 .latest-panel:focus-within{outline:2px solid var(--teal);outline-offset:2px}
+/* App directory: the 23 bars live collapsed behind one sign */
+button.dirtoggle{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  font-family:var(--mono);font-size:13px;letter-spacing:.26em;color:var(--jade-hi);cursor:pointer;
+  background:rgba(3,13,9,.62);-webkit-backdrop-filter:blur(8px) saturate(1.15);backdrop-filter:blur(8px) saturate(1.15);
+  border:1px solid var(--jade-dim);border-radius:12px;padding:17px 16px;margin:4px 0 6px;
+  text-shadow:0 0 12px rgba(46,230,168,.5)}
+button.dirtoggle:hover,button.dirtoggle:focus-visible{border-color:var(--jade);outline:none}
+button.dirtoggle:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+button.dirtoggle .chev{margin:0;font-size:16px;transition:transform .25s}
+button.dirtoggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+main.dir-collapsed .sectionhead,main.dir-collapsed .subhead,main.dir-collapsed a.link{display:none}
+#dir-games,#dir-tools,#dir-weather{scroll-margin-top:14px}
 /* app bars */
 a.link{
   display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);
@@ -152,7 +193,7 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
 /* Generative UI desktop theme: 1024px and up. Phone rendering untouched. */
 @media (min-width:1024px){
   main{max-width:1080px;padding:32px 32px 56px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
-  main>.hud,main>.stats,main>.statusline,main>.cmdbar,main>.sectionhead,main>.subhead,main>footer{grid-column:1/-1}
+  main>.hud,main>.stats,main>.statusline,main>.cmdbar,main>.dirtoggle,main>.sectionhead,main>.subhead,main>footer{grid-column:1/-1}
   a.link{margin:0}
   .cmdbar{display:flex;align-items:center;gap:10px;
     background:rgba(3,13,9,.62);
@@ -185,7 +226,20 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
 </head>
 <body>
 <div class="stars" aria-hidden="true"></div>
-<main>
+<header class="hero" aria-label="Jade City skyline">
+  <div class="sky">
+    <a class="sign" id="sign-games" href="#dir-games" aria-label="Games directory"><span class="pulse" aria-hidden="true"></span></a>
+    <a class="sign" id="sign-tools" href="#dir-tools" aria-label="Tools directory"><span class="pulse" aria-hidden="true"></span></a>
+    <a class="sign" id="sign-weather" href="#dir-weather" aria-label="Weather directory"><span class="pulse" aria-hidden="true"></span></a>
+    <div class="ship ship1" aria-hidden="true"></div>
+    <div class="ship ship2" aria-hidden="true"></div>
+    <div class="mist mist1" aria-hidden="true"></div>
+    <div class="mist mist2" aria-hidden="true"></div>
+    <div class="heroword" aria-hidden="true">JADE STATIC BUILDS</div>
+    <div class="scrollcue" aria-hidden="true">&#8964;</div>
+  </div>
+</header>
+<main class="dir-collapsed">
   <div class="hud banner">
     <div class="tag">Welcome // Transmission received</div>
     <div class="syslive" aria-hidden="true"><span class="sysdot"></span>SYSTEM LIVE</div>
@@ -232,13 +286,16 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
     <a class="latestlink" href="https://jadestaticbuilds.github.io/six-deep/"><span class="ltitle">✨ Latest: Six Deep</span><small>A candy ball-sort puzzler. Tubes go 6 deep, 10 colors, and every board is guaranteed solvable.</small></a>
   </div>
 
+  <button class="dirtoggle" id="dirtoggle" aria-expanded="false">
+    <span id="dirlabel">App directory</span><span class="chev" aria-hidden="true">&#8964;</span>
+  </button>
   <div class="cmdbar">
     <input id="cmdfilter" type="search" placeholder="Type to find a module..." aria-label="Filter modules" autocomplete="off">
     <span class="cmdcount" id="cmdcount" aria-live="polite">23 of 23 modules</span>
     <button id="cmdclear" type="button" aria-label="Clear filter">✕</button>
   </div>
 
-  <h2 class="sectionhead">Games</h2>
+  <h2 class="sectionhead" id="dir-games">Games</h2>
   <h3 class="subhead">Arcade</h3>
   <a class="link" href="https://jadestaticbuilds.github.io/glitch-snake/"><img class="barlogo" src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Snake<small>Browser Snake with wrap walls, colour changes on every bite, frenzy mode, and a death explosion. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
   <a class="link" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img class="barlogo" src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Breakout<small>Breakout where every smashed brick glitches the board. Multi-ball, wider paddle, and shield power-ups. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
@@ -265,13 +322,13 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
   <a class="link" href="https://jadestaticbuilds.github.io/hadal-drift/"><img class="barlogo" src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Hadal Drift<span class="new">NEW</span><small>A slow, atmospheric deep-sea descent. Manage your dive light's battery, collect glowing specimens, and avoid what hunts in the dark. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
   <h3 class="subhead">Orbital</h3>
   <a class="link" href="https://jadestaticbuilds.github.io/dead-orbit/"><img class="barlogo" src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Dead Orbit<span class="new">NEW</span><small>A space salvage trajectory game. Plot slingshot burns, grapple drifting wrecks, dock them home. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h2 class="sectionhead">Tools</h2>
+  <h2 class="sectionhead" id="dir-tools">Tools</h2>
   <a class="link" href="https://jadestaticbuilds.github.io/glitch-studio/"><img class="barlogo" src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Glitch Studio<span class="new">NEW</span><small>Free browser glitch photo editor — Mirror, Kaleidoscope, Datamosh-style, Effects, Overlay, Color, saved looks, and image sharing</small></span><span class="chev" aria-hidden="true">›</span></a>
   <a class="link" href="https://jadestaticbuilds.github.io/field-kit/"><img class="barlogo" src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Field Kit<small>Offline-first checklists, notes, conditions log, and moon phase for rides, hikes, and field work. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
   <a class="link" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img class="barlogo" src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Prompt Playbook<small>Tier builder: type an idea or tap a chip and get a paste-ready prompt with goal, limits, check, and stop — plus random prompts, save, and export. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
   <a class="link" href="https://jadestaticbuilds.github.io/sound-lab/"><img class="barlogo" src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Sound Lab<span class="new">NEW</span><small>16-step beat maker with 808-style and 909-style kits, acid bass, genre patterns, sidechain, MIDI export, live pads, and a song chain. No signup, no upload, sounds made in your browser.</small></span><span class="chev" aria-hidden="true">›</span></a>
   <a class="link" href="https://jadestaticbuilds.github.io/brief-builder/"><img class="barlogo" src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Brief Builder<span class="new">NEW</span><small>Turn a rough idea into a paste-ready delegation brief: Goal, Constraints, Check, Stop, the three key decisions, and the scope gate. No signup, no upload.</small></span><span class="chev" aria-hidden="true">›</span></a>
-  <h2 class="sectionhead">Weather</h2>
+  <h2 class="sectionhead" id="dir-weather">Weather</h2>
   <a class="link" href="https://jadestaticbuilds.github.io/ride-check/"><img class="barlogo" src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="bartext">Ride check<small>Free motorcycle ride weather — verdict, next 6 hours, wet-road warnings, ride timer, checklists</small></span><span class="chev" aria-hidden="true">›</span></a>
 
   <footer>A Jade Static Builds project, built with Muse.
@@ -360,6 +417,29 @@ footer .veil{font-family:var(--mono);font-size:10.5px;letter-spacing:.26em;color
     }).catch(function(){
       status.textContent='Something failed. Try again in a bit.';status.classList.add('err');
     }).finally(function(){send.disabled=false;});
+  });
+})();
+</script>
+<script>
+/* App directory: collapsed behind one sign; category signs expand + scroll. */
+(function(){
+  var main=document.querySelector('main'),toggle=document.getElementById('dirtoggle'),
+      label=document.getElementById('dirlabel');
+  if(!main||!toggle)return;
+  function setDir(open){
+    main.classList.toggle('dir-collapsed',!open);
+    toggle.setAttribute('aria-expanded',open?'true':'false');
+    label.textContent=open?'Hide app directory':'App directory';
+  }
+  toggle.addEventListener('click',function(){setDir(main.classList.contains('dir-collapsed'));});
+  document.querySelectorAll('a.sign').forEach(function(a){
+    a.addEventListener('click',function(e){
+      var t=document.querySelector(a.getAttribute('href'));
+      if(!t)return;
+      e.preventDefault();
+      if(main.classList.contains('dir-collapsed'))setDir(true);
+      setTimeout(function(){t.scrollIntoView({behavior:'smooth',block:'start'});},70);
+    });
   });
 })();
 </script>
