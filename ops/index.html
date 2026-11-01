@@ -107,6 +107,13 @@ body.locked{overflow:hidden}
 #rain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
 header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 
+
+.mdot{width:8px;height:8px;border-radius:50%;background:var(--jade);box-shadow:0 0 8px var(--jade);flex:none}
+.mleft{display:flex;align-items:center;gap:8px}
+.snote{font-size:12px;color:var(--mute);margin:2px 0 12px}
+.dlist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:9px}
+.dlist li{display:flex;gap:10px;align-items:baseline;font-size:13.5px}
+.dw{flex:none;font-family:var(--mono);font-size:11px;color:var(--mute);border:1px solid rgba(46,230,168,.25);border-radius:6px;padding:2px 7px;white-space:nowrap}
 </style>
 </head>
 <body class="locked">
@@ -136,34 +143,44 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
   <button class="tile x" aria-expanded="false"><div class="tag">Visitors // All-time</div><div class="num">103</div><div class="sub">link page, via GoatCounter</div><div class="detail" hidden>All-time visits to the link page path. 38 came today, Oct 31, the biggest single day so far. Top referrers: unknown, reddit, facebook.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Visits // Today</div><div class="num">38</div><div class="sub">Oct 31, biggest day yet</div><div class="detail" hidden>Per-day visits as of the 4:43pm check. Yesterday was 5. The Reddit posts are driving it.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Next milestone</div><div class="num">125</div><div class="sub">103 of 125 &middot; 82%</div><div class="bar"><i></i></div><div class="detail" hidden>Milestone step is 25. The 100 milestone was crossed and reported today. Next notify at 125.</div></button>
-  <button class="tile x" aria-expanded="false"><div class="tag">Modules online</div><div class="num">21</div><div class="sub">apps and games live</div><div class="detail" hidden>Every module has a full desktop version since the Oct 31 rollout. Tap any module below for its summary.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Modules online</div><div class="num">21</div><div class="sub">15 games · 5 tools · 1 weather</div><div class="detail" hidden>Every module has a full desktop version since the Oct 31 rollout. Tap any module below for its summary.</div></button>
 </div></div>
 
-<h2 class="sect">Modules</h2>
+<h2 class="sect">Modules</h2><p class="snote">Status verified Oct 31, 2026 · all 21 online</p>
 <div class="mods">
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Glitch Studio</span><span class="mv">sw v25</span></span><span class="detail" hidden>Glitch photo editor. 6 frames, seasonal Blood Moon / Fog / Haunted effects, save-a-look, PWA.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Ride Check</span><span class="mv">hold-off fix</span></span><span class="detail" hidden>Ride and weather verdict. NWS alerts, 3-hour recent weather, checklists, ride timer.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Field Kit</span><span class="mv">v1</span></span><span class="detail" hidden>Offline field checklists, hand-entered conditions log, on-device moon phase.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Prompt Playbook</span><span class="mv">v1</span></span><span class="detail" hidden>Prompt builder. Tier picker, generator, prompt check, saved prompts.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Sound Lab</span><span class="mv">subgenres</span></span><span class="detail" hidden>16-step sequencer. 8 genres incl. Minimal, Tech House, Liquid DnB, Jungle. Record to audio.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Glitch Snake</span><span class="mv">quality pass</span></span><span class="detail" hidden>Snake with wrap walls, color shift per bite, 3-square frenzy, death explosion.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Glitch Breakout</span><span class="mv">halloween</span></span><span class="detail" hidden>Breakout. 5 cycling wall patterns, HP bricks, Spooky Halloween theme.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Pyramid Builder</span><span class="mv">divine</span></span><span class="detail" hidden>12-year pyramid strategy. Pantheon moods, miracles, royal decrees, capstone gamble.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Myth Choices</span><span class="mv">v1</span></span><span class="detail" hidden>5-chapter Egyptian story. Wisdom / Courage / Kindness traits, 18 endings, lore codex.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Rider Dodger</span><span class="mv">quality pass</span></span><span class="detail" hidden>3-lane arcade dodger. Rain, puddles, gusts. 3 hearts, distance scoring.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Veil Skiff</span><span class="mv">v1</span></span><span class="detail" hidden>White Veil arcade run. Ride currents for a flow multiplier, dodge void fractures.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Magnetician</span><span class="mv">iter 2</span></span><span class="detail" hidden>Magnet placement puzzler. 12 levels, 3 magnet types, deterministic physics.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Pantheon Clash</span><span class="mv">b1740</span></span><span class="detail" hidden>God card battler. 18 gods, 5 rounds, trait triangle. No magic cards, ever.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Brief Builder</span><span class="mv">v1</span></span><span class="detail" hidden>Meta-brief generator. Goal / Constraints / Check / Stop, one-tap copy.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Beat Tapper</span><span class="mv">arrange</span></span><span class="detail" hidden>Rhythm tap game. 4 lanes, deep house / lofi / acid techno patterns.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Hadal Drift</span><span class="mv">ms 1</span></span><span class="detail" hidden>Deep-sea descent. Light vs battery tradeoff, specimens, predators.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Salt Rush</span><span class="mv">ms 1</span></span><span class="detail" hidden>Land sailing. Wind model, gust streaks, gates, dust devils.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">The Last Fare</span><span class="mv">ms 1</span></span><span class="detail" hidden>Noir cab story. 3 fares a night, 5 passengers, 15 endings.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Ironline</span><span class="mv">ms 1</span></span><span class="detail" hidden>Dieselpunk switchyard puzzler. Fixed day timetable plus seeded Night Shift.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Whiteout</span><span class="mv">ms 1</span></span><span class="detail" hidden>Arctic survival. One 360-second polar night, fire / fuel / warmth economy.</span></button>
-<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mn">Dead Orbit</span><span class="mv">ms 1</span></span><span class="detail" hidden>Space salvage. Plot burns, grapple drifting wrecks, dock them home.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Glitch Studio</span></span><span class="mv">sw v25</span></span><span class="detail" hidden>Glitch photo editor. 6 frames, seasonal Blood Moon / Fog / Haunted effects, save-a-look, PWA.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Ride Check</span></span><span class="mv">hold-off fix</span></span><span class="detail" hidden>Ride and weather verdict. NWS alerts, 3-hour recent weather, checklists, ride timer.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Field Kit</span></span><span class="mv">v1</span></span><span class="detail" hidden>Offline field checklists, hand-entered conditions log, on-device moon phase.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Prompt Playbook</span></span><span class="mv">v1</span></span><span class="detail" hidden>Prompt builder. Tier picker, generator, prompt check, saved prompts.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Sound Lab</span></span><span class="mv">subgenres</span></span><span class="detail" hidden>16-step sequencer. 8 genres incl. Minimal, Tech House, Liquid DnB, Jungle. Record to audio.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Glitch Snake</span></span><span class="mv">quality pass</span></span><span class="detail" hidden>Snake with wrap walls, color shift per bite, 3-square frenzy, death explosion.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Glitch Breakout</span></span><span class="mv">halloween</span></span><span class="detail" hidden>Breakout. 5 cycling wall patterns, HP bricks, Spooky Halloween theme.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Pyramid Builder</span></span><span class="mv">divine</span></span><span class="detail" hidden>12-year pyramid strategy. Pantheon moods, miracles, royal decrees, capstone gamble.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Myth Choices</span></span><span class="mv">v1</span></span><span class="detail" hidden>5-chapter Egyptian story. Wisdom / Courage / Kindness traits, 18 endings, lore codex.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Rider Dodger</span></span><span class="mv">quality pass</span></span><span class="detail" hidden>3-lane arcade dodger. Rain, puddles, gusts. 3 hearts, distance scoring.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Veil Skiff</span></span><span class="mv">v1</span></span><span class="detail" hidden>White Veil arcade run. Ride currents for a flow multiplier, dodge void fractures.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Magnetician</span></span><span class="mv">iter 2</span></span><span class="detail" hidden>Magnet placement puzzler. 12 levels, 3 magnet types, deterministic physics.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Pantheon Clash</span></span><span class="mv">b1740</span></span><span class="detail" hidden>God card battler. 18 gods, 5 rounds, trait triangle. No magic cards, ever.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Brief Builder</span></span><span class="mv">v1</span></span><span class="detail" hidden>Meta-brief generator. Goal / Constraints / Check / Stop, one-tap copy.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Beat Tapper</span></span><span class="mv">arrange</span></span><span class="detail" hidden>Rhythm tap game. 4 lanes, deep house / lofi / acid techno patterns.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Hadal Drift</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Deep-sea descent. Light vs battery tradeoff, specimens, predators.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Salt Rush</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Land sailing. Wind model, gust streaks, gates, dust devils.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">The Last Fare</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Noir cab story. 3 fares a night, 5 passengers, 15 endings.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Ironline</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Dieselpunk switchyard puzzler. Fixed day timetable plus seeded Night Shift.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Whiteout</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Arctic survival. One 360-second polar night, fire / fuel / warmth economy.</span></button>
+<button class="mod x" aria-expanded="false"><span class="mrow"><span class="mleft"><span class="mdot" title="Operational — verified Oct 31, 2026"></span><span class="mn">Dead Orbit</span></span><span class="mv">ms 1</span></span><span class="detail" hidden>Space salvage. Plot burns, grapple drifting wrecks, dock them home.</span></button>
 </div>
 
+<h2 class="sect">Deploys</h2>
+<div class="feed"><div class="tile"><div class="tag">Recent deploys</div>
+<ul class="dlist">
+<li><span class="dw">Oct 31</span><span>All 21 app logos recolored — deep jade icons on mint badges</span></li>
+<li><span class="dw">Oct 31</span><span>Jade Dusk Stone theme · bio line updated</span></li>
+<li><span class="dw">Oct 31</span><span>Ops board: module status + deploy feed</span></li>
+<li><span class="dw">Oct 30</span><span>Magnetician shipped — 12-level magnetism puzzler</span></li>
+<li><span class="dw">Oct 29</span><span>Veil Skiff launched — White Veil galaxy navigator</span></li>
+<li><span class="dw">Oct 28</span><span>Sound Lab expansion · Pyramid Builder + Myth Story Choices published</span></li>
+</ul></div></div>
 <h2 class="sect">In motion</h2>
 <div class="rows">
 <div class="panel"><h3>Daily</h3>
