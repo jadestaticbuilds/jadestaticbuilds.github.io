@@ -1,1 +1,217 @@
-{"connectors":{"github":"linked","instagram":"linked","threads":"linked"},"growth":{"commits7d":295,"modules":22,"newModules30d":["jadestaticbuilds/glitch-studio","jadestaticbuilds/ride-check","jadestaticbuilds/field-kit","jadestaticbuilds/jadestaticbuilds.github.io","jadestaticbuilds/prompt-playbook","jadestaticbuilds/sound-lab","jadestaticbuilds/glitch-breakout","jadestaticbuilds/glitch-snake","jadestaticbuilds/hieroglyph-match","jadestaticbuilds/myth-choices","jadestaticbuilds/pyramid-builder","jadestaticbuilds/rider-dodger","jadestaticbuilds/veil-skiff","jadestaticbuilds/beat-tapper","jadestaticbuilds/brief-builder","jadestaticbuilds/magnetician","jadestaticbuilds/pantheon-clash","jadestaticbuilds/dead-orbit","jadestaticbuilds/hadal-drift","jadestaticbuilds/ironline","jadestaticbuilds/salt-rush","jadestaticbuilds/the-last-fare","jadestaticbuilds/whiteout","jadestaticbuilds/six-deep","jadestaticbuilds/tincture"]},"systems":{"avatar-dark-background-watch":{"last":null,"status":"scheduled"},"daily-app-improvement-check":{"last":"2026-10-29T14:43:00-04:00","status":"ok"},"daily-goatcounter-visit-check":{"last":"2026-10-31T09:43:00-04:00","status":"ok"},"daily-muse-automation-digest":{"last":"2026-10-31T09:43:00-04:00","status":"ok"},"daily-prompt-playbook-review":{"last":"2026-10-29T13:43:00-04:00","status":"ok"},"daily-social-trend-check":{"last":"2026-10-31T09:00:00-04:00","status":"ok"},"daily-white-veil-strip":{"last":"2026-10-31T08:43:00-04:00","status":"ok"},"self-improvement-review":{"last":null,"status":"scheduled"},"threads-content-pipeline":{"last":"2026-10-31T10:43:00-04:00","status":"ok"},"weekly-delegation-radar":{"last":"2026-10-30T11:00:00-04:00","status":"ok"},"weekly-quality-bar-audit":{"last":"2026-10-31T10:43:00-04:00","status":"ok"},"weekly-systems-review":{"last":null,"status":"scheduled"},"weekly-threads-performance-check":{"last":null,"status":"scheduled"}},"updated":"2026-11-01T02:39:00Z","visits":{"history":[{"d":"2026-10-20","v":0},{"d":"2026-10-21","v":0},{"d":"2026-10-22","v":0},{"d":"2026-10-23","v":0},{"d":"2026-10-24","v":0},{"d":"2026-10-25","v":0},{"d":"2026-10-26","v":0},{"d":"2026-10-27","v":32},{"d":"2026-10-28","v":39},{"d":"2026-10-29","v":6},{"d":"2026-10-30","v":4},{"d":"2026-10-31","v":35}],"today":35,"topReferrer":"unknown","total":116}}
+{
+ "updated": "2026-11-01T02:40:51Z",
+ "visits": {
+  "total": 116,
+  "today": 35,
+  "topReferrer": "www.reddit.com",
+  "history": [
+   {
+    "d": "2026-10-02",
+    "v": 0
+   },
+   {
+    "d": "2026-10-03",
+    "v": 0
+   },
+   {
+    "d": "2026-10-04",
+    "v": 0
+   },
+   {
+    "d": "2026-10-05",
+    "v": 0
+   },
+   {
+    "d": "2026-10-06",
+    "v": 0
+   },
+   {
+    "d": "2026-10-07",
+    "v": 0
+   },
+   {
+    "d": "2026-10-08",
+    "v": 0
+   },
+   {
+    "d": "2026-10-09",
+    "v": 0
+   },
+   {
+    "d": "2026-10-10",
+    "v": 0
+   },
+   {
+    "d": "2026-10-11",
+    "v": 0
+   },
+   {
+    "d": "2026-10-12",
+    "v": 0
+   },
+   {
+    "d": "2026-10-13",
+    "v": 0
+   },
+   {
+    "d": "2026-10-14",
+    "v": 0
+   },
+   {
+    "d": "2026-10-15",
+    "v": 0
+   },
+   {
+    "d": "2026-10-16",
+    "v": 0
+   },
+   {
+    "d": "2026-10-17",
+    "v": 0
+   },
+   {
+    "d": "2026-10-18",
+    "v": 0
+   },
+   {
+    "d": "2026-10-19",
+    "v": 0
+   },
+   {
+    "d": "2026-10-20",
+    "v": 0
+   },
+   {
+    "d": "2026-10-21",
+    "v": 0
+   },
+   {
+    "d": "2026-10-22",
+    "v": 0
+   },
+   {
+    "d": "2026-10-23",
+    "v": 0
+   },
+   {
+    "d": "2026-10-24",
+    "v": 0
+   },
+   {
+    "d": "2026-10-25",
+    "v": 0
+   },
+   {
+    "d": "2026-10-26",
+    "v": 0
+   },
+   {
+    "d": "2026-10-27",
+    "v": 32
+   },
+   {
+    "d": "2026-10-28",
+    "v": 39
+   },
+   {
+    "d": "2026-10-29",
+    "v": 6
+   },
+   {
+    "d": "2026-10-30",
+    "v": 4
+   },
+   {
+    "d": "2026-10-31",
+    "v": 35
+   }
+  ]
+ },
+ "growth": {
+  "modules": 22,
+  "commits7d": 408,
+  "newModules30d": [
+   "beat-tapper",
+   "brief-builder",
+   "dead-orbit",
+   "field-kit",
+   "glitch-breakout",
+   "glitch-snake",
+   "glitch-studio",
+   "hadal-drift",
+   "ironline",
+   "magnetician",
+   "myth-choices",
+   "pantheon-clash",
+   "prompt-playbook",
+   "pyramid-builder",
+   "ride-check",
+   "rider-dodger",
+   "salt-rush",
+   "sound-lab",
+   "the-last-fare",
+   "tincture",
+   "veil-skiff",
+   "whiteout"
+  ]
+ },
+ "systems": {
+  "daily-white-veil-strip": {
+   "last": "2026-10-31T08:43:00-04:00",
+   "status": "ok"
+  },
+  "daily-social-trend-check": {
+   "last": "2026-10-31T09:00:00-04:00",
+   "status": "ok"
+  },
+  "daily-goatcounter-visit-check": {
+   "last": "2026-10-31T09:43:00-04:00",
+   "status": "ok"
+  },
+  "daily-muse-automation-digest": {
+   "last": "2026-10-31T09:43:00-04:00",
+   "status": "ok"
+  },
+  "threads-content-pipeline": {
+   "last": "2026-10-31T10:43:00-04:00",
+   "status": "ok"
+  },
+  "avatar-dark-background-watch": {
+   "last": null,
+   "status": "stale"
+  },
+  "weekly-threads-performance-check": {
+   "last": null,
+   "status": "stale"
+  },
+  "weekly-systems-review": {
+   "last": null,
+   "status": "stale"
+  },
+  "daily-prompt-playbook-review": {
+   "last": "2026-10-29T13:43:00-04:00",
+   "status": "ok"
+  },
+  "daily-app-improvement-check": {
+   "last": "2026-10-29T14:43:00-04:00",
+   "status": "ok"
+  },
+  "weekly-delegation-radar": {
+   "last": "2026-10-30T11:00:00-04:00",
+   "status": "ok"
+  },
+  "weekly-quality-bar-audit": {
+   "last": "2026-10-31T10:43:00-04:00",
+   "status": "ok"
+  },
+  "self-improvement-review": {
+   "last": null,
+   "status": "stale"
+  }
+ },
+ "connectors": {
+  "github": "linked",
+  "instagram": "linked",
+  "threads": "linked"
+ }
+}
