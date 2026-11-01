@@ -139,6 +139,9 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .approw img{width:44px;height:44px;border-radius:11px;flex-shrink:0;
   border:1px solid rgba(143,224,179,.4);box-shadow:0 0 10px rgba(143,224,179,.15)}
 .approw .nm{font-weight:700;font-size:16px;text-shadow:0 1px 8px rgba(3,13,9,.9)}
+.nmtx{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ds{font-size:12.5px;color:var(--mute);font-weight:500;line-height:1.35}
+.catgroup[hidden]{display:none}
 span.new{display:inline-block;background:linear-gradient(180deg,var(--jade-hi),var(--jade));color:#06231a;
   font-size:10px;font-weight:800;letter-spacing:.08em;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle}
 .socrow{display:flex;align-items:center;gap:14px;color:var(--ink);text-decoration:none;
@@ -325,31 +328,35 @@ textarea.finput{resize:vertical;min-height:96px}
 </header>
 
 <nav class="panel" id="appmenu" hidden aria-label="All apps">
+  <div class="catgroup" data-cat="games">
   <div class="cathead" id="cat-games">Games</div>
-  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-snake/"><img src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="nm">Glitch Snake</span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="nm">Glitch Breakout</span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/rider-dodger/"><img src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="nm">Rider Dodger</span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/veil-skiff/"><img src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="nm">Veil Skiff<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/beat-tapper/"><img src="logos/beat-tapper.webp" alt="" loading="lazy" decoding="async"><span class="nm">Beat Tapper<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/magnetician/"><img src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="nm">Magnetician<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/tincture/"><img src="logos/tincture.webp" alt="" loading="lazy" decoding="async"><span class="nm">Tincture<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/six-deep/"><img src="logos/six-deep.webp" alt="" loading="lazy" decoding="async"><span class="nm">Six Deep<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="nm">Pantheon Clash<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="nm">Pyramid Builder<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/ironline/"><img src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="nm">Ironline<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/whiteout/"><img src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="nm">Whiteout<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/myth-choices/"><img src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="nm">Myth Story Choices<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/the-last-fare/"><img src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="nm">The Last Fare<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/salt-rush/"><img src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="nm">Salt Rush<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/hadal-drift/"><img src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="nm">Hadal Drift<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/dead-orbit/"><img src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="nm">Dead Orbit<span class="new">NEW</span></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-snake/"><img src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Snake</span><small class="ds">Snake with wrap walls, frenzy mode and a death explosion</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Breakout</span><small class="ds">Breakout where smashed bricks glitch the board</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/rider-dodger/"><img src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Rider Dodger</span><small class="ds">Dodge rain drops, jump puddles, outrun gusts</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/veil-skiff/"><img src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Veil Skiff<span class="new">NEW</span></span><small class="ds">Pilot a skiff through the White Veil galaxy</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/beat-tapper/"><img src="logos/beat-tapper.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Beat Tapper<span class="new">NEW</span></span><small class="ds">Tap falling notes on the beat across four lanes</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/magnetician/"><img src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Magnetician<span class="new">NEW</span></span><small class="ds">Magnetism puzzler, guide the steel orb home</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/tincture/"><img src="logos/tincture.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Tincture<span class="new">NEW</span></span><small class="ds">Alchemist's elixir-sorting ritual</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/six-deep/"><img src="logos/six-deep.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Six Deep<span class="new">NEW</span></span><small class="ds">Candy ball-sort, tubes 6 deep, 10 colors</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Pantheon Clash<span class="new">NEW</span></span><small class="ds">Gods of Egypt, Greece and Norse in a card clash</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Pyramid Builder<span class="new">NEW</span></span><small class="ds">Rule a reign and raise a pyramid in 12 years</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/ironline/"><img src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Ironline<span class="new">NEW</span></span><small class="ds">Dieselpunk rail switchyard puzzler</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/whiteout/"><img src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Whiteout<span class="new">NEW</span></span><small class="ds">Arctic survival, keep the fire lit</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/myth-choices/"><img src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Myth Story Choices<span class="new">NEW</span></span><small class="ds">Play the real myths of Ra, Osiris and Isis</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/the-last-fare/"><img src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">The Last Fare<span class="new">NEW</span></span><small class="ds">Noir cab-driving story with fifteen endings</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/salt-rush/"><img src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Salt Rush<span class="new">NEW</span></span><small class="ds">Wind-powered land sailing on the salt flats</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/hadal-drift/"><img src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Hadal Drift<span class="new">NEW</span></span><small class="ds">Slow atmospheric deep-sea descent</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/dead-orbit/"><img src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Dead Orbit<span class="new">NEW</span></span><small class="ds">Space salvage trajectory game</small></span></a>
+  </div>
+  <div class="catgroup" data-cat="tools">
   <div class="cathead" id="cat-tools">Tools</div>
-  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-studio/"><img src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="nm">Glitch Studio<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/field-kit/"><img src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="nm">Field Kit</span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="nm">Prompt Playbook</span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/sound-lab/"><img src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="nm">Sound Lab<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/brief-builder/"><img src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="nm">Brief Builder<span class="new">NEW</span></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/ride-check/"><img src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="nm">Ride Check</span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-studio/"><img src="logos/glitch-studio.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Studio<span class="new">NEW</span></span><small class="ds">Glitch photo editor in your browser</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/field-kit/"><img src="logos/field-kit.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Field Kit</span><small class="ds">Offline checklists and notes for rides and hikes</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/prompt-playbook/"><img src="logos/prompt-playbook.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Prompt Playbook</span><small class="ds">Turn ideas into paste-ready prompts</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/sound-lab/"><img src="logos/sound-lab.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Sound Lab<span class="new">NEW</span></span><small class="ds">16-step beat maker with MIDI export</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/brief-builder/"><img src="logos/brief-builder.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Brief Builder<span class="new">NEW</span></span><small class="ds">Turn rough ideas into delegation briefs</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/ride-check/"><img src="logos/ride-check.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Ride Check</span><small class="ds">Motorcycle ride weather plus ride timer</small></span></a>
+  </div>
 </nav>
 
 <div class="panel" id="socialsdrop" hidden aria-label="Socials">
@@ -411,20 +418,17 @@ textarea.finput{resize:vertical;min-height:96px}
     closeAll();
     if(willOpen){panel.hidden=false;if(panel===menu)burger.setAttribute('aria-expanded','true');}
   }
-  burger.addEventListener('click',function(){toggle(menu);});
-  function flashCat(id){
-    var h=document.getElementById(id);
-    if(!h)return;
-    h.scrollIntoView({block:'nearest'});
-    h.classList.remove('flash');void h.offsetWidth;h.classList.add('flash');
+  burger.addEventListener('click',function(){if(menu.hidden){showMenu('all');}else{closeAll();}});
+  function showMenu(cat){
+    closeAll();
+    document.querySelectorAll('#appmenu .catgroup').forEach(function(g){
+      g.hidden=(cat!=='all'&&g.getAttribute('data-cat')!==cat);
+    });
+    menu.hidden=false;burger.setAttribute('aria-expanded','true');
   }
   function activate(el){
     if(el.classList.contains('hotspot')){
-      var cat=el.getAttribute('data-menu');
-      var wasHidden=menu.hidden;
-      closeAll();
-      menu.hidden=false;burger.setAttribute('aria-expanded','true');
-      setTimeout(function(){flashCat(cat==='games'?'cat-games':'cat-tools');},60);
+      showMenu(el.getAttribute('data-menu'));
     }else if(el.classList.contains('neonsign')){
       toggle(document.getElementById(el.getAttribute('data-drop')==='socials'?'socialsdrop':'messagedrop'));
     }
