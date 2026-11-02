@@ -47,15 +47,7 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .hotspot:hover rect{fill:rgba(255,195,92,.10)}
 .hotspot:focus-visible{outline:none}
 .hotspot:focus-visible rect{stroke:var(--teal);stroke-width:3}
-.neonsign{cursor:pointer}
-#skyP .neontext{filter:url(#amber-neon)}
-.neontext{font-family:var(--mono);font-weight:800;fill:var(--amber-hi);animation:neonflicker 7s linear infinite}
-.neonsign.d2 .neontext{animation-delay:-3.4s}
 @keyframes neonflicker{0%,100%{opacity:1}91%{opacity:1}92%{opacity:.55}93%{opacity:1}95%{opacity:.8}96%{opacity:1}}
-.neonsign .hit{fill:rgba(255,195,92,0)}
-.neonsign:hover .hit{fill:rgba(255,195,92,.08)}
-.neonsign:focus-visible{outline:none}
-.neonsign:focus-visible .hit{stroke:var(--teal);stroke-width:3}
 /* searchlight beam sweeping the clouds */
 .beamsweep{transform-box:fill-box;transform-origin:50% 100%;animation:beamsweep 16s ease-in-out infinite alternate}
 .beamsweep.l{animation-duration:19s;animation-delay:-6s}
@@ -70,15 +62,15 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .ps1{animation:pfly1 24s linear infinite}
 .ps2{animation:pfly2 37s linear infinite;animation-delay:-14s}
 .ps3{animation:pfly3 31s linear infinite;animation-delay:-9s}
-@keyframes pfly1{0%{transform:translate(-170px,380px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(1354px,330px);opacity:0}}
-@keyframes pfly2{0%{transform:translate(1354px,620px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-170px,670px) scaleX(-1);opacity:0}}
-@keyframes pfly3{0%{transform:translate(-170px,520px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(1354px,470px);opacity:0}}
+@keyframes pfly1{0%{transform:translate(-170px,545px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(1354px,495px);opacity:0}}
+@keyframes pfly2{0%{transform:translate(1354px,754px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-170px,804px) scaleX(-1);opacity:0}}
+@keyframes pfly3{0%{transform:translate(-170px,900px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(1354px,850px);opacity:0}}
 .ls1{animation:lfly1 22s linear infinite}
 .ls2{animation:lfly2 34s linear infinite;animation-delay:-13s}
 .ls3{animation:lfly3 28s linear infinite;animation-delay:-7s}
-@keyframes lfly1{0%{transform:translate(-210px,207px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(2258px,170px);opacity:0}}
-@keyframes lfly2{0%{transform:translate(2258px,346px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-210px,380px) scaleX(-1);opacity:0}}
-@keyframes lfly3{0%{transform:translate(-210px,276px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(2258px,240px);opacity:0}}
+@keyframes lfly1{0%{transform:translate(-210px,230px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(2258px,190px);opacity:0}}
+@keyframes lfly2{0%{transform:translate(2258px,369px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-210px,409px) scaleX(-1);opacity:0}}
+@keyframes lfly3{0%{transform:translate(-210px,300px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(2258px,260px);opacity:0}}
 .win{filter:url(#p-winglow);animation:winflick 7s linear infinite}
 #skyL .win{filter:url(#l-winglow)}
 @keyframes winflick{0%,100%{opacity:.85}46%{opacity:.85}48%{opacity:.1}50%{opacity:.85}76%{opacity:.85}78%{opacity:.2}80%{opacity:.85}}
@@ -175,15 +167,8 @@ textarea.finput{resize:vertical;min-height:96px}
 </style>
 </head>
 <body>
-<div class="ambient" aria-hidden="true"></div>
-
-<svg class="sky" id="skyP" viewBox="0 0 1184 2096" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jade City skyline at night" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="sky" id="skyP" viewBox="0 0 1184 2096" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Jade City skyline at night" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <filter id="amber-neon" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="10" result="b1"/>
-      <feGaussianBlur stdDeviation="26" result="b2"/>
-      <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <linearGradient id="p-shipgrad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#2ee6a8" stop-opacity="0"/>
       <stop offset="1" stop-color="#2ee6a8" stop-opacity=".9"/>
@@ -205,25 +190,25 @@ textarea.finput{resize:vertical;min-height:96px}
     </filter>
   </defs>
   <image class="skyimage" xlink:href="backdrop.webp" href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
-  <g transform="translate(983,1153)" aria-hidden="true">
+  <g transform="translate(983,1195)" aria-hidden="true">
     <circle class="beamsrc" cx="0" cy="0" r="16" fill="#fff6df" filter="url(#p-beamblur)"/>
     <g class="beamsweep">
-      <polygon points="0,0 -70,-1050 70,-1050" fill="url(#p-beamgrad)" filter="url(#p-beamblur)" opacity=".5"/>
+      <polygon points="0,0 -65,-950 65,-950" fill="url(#p-beamgrad)" filter="url(#p-beamblur)" opacity=".5"/>
     </g>
   </g>
   <g aria-hidden="true">
-    <circle class="win" cx="590" cy="1300" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
-    <circle class="win" cx="700" cy="1280" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
-    <circle class="win" cx="950" cy="900" r="6" fill="#ffe9b8" style="animation-duration:5.4s;animation-delay:-1.2s"/>
-    <circle class="win" cx="1000" cy="1100" r="7" fill="#b8ffd9" style="animation-duration:8.6s;animation-delay:-6.0s"/>
-    <circle class="win" cx="880" cy="1150" r="5" fill="#ffe9b8" style="animation-duration:6.9s;animation-delay:-3.3s"/>
-    <circle class="win" cx="1050" cy="1430" r="6" fill="#b8ffd9" style="animation-duration:7.2s;animation-delay:-5.1s"/>
-    <circle class="win" cx="250" cy="1500" r="6" fill="#ffe9b8" style="animation-duration:5.8s;animation-delay:-0.7s"/>
-    <circle class="win" cx="350" cy="1650" r="5" fill="#b8ffd9" style="animation-duration:8.1s;animation-delay:-2.9s"/>
-    <circle class="win" cx="700" cy="1000" r="6" fill="#ffe9b8" style="animation-duration:6.6s;animation-delay:-4.0s"/>
-    <circle class="win" cx="600" cy="1150" r="5" fill="#b8ffd9" style="animation-duration:7.5s;animation-delay:-1.6s"/>
-    <circle class="win" cx="800" cy="1400" r="6" fill="#ffe9b8" style="animation-duration:5.2s;animation-delay:-3.8s"/>
-    <circle class="win" cx="450" cy="1750" r="5" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
+    <circle class="win" cx="500" cy="1150" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
+    <circle class="win" cx="650" cy="1250" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
+    <circle class="win" cx="850" cy="1050" r="6" fill="#ffe9b8" style="animation-duration:5.4s;animation-delay:-1.2s"/>
+    <circle class="win" cx="950" cy="1200" r="7" fill="#b8ffd9" style="animation-duration:8.6s;animation-delay:-6.0s"/>
+    <circle class="win" cx="750" cy="1350" r="5" fill="#ffe9b8" style="animation-duration:6.9s;animation-delay:-3.3s"/>
+    <circle class="win" cx="350" cy="1300" r="6" fill="#b8ffd9" style="animation-duration:7.2s;animation-delay:-5.1s"/>
+    <circle class="win" cx="450" cy="1450" r="5" fill="#ffe9b8" style="animation-duration:5.8s;animation-delay:-0.7s"/>
+    <circle class="win" cx="1050" cy="1300" r="6" fill="#b8ffd9" style="animation-duration:8.1s;animation-delay:-2.9s"/>
+    <circle class="win" cx="300" cy="1100" r="5" fill="#ffe9b8" style="animation-duration:6.6s;animation-delay:-4.0s"/>
+    <circle class="win" cx="700" cy="1500" r="6" fill="#b8ffd9" style="animation-duration:7.5s;animation-delay:-1.6s"/>
+    <circle class="win" cx="900" cy="1450" r="5" fill="#ffe9b8" style="animation-duration:5.2s;animation-delay:-3.8s"/>
+    <circle class="win" cx="550" cy="1600" r="6" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
   </g>
   <g aria-hidden="true">
     <g class="vship ps1"><g filter="url(#p-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#p-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
@@ -231,27 +216,20 @@ textarea.finput{resize:vertical;min-height:96px}
     <g class="vship ps3"><g filter="url(#p-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#p-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
   </g>
   <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
-    <rect x="100" y="565" width="145" height="330" rx="12"/>
+    <rect x="130" y="600" width="120" height="310" rx="12"/>
   </g>
   <g class="hotspot" data-menu="tools" tabindex="0" role="button" aria-label="Open tools menu">
-    <rect x="775" y="950" width="210" height="140" rx="12"/>
+    <rect x="780" y="970" width="180" height="115" rx="12"/>
   </g>
-  <g class="neonsign" data-drop="socials" tabindex="0" role="button" aria-label="Open socials">
-    <rect class="hit" x="790" y="205" width="390" height="140" rx="14"/>
-    <text class="neontext" x="985" y="305" text-anchor="middle" font-size="78" letter-spacing="6">SOCIALS</text>
+  <g class="hotspot" data-drop="socials" tabindex="0" role="button" aria-label="Open socials">
+    <rect x="835" y="600" width="240" height="110" rx="12"/>
   </g>
-  <g class="neonsign d2" data-drop="message" tabindex="0" role="button" aria-label="Leave a message">
-    <rect class="hit" x="300" y="1825" width="585" height="125" rx="14"/>
-    <text class="neontext" x="592" y="1912" text-anchor="middle" font-size="58" letter-spacing="4">LEAVE A MESSAGE</text>
+  <g class="hotspot" data-drop="message" tabindex="0" role="button" aria-label="Leave a message">
+    <rect x="590" y="1600" width="385" height="110" rx="12"/>
   </g>
 </svg>
-<svg class="sky" id="skyL" viewBox="0 0 2048 1152" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Jade City skyline at night, wide view" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg class="sky" id="skyL" viewBox="0 0 2048 1152" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Jade City skyline at night, wide view" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <filter id="amber-neon-l" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="10" result="b1"/>
-      <feGaussianBlur stdDeviation="26" result="b2"/>
-      <feMerge><feMergeNode in="b2"/><feMergeNode in="b1"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <linearGradient id="l-shipgrad" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#2ee6a8" stop-opacity="0"/>
       <stop offset="1" stop-color="#2ee6a8" stop-opacity=".9"/>
@@ -273,25 +251,25 @@ textarea.finput{resize:vertical;min-height:96px}
     </filter>
   </defs>
   <image class="skyimage" xlink:href="backdrop-wide.webp" href="backdrop-wide.webp" x="0" y="0" width="2048" height="1152"/>
-  <g transform="translate(1706,478)" aria-hidden="true">
-    <circle class="beamsrc" cx="0" cy="0" r="14" fill="#fff6df" filter="url(#l-beamblur)"/>
+  <g transform="translate(1669,461)" aria-hidden="true">
+    <circle class="beamsrc" cx="0" cy="0" r="16" fill="#fff6df" filter="url(#l-beamblur)"/>
     <g class="beamsweep l">
-      <polygon points="0,0 -60,-760 60,-760" fill="url(#l-beamgrad)" filter="url(#l-beamblur)" opacity=".5"/>
+      <polygon points="0,0 -55,-420 55,-420" fill="url(#l-beamgrad)" filter="url(#l-beamblur)" opacity=".5"/>
     </g>
   </g>
   <g aria-hidden="true">
-    <circle class="win" cx="1126" cy="783" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
-    <circle class="win" cx="1229" cy="760" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
-    <circle class="win" cx="1597" cy="518" r="6" fill="#ffe9b8" style="animation-duration:5.4s;animation-delay:-1.2s"/>
-    <circle class="win" cx="1740" cy="634" r="7" fill="#b8ffd9" style="animation-duration:8.6s;animation-delay:-6.0s"/>
-    <circle class="win" cx="1700" cy="899" r="6" fill="#ffe9b8" style="animation-duration:6.9s;animation-delay:-3.3s"/>
-    <circle class="win" cx="512" cy="864" r="6" fill="#b8ffd9" style="animation-duration:7.2s;animation-delay:-5.1s"/>
-    <circle class="win" cx="717" cy="950" r="5" fill="#ffe9b8" style="animation-duration:5.8s;animation-delay:-0.7s"/>
-    <circle class="win" cx="922" cy="634" r="6" fill="#b8ffd9" style="animation-duration:8.1s;animation-delay:-2.9s"/>
-    <circle class="win" cx="1024" cy="720" r="5" fill="#ffe9b8" style="animation-duration:6.6s;animation-delay:-4.0s"/>
-    <circle class="win" cx="1331" cy="806" r="6" fill="#b8ffd9" style="animation-duration:7.5s;animation-delay:-1.6s"/>
-    <circle class="win" cx="820" cy="1000" r="5" fill="#ffe9b8" style="animation-duration:5.2s;animation-delay:-3.8s"/>
-    <circle class="win" cx="1433" cy="980" r="5" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
+    <circle class="win" cx="900" cy="600" r="7" fill="#ffe9b8" style="animation-duration:6.3s;animation-delay:-2.1s"/>
+    <circle class="win" cx="1050" cy="650" r="6" fill="#b8ffd9" style="animation-duration:7.8s;animation-delay:-4.4s"/>
+    <circle class="win" cx="1200" cy="550" r="6" fill="#ffe9b8" style="animation-duration:5.4s;animation-delay:-1.2s"/>
+    <circle class="win" cx="700" cy="700" r="7" fill="#b8ffd9" style="animation-duration:8.6s;animation-delay:-6.0s"/>
+    <circle class="win" cx="1300" cy="700" r="5" fill="#ffe9b8" style="animation-duration:6.9s;animation-delay:-3.3s"/>
+    <circle class="win" cx="500" cy="800" r="6" fill="#b8ffd9" style="animation-duration:7.2s;animation-delay:-5.1s"/>
+    <circle class="win" cx="1450" cy="750" r="5" fill="#ffe9b8" style="animation-duration:5.8s;animation-delay:-0.7s"/>
+    <circle class="win" cx="800" cy="850" r="6" fill="#b8ffd9" style="animation-duration:8.1s;animation-delay:-2.9s"/>
+    <circle class="win" cx="1100" cy="800" r="5" fill="#ffe9b8" style="animation-duration:6.6s;animation-delay:-4.0s"/>
+    <circle class="win" cx="600" cy="900" r="6" fill="#b8ffd9" style="animation-duration:7.5s;animation-delay:-1.6s"/>
+    <circle class="win" cx="1500" cy="850" r="5" fill="#ffe9b8" style="animation-duration:5.2s;animation-delay:-3.8s"/>
+    <circle class="win" cx="950" cy="900" r="6" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
   </g>
   <g aria-hidden="true">
     <g class="vship ls1"><g filter="url(#l-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#l-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
@@ -299,18 +277,16 @@ textarea.finput{resize:vertical;min-height:96px}
     <g class="vship ls3"><g filter="url(#l-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#l-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
   </g>
   <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
-    <rect x="230" y="215" width="135" height="450" rx="12"/>
+    <rect x="350" y="310" width="140" height="320" rx="12"/>
   </g>
   <g class="hotspot" data-menu="tools" tabindex="0" role="button" aria-label="Open tools menu">
-    <rect x="1520" y="665" width="360" height="170" rx="12"/>
+    <rect x="1480" y="615" width="300" height="120" rx="12"/>
   </g>
-  <g class="neonsign" data-drop="socials" tabindex="0" role="button" aria-label="Open socials">
-    <rect class="hit" x="1600" y="70" width="390" height="150" rx="14"/>
-    <text class="neontext" x="1792" y="160" text-anchor="middle" font-size="92" letter-spacing="6" filter="url(#amber-neon-l)">SOCIALS</text>
+  <g class="hotspot" data-drop="socials" tabindex="0" role="button" aria-label="Open socials">
+    <rect x="1060" y="405" width="300" height="100" rx="12"/>
   </g>
-  <g class="neonsign d2" data-drop="message" tabindex="0" role="button" aria-label="Leave a message">
-    <rect class="hit" x="700" y="1000" width="650" height="120" rx="14"/>
-    <text class="neontext" x="1024" y="1082" text-anchor="middle" font-size="66" letter-spacing="4" filter="url(#amber-neon-l)">LEAVE A MESSAGE</text>
+  <g class="hotspot" data-drop="message" tabindex="0" role="button" aria-label="Leave a message">
+    <rect x="840" y="790" width="450" height="70" rx="12"/>
   </g>
 </svg>
 
@@ -427,13 +403,14 @@ textarea.finput{resize:vertical;min-height:96px}
     menu.hidden=false;burger.setAttribute('aria-expanded','true');
   }
   function activate(el){
-    if(el.classList.contains('hotspot')){
+    if(el.hasAttribute('data-menu')){
       showMenu(el.getAttribute('data-menu'));
-    }else if(el.classList.contains('neonsign')){
-      toggle(document.getElementById(el.getAttribute('data-drop')==='socials'?'socialsdrop':'messagedrop'));
+    }else if(el.hasAttribute('data-drop')){
+      var id=el.getAttribute('data-drop');
+      toggle(document.getElementById(id==='socials'?'socialsdrop':'messagedrop'));
     }
   }
-  document.querySelectorAll('.hotspot,.neonsign').forEach(function(el){
+  document.querySelectorAll('.hotspot').forEach(function(el){
     el.addEventListener('click',function(){activate(el);});
     el.addEventListener('keydown',function(e){
       if(e.key==='Enter'||e.key===' '){e.preventDefault();activate(el);}
@@ -441,7 +418,7 @@ textarea.finput{resize:vertical;min-height:96px}
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
   document.addEventListener('pointerdown',function(e){
-    if(e.target.closest('.panel')||e.target.closest('.topbar')||e.target.closest('.hotspot')||e.target.closest('.neonsign'))return;
+    if(e.target.closest('.panel')||e.target.closest('.topbar')||e.target.closest('.hotspot'))return;
     closeAll();
   });
 })();
