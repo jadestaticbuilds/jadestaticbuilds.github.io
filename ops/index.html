@@ -167,7 +167,7 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
 
 <h2 class="sect">Vitals</h2>
 <div class="iso"><div class="tiles">
-  <button class="tile x" aria-expanded="false"><div class="tag">Visitors // All-time</div><div class="num" id="v-total">139</div><div class="sub">link page, via GoatCounter</div><div class="detail" hidden>All-time visits to the link page path. 38 came today, Oct 31, the biggest single day so far. Top referrers: unknown, reddit, facebook.</div></button>
+  <button class="tile x" aria-expanded="false"><div class="tag">Visitors // All-time</div><div class="num" id="v-total">120</div><div class="sub">link page, via GoatCounter</div><div class="detail" hidden>All-time visits to the link page path. 38 came today, Oct 31, the biggest single day so far. Top referrers: unknown, reddit, facebook.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Visits // Today</div><div class="num" id="v-today">38</div><div class="sub">Oct 31, biggest day yet</div><div class="detail" hidden>Per-day visits as of the 4:43pm check. Yesterday was 5. The Reddit posts are driving it.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Next milestone</div><div class="num" id="v-next">125</div><div class="sub" id="v-nextsub">103 of 125 &middot; 82%</div><div class="bar"><i id="v-bar"></i></div><div class="detail" hidden>Milestone step is 25. The 100 milestone was crossed and reported today. Next notify at 125.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Modules online</div><div class="num" id="v-mods">22</div><div class="sub">16 games · 5 tools · 1 weather</div><div class="detail" hidden>Tap any module below for its summary.</div></button>
@@ -178,6 +178,11 @@ header,.iso,.mods,.rows,.watch,footer,h2.sect{position:relative;z-index:1}
   <button class="tile x" aria-expanded="false"><div class="tag">Commits // 7 days</div><div class="num" id="g-commits">295</div><div class="sub">across 24 app repos</div><div class="detail" hidden>Every commit to the app repos in the last 7 days, counted nightly. Oct 24–31 covered the six-app build week.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Newest module</div><div class="num" style="font-size:22px" id="g-newest">TINCTURE</div><div class="sub" id="g-newestsub">shipped Oct 31</div><div class="detail" hidden>Ball-sort alchemy puzzler. Ring of flasks around a central crucible, prismatic elixirs, every deal solver-verified.</div></button>
   <button class="tile x" aria-expanded="false"><div class="tag">Visit trend</div><canvas id="spark" width="300" height="56"></canvas><div class="sub" id="g-sub">daily visits · building history</div><div class="detail" hidden>30-day sparkline of link page visits, refreshed every morning by the data job. History starts Oct 31 and fills in day by day.</div></button>
+</div></div>
+
+<h2 class="sect">Fun ratings</h2><p class="snote">Player 1-tap ratings · 3rd+ game over · via GoatCounter</p>
+<div class="iso"><div class="tiles" id="fun-tiles">
+  <div class="tile"><div class="tag">No ratings yet</div><div class="sub">Ratings appear here once players start tapping stars.</div></div>
 </div></div>
 
 <h2 class="sect">Modules</h2><p class="snote">Status verified Oct 31, 2026 · all 22 online</p>
@@ -536,6 +541,31 @@ document.addEventListener('click',function(e){
         var t=document.querySelector('[data-sys="conn-'+id+'"]');
         if(t)t.textContent=d.connectors[id];
       });
+    }
+    if(d.fun){
+      var ft=document.getElementById('fun-tiles');
+      if(ft){
+        var slugs=Object.keys(d.fun).filter(function(s){var f=d.fun[s];return (f['1']+f['2']+f['3'])>0;});
+        if(slugs.length){
+          slugs.sort(function(a,b){
+            var fa=d.fun[a],fb=d.fun[b];
+            var ta=fa['1']+fa['2']+fa['3'],tb=fb['1']+fb['2']+fb['3'];
+            var aa=(fa['1']+fa['2']*2+fa['3']*3)/ta,ab=(fb['1']+fb['2']*2+fb['3']*3)/tb;
+            return ab-aa;
+          });
+          ft.innerHTML=slugs.map(function(s){
+            var f=d.fun[s],t=f['1']+f['2']+f['3'];
+            var avg=(f['1']+f['2']*2+f['3']*3)/t;
+            var stars='';for(var i=1;i<=3;i++)stars+=i<=Math.round(avg)?'★':'☆';
+            var name=s.split('-').map(function(w){return w.charAt(0).toUpperCase()+w.slice(1);}).join(' ');
+            return '<div class="tile"><div class="tag">'+name+'</div>'+
+              '<div class="num" style="font-size:26px;color:#2ee6a8">'+stars+'</div>'+
+              '<div class="sub">'+avg.toFixed(1)+' avg · '+t+' rating'+(t===1?'':'s')+'</div>'+
+              '<div class="detail" hidden>1★: '+f['1']+' · 2★: '+f['2']+' · 3★: '+f['3']+'</div></div>';
+          }).join('');
+          if(window.bindTiles)bindTiles(ft);
+        }
+      }
     }
     var age=document.getElementById('dataage');
     if(age&&d.updated)age.textContent='data: '+ageStr(d.updated);
