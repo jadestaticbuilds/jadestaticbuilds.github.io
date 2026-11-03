@@ -30,7 +30,6 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-html,body{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;}
 body{
   margin:0;color:var(--ink);
   font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
@@ -164,6 +163,11 @@ textarea.finput{resize:vertical;min-height:96px}
 .fstatus{margin:8px 10px 0;font-size:13px;color:var(--mute);min-height:18px}
 .fstatus.ok{color:var(--jade-hi)}
 .fstatus.err{color:#ff7a7a}
+/* drifting clouds: the skyline's own clouds on two parallax layers */
+.cloudlayer{animation:clouddrift 120s ease-in-out infinite alternate}
+.cloudlayer.near{animation-duration:75s;animation-name:clouddrift-near}
+@keyframes clouddrift{from{transform:translateX(-18px)}to{transform:translateX(18px)}}
+@keyframes clouddrift-near{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -191,6 +195,8 @@ textarea.finput{resize:vertical;min-height:96px}
     </filter>
   </defs>
   <image class="skyimage" xlink:href="backdrop.webp" href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
+  <image class="cloudlayer far" href="clouds-p-far.webp" x="0" y="0" width="1184" height="2096" aria-hidden="true"/>
+  <image class="cloudlayer near" href="clouds-p-near.webp" x="0" y="0" width="1184" height="2096" aria-hidden="true"/>
   <g transform="translate(983,1195)" aria-hidden="true">
     <circle class="beamsrc" cx="0" cy="0" r="16" fill="#fff6df" filter="url(#p-beamblur)"/>
     <g class="beamsweep">
@@ -252,6 +258,8 @@ textarea.finput{resize:vertical;min-height:96px}
     </filter>
   </defs>
   <image class="skyimage" xlink:href="backdrop-wide.webp" href="backdrop-wide.webp" x="0" y="0" width="2048" height="1152"/>
+  <image class="cloudlayer far" href="clouds-l-far.webp" x="0" y="0" width="2048" height="1152" aria-hidden="true"/>
+  <image class="cloudlayer near" href="clouds-l-near.webp" x="0" y="0" width="2048" height="1152" aria-hidden="true"/>
   <g transform="translate(1669,461)" aria-hidden="true">
     <circle class="beamsrc" cx="0" cy="0" r="16" fill="#fff6df" filter="url(#l-beamblur)"/>
     <g class="beamsweep l">
