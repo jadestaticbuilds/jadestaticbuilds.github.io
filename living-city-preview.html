@@ -563,11 +563,11 @@ textarea.finput{resize:vertical;min-height:96px}
     for(var id in lights){
       var L = lights[id];
       var age = now - L.last;
-      if(age > 700){ delete lights[id]; continue; }
+      if(age > 1400){ delete lights[id]; continue; }
       L.x += (L.tx - L.x)*0.35; L.y += (L.ty - L.y)*0.35;
       L.pts.unshift({x:L.x, y:L.y});
-      if(L.pts.length > 32) L.pts.pop();
-      var fade = 1 - age/700;
+      if(L.pts.length > 48) L.pts.pop();
+      var fade = 1 - age/1400;
       for(var i=0;i<L.pts.length;i++){
         var p = L.pts[i], k = (1 - i/L.pts.length)*fade;
         if(k <= 0) continue;
