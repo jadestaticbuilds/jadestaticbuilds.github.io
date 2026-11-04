@@ -78,7 +78,9 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .beamsweep.m2{animation:beamsweep2 24s ease-in-out infinite alternate}
 @keyframes beamsweep2{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
 .signglow{animation:signglow 6s ease-in-out infinite}
-@keyframes signglow{0%,100%{opacity:.22}50%{opacity:.45}}
+@keyframes signglow{0%,100%{opacity:.10}50%{opacity:.22}}
+.cattail{transform-box:fill-box;transform-origin:80% 90%;animation:cattail 24s ease-in-out infinite}
+@keyframes cattail{0%,46%,54%,100%{transform:rotate(0deg)}50%{transform:rotate(30deg)}}
 .beacon{animation:beaconblink 2.4s linear infinite}
 @keyframes beaconblink{0%,59%{opacity:.95}60%,100%{opacity:.08}}
 .winb{filter:url(#p-winglow);animation:winbreathe 9s ease-in-out infinite}
@@ -256,6 +258,13 @@ textarea.finput{resize:vertical;min-height:96px}
     <image class="letflick" id="lf-tools" xlink:href="masks/tools.png" href="masks/tools.png" x="841" y="1092" width="54" height="262"/>
     <image class="letflick" id="lf-socials" xlink:href="masks/socials.png" href="masks/socials.png" x="835" y="593" width="53" height="346"/>
     <image class="letflick" id="lf-message" xlink:href="masks/message.png" href="masks/message.png" x="680" y="1715" width="315" height="75"/>
+  </g>
+  <g aria-hidden="true" transform="translate(655,1562)">
+    <ellipse cx="0" cy="-7" rx="5" ry="7" fill="#121826"/>
+    <circle cx="0" cy="-16" r="4" fill="#121826"/>
+    <polygon points="-4,-18 -2,-23 0,-18" fill="#121826"/>
+    <polygon points="4,-18 2,-23 0,-18" fill="#121826"/>
+    <g class="cattail"><line x1="-4" y1="-3" x2="-11" y2="-14" stroke="#121826" stroke-width="3" stroke-linecap="round"/></g>
   </g>
   <g aria-hidden="true">
     <g class="vship ps1"><g filter="url(#p-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#p-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
@@ -530,6 +539,53 @@ textarea.finput{resize:vertical;min-height:96px}
   }
   size(); window.addEventListener('resize', size);
   var t0 = performance.now();
+  /* --- easter eggs: chimney steam + shooting star (portrait sky only) --- */
+  function skyMap(){
+    var s = Math.max(W/1184, H/2096);
+    return {s:s, ox:(W-1184*s)/2, oy:(H-2096*s)/2};
+  }
+  var STACKS = [[350,1000],[970,1295]];
+  function drawSteam(t, m){
+    for(var i=0;i<STACKS.length;i++){
+      for(var k=0;k<6;k++){
+        var age = (t + k*8) % 48, u = age/48;
+        var px = (STACKS[i][0] + 10*Math.sin(u*9+k*1.7)*u)*m.s + m.ox;
+        var py = (STACKS[i][1] - 110*u)*m.s + m.oy;
+        var r = (20+44*u)*m.s*0.5;
+        var a = 0.22*(1-u)*Math.min(1,u*10);
+        if(a <= 0.004 || r <= 0) continue;
+        var g = ctx.createRadialGradient(px,py,0,px,py,r);
+        g.addColorStop(0,'rgba(210,220,230,'+a.toFixed(3)+')');
+        g.addColorStop(1,'rgba(210,220,230,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(px,py,r,0,6.283); ctx.fill();
+      }
+    }
+  }
+  var METEOR = {t0:20, dur:1.6, x0:475, y0:60, x1:275, y1:140};
+  function drawMeteor(t, m){
+    var dt = t - METEOR.t0;
+    if(dt < 0 || dt > METEOR.dur) return;
+    var u = dt/METEOR.dur;
+    var hx = (METEOR.x0+(METEOR.x1-METEOR.x0)*u)*m.s + m.ox;
+    var hy = (METEOR.y0+(METEOR.y1-METEOR.y0)*u)*m.s + m.oy;
+    var env = Math.sin(Math.PI*Math.min(1,u*1.1));
+    var dx = METEOR.x1-METEOR.x0, dy = METEOR.y1-METEOR.y0;
+    var L = Math.hypot(dx,dy); dx/=L; dy/=L;
+    var tail = (140*u+16)*m.s*0.5;
+    ctx.lineCap = 'round';
+    for(var j=0;j<16;j++){
+      var d0 = tail*j/16, d1 = tail*(j+1)/16;
+      ctx.globalAlpha = 0.5*env*(1-j/16);
+      ctx.strokeStyle = 'rgba(225,238,255,1)';
+      ctx.lineWidth = Math.max(1, 3*(1-j/16)*m.s*0.5);
+      ctx.beginPath();
+      ctx.moveTo(hx-dx*d0, hy-dy*d0);
+      ctx.lineTo(hx-dx*d1, hy-dy*d1);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  }
   /* --- touch neon: a jade light follows each pointer, leaving a fading trail --- */
   var lights = {};
   function touch(id, x, y){
@@ -557,6 +613,7 @@ textarea.finput{resize:vertical;min-height:96px}
       ctx.beginPath(); ctx.arc(x, y, f.r, 0, 6.283); ctx.fill();
     }
     ctx.globalAlpha = 1;
+    if(W < H){ var sm = skyMap(); drawSteam(t, sm); drawMeteor(t, sm); }
     /* neon touch lights + trails */
     ctx.globalCompositeOperation = 'lighter';
     for(var id in lights){
