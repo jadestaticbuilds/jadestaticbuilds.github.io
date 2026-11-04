@@ -533,8 +533,13 @@ textarea.finput{resize:vertical;min-height:96px}
     if(!L) L = lights[id] = {x:x, y:y, tx:x, ty:y, pts:[], last:performance.now()};
     L.tx = x; L.ty = y; L.last = performance.now();
   }
-  window.addEventListener('pointerdown', function(e){ touch(e.pointerId, e.clientX, e.clientY); });
-  window.addEventListener('pointermove', function(e){ touch(e.pointerId, e.clientX, e.clientY); });
+  function eachTouch(e, fn){
+    for(var i=0;i<e.changedTouches.length;i++){ var t=e.changedTouches[i]; fn('t'+t.identifier, t.clientX, t.clientY); }
+  }
+  window.addEventListener('touchstart', function(e){ eachTouch(e, touch); }, {passive:true});
+  window.addEventListener('touchmove', function(e){ eachTouch(e, touch); }, {passive:true});
+  window.addEventListener('pointerdown', function(e){ if(e.pointerType!=='touch') touch('p'+e.pointerId, e.clientX, e.clientY); });
+  window.addEventListener('pointermove', function(e){ if(e.pointerType!=='touch') touch('p'+e.pointerId, e.clientX, e.clientY); });
   function frame(now){
     var t = ((now - t0)/1000) % 48;
     for(var k in els){ if(els[k]) els[k].setAttribute('opacity', ((1-flick(t, EVENTS[k]))*0.9).toFixed(3)); }
@@ -556,7 +561,7 @@ textarea.finput{resize:vertical;min-height:96px}
       if(age > 700){ delete lights[id]; continue; }
       L.x += (L.tx - L.x)*0.35; L.y += (L.ty - L.y)*0.35;
       L.pts.unshift({x:L.x, y:L.y});
-      if(L.pts.length > 22) L.pts.pop();
+      if(L.pts.length > 32) L.pts.pop();
       var fade = 1 - age/700;
       for(var i=0;i<L.pts.length;i++){
         var p = L.pts[i], k = (1 - i/L.pts.length)*fade;
