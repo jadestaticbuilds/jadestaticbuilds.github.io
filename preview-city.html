@@ -173,7 +173,8 @@ textarea.finput{resize:vertical;min-height:96px}
 @keyframes beaconblink{0%,55%{opacity:.95}56%,100%{opacity:.12}}
 .signglow{animation:glowpulse 7s ease-in-out infinite}
 @keyframes glowpulse{0%,100%{opacity:.28}50%{opacity:.55}}
-.buzz{fill:#04100b;animation:neonflicker 14s linear infinite}
+.buzz{fill:#04100b;animation:buzzout 14s linear infinite}
+@keyframes buzzout{0%,92%{opacity:0}93%{opacity:.8}94%{opacity:.15}95%{opacity:.6}96%,100%{opacity:0}}
 .fogbank{animation:fogdrift 75s ease-in-out infinite alternate}
 .fogbank.f2{animation-duration:95s;animation-delay:-30s}
 @keyframes fogdrift{from{transform:translateX(-90px)}to{transform:translateX(90px)}}
