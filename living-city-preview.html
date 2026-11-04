@@ -526,6 +526,15 @@ textarea.finput{resize:vertical;min-height:96px}
   }
   size(); window.addEventListener('resize', size);
   var t0 = performance.now();
+  /* --- touch neon: a jade light follows each pointer, leaving a fading trail --- */
+  var lights = {};
+  function touch(id, x, y){
+    var L = lights[id];
+    if(!L) L = lights[id] = {x:x, y:y, tx:x, ty:y, pts:[], last:performance.now()};
+    L.tx = x; L.ty = y; L.last = performance.now();
+  }
+  window.addEventListener('pointerdown', function(e){ touch(e.pointerId, e.clientX, e.clientY); });
+  window.addEventListener('pointermove', function(e){ touch(e.pointerId, e.clientX, e.clientY); });
   function frame(now){
     var t = ((now - t0)/1000) % 48;
     for(var k in els){ if(els[k]) els[k].setAttribute('opacity', ((1-flick(t, EVENTS[k]))*0.9).toFixed(3)); }
@@ -539,6 +548,34 @@ textarea.finput{resize:vertical;min-height:96px}
       ctx.beginPath(); ctx.arc(x, y, f.r, 0, 6.283); ctx.fill();
     }
     ctx.globalAlpha = 1;
+    /* neon touch lights + trails */
+    ctx.globalCompositeOperation = 'lighter';
+    for(var id in lights){
+      var L = lights[id];
+      var age = now - L.last;
+      if(age > 700){ delete lights[id]; continue; }
+      L.x += (L.tx - L.x)*0.35; L.y += (L.ty - L.y)*0.35;
+      L.pts.unshift({x:L.x, y:L.y});
+      if(L.pts.length > 22) L.pts.pop();
+      var fade = 1 - age/700;
+      for(var i=0;i<L.pts.length;i++){
+        var p = L.pts[i], k = (1 - i/L.pts.length)*fade;
+        if(k <= 0) continue;
+        var r = 16*k + 2;
+        var g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,r);
+        g.addColorStop(0, 'rgba(150,255,210,'+(0.55*k).toFixed(3)+')');
+        g.addColorStop(0.4, 'rgba(46,230,168,'+(0.28*k).toFixed(3)+')');
+        g.addColorStop(1, 'rgba(46,230,168,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, 6.283); ctx.fill();
+      }
+      var cg = ctx.createRadialGradient(L.x,L.y,0,L.x,L.y,7);
+      cg.addColorStop(0, 'rgba(220,255,240,'+(0.9*fade).toFixed(3)+')');
+      cg.addColorStop(1, 'rgba(46,230,168,0)');
+      ctx.fillStyle = cg;
+      ctx.beginPath(); ctx.arc(L.x, L.y, 7, 0, 6.283); ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'source-over';
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
