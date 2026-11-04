@@ -123,7 +123,8 @@ svg.sky{touch-action:none}
 .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
 .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .burger:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
-.brandmark{display:flex;align-items:center;gap:10px;min-width:0}
+.brandmark{display:flex;align-items:center;gap:10px;min-width:0;position:absolute;left:50%;
+  transform:translateX(-50%);-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
 .brandmark img{width:34px;height:34px;border-radius:50%;border:1px solid var(--jade);
   box-shadow:0 0 14px rgba(143,224,179,.4);flex-shrink:0}
 .brandmark b{font-family:var(--mono);font-size:12px;letter-spacing:.3em;color:var(--jade-hi);font-weight:700;
@@ -355,7 +356,7 @@ textarea.finput{resize:vertical;min-height:96px}
     <span></span><span></span><span></span>
   </button>
   <div class="brandmark">
-    <img src="avatar.jpg" alt="Jade Static Builds logo">
+    <img src="avatar.jpg" alt="Jade Static Builds logo" draggable="false">
     <b>JADE CITY</b>
   </div>
 </header>
@@ -473,6 +474,8 @@ textarea.finput{resize:vertical;min-height:96px}
     });
   });
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeAll();});
+  /* no long-press Google/image menu on the header brandmark */
+  document.querySelector('.brandmark').addEventListener('contextmenu',function(e){e.preventDefault();});
   document.addEventListener('pointerdown',function(e){
     if(e.target.closest('.panel')||e.target.closest('.topbar')||e.target.closest('.hotspot'))return;
     closeAll();
