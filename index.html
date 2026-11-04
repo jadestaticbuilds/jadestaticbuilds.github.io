@@ -268,9 +268,6 @@ textarea.finput{resize:vertical;min-height:96px}
     <g class="cattail"><line x1="-4" y1="-3" x2="-11" y2="-14" stroke="#121826" stroke-width="3" stroke-linecap="round"/></g>
   </g>
   <g aria-hidden="true">
-    <g class="vship ps1"><g filter="url(#p-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#p-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
-    <g class="vship ps2"><g filter="url(#p-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#p-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
-    <g class="vship ps3"><g filter="url(#p-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#p-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
   </g>
   <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
     <rect x="130" y="680" width="170" height="440" rx="12"/>
@@ -329,9 +326,6 @@ textarea.finput{resize:vertical;min-height:96px}
     <circle class="win" cx="950" cy="900" r="6" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
   </g>
   <g aria-hidden="true">
-    <g class="vship ls1"><g filter="url(#l-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#l-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
-    <g class="vship ls2"><g filter="url(#l-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#l-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
-    <g class="vship ls3"><g filter="url(#l-shipglow)"><polygon points="-150,3 -58,2 -58,-2 -150,-3" fill="url(#l-shipgrad)"/><polygon points="-62,0 28,-9 62,0 28,9" fill="#0d3a26" stroke="#2ee6a8" stroke-width="1.5"/><ellipse cx="28" cy="0" rx="7" ry="4" fill="#d9fff2"/><circle cx="-60" cy="0" r="5" fill="#8fd8ff"/></g></g>
   </g>
   <g class="hotspot" data-menu="games" tabindex="0" role="button" aria-label="Open games menu">
     <rect x="350" y="305" width="130" height="365" rx="12"/>
@@ -605,7 +599,7 @@ textarea.finput{resize:vertical;min-height:96px}
   window.addEventListener('pointermove', function(e){ if(e.pointerType!=='touch') touch('p'+e.pointerId, e.clientX, e.clientY); });
   function frame(now){
     var t = ((now - t0)/1000) % 48;
-    for(var k in els){ if(els[k]) els[k].setAttribute('opacity', ((1-flick(t, EVENTS[k]))*0.9).toFixed(3)); }
+    for(var k in els){ if(els[k]) els[k].style.opacity = ((1-flick(t, EVENTS[k]))*0.9).toFixed(3); }
     ctx.clearRect(0,0,W,H);
     ctx.fillStyle = '#eef4fa';
     for(var i=0;i<flakes.length;i++){
