@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="refresh" content="600">
 <title>Jade Static Ops</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#020806">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 :root{
   --bg:#020806; --jade:#2ee6a8; --jade-hi:#c9f7e3; --emerald:#00a86b;
@@ -1046,6 +1049,9 @@ setInterval(setNote,30000);
 var sb=$('ms-syncbtn');
 if(sb)sb.addEventListener('click',function(){sync();});
 })();
+</script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 </script>
 </body>
 </html>
