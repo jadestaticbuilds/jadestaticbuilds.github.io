@@ -13,6 +13,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://jadestaticbuilds.github.io/avatar.jpg">
 <link rel="icon" href="avatar.jpg">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="/ops/icon-192.png">
 <link rel="preload" as="image" href="backdrop.webp">
 <style>
 :root{
@@ -643,6 +645,9 @@ textarea.finput{resize:vertical;min-height:96px}
   }
   requestAnimationFrame(frame);
 })();
+</script>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
 </script>
 </body>
 </html>
