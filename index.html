@@ -136,7 +136,7 @@ svg.sky{touch-action:none}
   max-width:480px;max-height:calc(100vh - 92px);max-height:calc(100dvh - 92px);overflow-y:auto;
   -webkit-overflow-scrolling:touch;background:rgba(3,13,9,.88);
   -webkit-backdrop-filter:blur(12px) saturate(1.2);backdrop-filter:blur(12px) saturate(1.2);
-  border:1px solid var(--line);border-radius:16px;padding:8px 8px 14px;
+  border:1px solid var(--line);border-radius:16px;padding:8px 8px calc(14px + env(safe-area-inset-bottom,0));
   box-shadow:0 18px 50px rgba(0,0,0,.6),0 0 24px rgba(143,224,179,.08)}
 @media(min-width:520px){.panel{left:16px;right:auto;width:440px}}
 .panel[hidden]{display:none}
