@@ -56,23 +56,10 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 @keyframes beamsweep{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
 .beamsrc{animation:beamsrc 3.2s ease-in-out infinite}
 @keyframes beamsrc{0%,100%{opacity:.9}50%{opacity:.45}}
-/* sky life: grid breathe, ships, flickering windows (all inside the SVG scene) */
+/* sky life: grid breathe, flickering windows (all inside the SVG scene) */
 .skyimage{animation:gridbreathe 11s ease-in-out infinite}
 @keyframes gridbreathe{0%,100%{filter:brightness(1)}50%{filter:brightness(.93)}}
 #skyL{display:none}
-.vship{opacity:0}
-.ps1{animation:pfly1 24s linear infinite}
-.ps2{animation:pfly2 37s linear infinite;animation-delay:-14s}
-.ps3{animation:pfly3 31s linear infinite;animation-delay:-9s}
-@keyframes pfly1{0%{transform:translate(-170px,545px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(1354px,495px);opacity:0}}
-@keyframes pfly2{0%{transform:translate(1354px,754px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-170px,804px) scaleX(-1);opacity:0}}
-@keyframes pfly3{0%{transform:translate(-170px,900px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(1354px,850px);opacity:0}}
-.ls1{animation:lfly1 22s linear infinite}
-.ls2{animation:lfly2 34s linear infinite;animation-delay:-13s}
-.ls3{animation:lfly3 28s linear infinite;animation-delay:-7s}
-@keyframes lfly1{0%{transform:translate(-210px,230px);opacity:0}6%{opacity:.95}94%{opacity:.95}100%{transform:translate(2258px,190px);opacity:0}}
-@keyframes lfly2{0%{transform:translate(2258px,369px) scaleX(-1);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(-210px,409px) scaleX(-1);opacity:0}}
-@keyframes lfly3{0%{transform:translate(-210px,300px);opacity:0}6%{opacity:.9}94%{opacity:.9}100%{transform:translate(2258px,260px);opacity:0}}
 .win{filter:url(#p-winglow);animation:winflick 7s linear infinite}
 #skyL .win{filter:url(#l-winglow)}
 @keyframes winflick{0%,100%{opacity:.85}46%{opacity:.85}48%{opacity:.1}50%{opacity:.85}76%{opacity:.85}78%{opacity:.2}80%{opacity:.85}}
@@ -95,16 +82,6 @@ svg.sky{touch-action:none}
 .topbar{touch-action:manipulation}
 .panel{touch-action:pan-y}
 /* drifting mist across the viewport */
-.ship{position:fixed;height:8px;border-radius:6px;pointer-events:none;opacity:0;z-index:2;
-  background:linear-gradient(90deg,transparent,rgba(46,230,168,.85));box-shadow:0 0 14px rgba(46,230,168,.8)}
-.ship::after{content:"";position:absolute;right:-3px;top:1px;width:6px;height:6px;border-radius:50%;
-  background:#dcf5e6;box-shadow:0 0 10px #dcf5e6}
-.ship1{top:16%;width:46px;animation:fly1 26s linear infinite}
-.ship2{top:37%;width:34px;animation:fly2 41s linear infinite;animation-delay:-17s}
-@keyframes fly1{0%{transform:translate(-10vw,0);opacity:0}7%{opacity:.9}93%{opacity:.9}
-  100%{transform:translate(110vw,-5vh);opacity:0}}
-@keyframes fly2{0%{transform:translate(110vw,0) scaleX(-1);opacity:0}7%{opacity:.75}93%{opacity:.75}
-  100%{transform:translate(-10vw,4vh) scaleX(-1);opacity:0}}
 .mist{position:fixed;pointer-events:none;opacity:.5;z-index:2;
   background:radial-gradient(closest-side,rgba(143,224,179,.15),rgba(143,224,179,0))}
 .mist1{left:-12%;top:52%;width:70%;height:24%;animation:drift1 48s ease-in-out infinite alternate}
@@ -190,14 +167,6 @@ textarea.finput{resize:vertical;min-height:96px}
 <body>
 <svg class="sky" id="skyP" viewBox="0 0 1184 2096" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Jade City skyline at night" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <linearGradient id="p-shipgrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#2ee6a8" stop-opacity="0"/>
-      <stop offset="1" stop-color="#2ee6a8" stop-opacity=".9"/>
-    </linearGradient>
-    <filter id="p-shipglow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="8" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <filter id="p-winglow" x="-80%" y="-80%" width="260%" height="260%">
       <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -286,14 +255,6 @@ textarea.finput{resize:vertical;min-height:96px}
 </svg>
 <svg class="sky" id="skyL" viewBox="0 0 2048 1152" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Jade City skyline at night, wide view" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
-    <linearGradient id="l-shipgrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#2ee6a8" stop-opacity="0"/>
-      <stop offset="1" stop-color="#2ee6a8" stop-opacity=".9"/>
-    </linearGradient>
-    <filter id="l-shipglow" x="-80%" y="-80%" width="260%" height="260%">
-      <feGaussianBlur stdDeviation="8" result="b"/>
-      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
     <filter id="l-winglow" x="-80%" y="-80%" width="260%" height="260%">
       <feGaussianBlur stdDeviation="6" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
