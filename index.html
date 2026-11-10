@@ -68,7 +68,7 @@ svg.sky{position:fixed;inset:0;z-index:1;width:100%;height:100vh;height:100dvh;d
 .beamsweep.m2{animation:beamsweep2 24s ease-in-out infinite alternate}
 @keyframes beamsweep2{from{transform:rotate(-18deg)}to{transform:rotate(18deg)}}
 .signglow{animation:signglow 6s ease-in-out infinite}
-@keyframes signglow{0%,100%{opacity:.10}50%{opacity:.22}}
+@keyframes signglow{0%,100%{opacity:.4}50%{opacity:.6}}
 .cattail{transform-box:fill-box;transform-origin:80% 90%;animation:cattail 24s ease-in-out infinite}
 @keyframes cattail{0%,46%,54%,100%{transform:rotate(0deg)}50%{transform:rotate(30deg)}}
 .beacon{animation:beaconblink 2.4s linear infinite}
@@ -208,6 +208,7 @@ body.wf-playing .sigring{animation-duration:1.5s}
     <filter id="p-beamblur" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="16"/>
     </filter>
+    <radialGradient id="p-signhalo"><stop offset="0" stop-color="#ffc35c" stop-opacity=".45"/><stop offset=".55" stop-color="#ffc35c" stop-opacity=".18"/><stop offset="1" stop-color="#ffc35c" stop-opacity="0"/></radialGradient>
   </defs>
   <image class="skyimage" xlink:href="backdrop.webp" href="backdrop.webp" x="0" y="0" width="1184" height="2096"/>
   <g transform="translate(983,1195)" aria-hidden="true">
@@ -237,10 +238,10 @@ body.wf-playing .sigring{animation-duration:1.5s}
     <circle class="win" cx="550" cy="1600" r="6" fill="#b8ffd9" style="animation-duration:8.9s;animation-delay:-0.3s"/>
   </g>
   <g aria-hidden="true">
-    <ellipse class="signglow" cx="216" cy="900" rx="90" ry="210" fill="#ffc35c" filter="url(#p-beamblur)" style="animation-delay:-1.2s"/>
-    <ellipse class="signglow" cx="868" cy="1223" rx="80" ry="160" fill="#ffc35c" filter="url(#p-beamblur)" style="animation-delay:-3.1s"/>
-    <ellipse class="signglow" cx="861" cy="766" rx="80" ry="200" fill="#ffc35c" filter="url(#p-beamblur)" style="animation-delay:-4.4s"/>
-    <ellipse class="signglow" cx="837" cy="1752" rx="220" ry="70" fill="#ffc35c" filter="url(#p-beamblur)" style="animation-delay:-2.2s"/>
+    <ellipse class="signglow" cx="216" cy="900" rx="90" ry="210" fill="url(#p-signhalo)" opacity=".5" style="animation-delay:-1.2s"/>
+    <ellipse class="signglow" cx="868" cy="1223" rx="80" ry="160" fill="url(#p-signhalo)" opacity=".5" style="animation-delay:-3.1s"/>
+    <ellipse class="signglow" cx="861" cy="766" rx="80" ry="200" fill="url(#p-signhalo)" opacity=".5" style="animation-delay:-4.4s"/>
+    <ellipse class="signglow" cx="837" cy="1752" rx="220" ry="70" fill="url(#p-signhalo)" opacity=".5" style="animation-delay:-2.2s"/>
     <circle class="beacon" cx="215" cy="595" r="7" fill="#ff6a5e" style="animation-duration:2.4s"/>
     <circle class="beacon" cx="640" cy="875" r="7" fill="#ff6a5e" style="animation-duration:3s;animation-delay:-1.1s"/>
     <circle class="beacon" cx="905" cy="475" r="7" fill="#ff6a5e" style="animation-duration:2s;animation-delay:-.6s"/>
@@ -260,7 +261,7 @@ body.wf-playing .sigring{animation-duration:1.5s}
     <image class="letflick" id="lf-tools" xlink:href="masks/tools.png" href="masks/tools.png" x="841" y="1092" width="54" height="262"/>
     <image class="letflick" id="lf-socials" xlink:href="masks/socials.png" href="masks/socials.png" x="835" y="593" width="53" height="346"/>
         <image class="letflick" id="lf-message" xlink:href="masks/message.png" href="masks/message.png" x="680" y="1715" width="315" height="75"/>
-    <ellipse class="signglow" cx="556" cy="924" rx="70" ry="150" fill="#ffc35c" filter="url(#p-beamblur)" style="animation-delay:-5.2s"/>
+    <ellipse class="signglow" cx="556" cy="924" rx="70" ry="150" fill="url(#p-signhalo)" opacity=".5" style="animation-delay:-5.2s"/>
     <circle class="beacon" cx="556" cy="742" r="7" fill="#ff6a5e" style="animation-duration:2.8s"/>
     <circle class="sigring" cx="556" cy="742" r="16"/>
     <circle class="sigring r2" cx="556" cy="742" r="16"/>
@@ -308,6 +309,7 @@ body.wf-playing .sigring{animation-duration:1.5s}
     <filter id="l-beamblur" x="-40%" y="-40%" width="180%" height="180%">
       <feGaussianBlur stdDeviation="16"/>
     </filter>
+    <radialGradient id="l-signhalo"><stop offset="0" stop-color="#ffc35c" stop-opacity=".45"/><stop offset=".55" stop-color="#ffc35c" stop-opacity=".18"/><stop offset="1" stop-color="#ffc35c" stop-opacity="0"/></radialGradient>
   </defs>
   <image class="skyimage" xlink:href="backdrop-wide.webp" href="backdrop-wide.webp" x="0" y="0" width="2048" height="1152"/>
   <g transform="translate(1669,461)" aria-hidden="true">
@@ -317,7 +319,7 @@ body.wf-playing .sigring{animation-duration:1.5s}
     </g>
   </g>
   <g aria-hidden="true">
-    <ellipse class="signglow" cx="916" cy="548" rx="68" ry="150" fill="#ffc35c" filter="url(#l-beamblur)"/>
+    <ellipse class="signglow" cx="916" cy="548" rx="68" ry="150" fill="url(#l-signhalo)" opacity=".5"/>
     <circle class="beacon" cx="912" cy="350" r="6" fill="#ff6a5e" style="animation-duration:2.8s"/>
     <circle class="sigring" cx="912" cy="350" r="14"/>
     <circle class="sigring r2" cx="912" cy="350" r="14"/>
