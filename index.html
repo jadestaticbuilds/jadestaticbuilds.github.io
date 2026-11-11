@@ -176,7 +176,7 @@ textarea.finput{resize:vertical;min-height:96px}
 #wfPlay:focus-visible,#wfPrev:focus-visible,#wfNext:focus-visible,#wfOpen:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 .wfmeta{flex:1;min-width:0}
 #wfName{font-weight:700;font-size:14.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#wfTrack{font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#wfTrack{font-size:12px;color:var(--mute);line-height:1.35}
 #wfPrev,#wfNext{width:32px;height:40px;flex-shrink:0;background:none;border:none;color:var(--jade-hi);font-size:27px;cursor:pointer;line-height:1;padding:0}
 #wfOpen{flex-shrink:0;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--jade);
   text-decoration:none;border:1px solid var(--line);padding:7px 9px;border-radius:999px}
@@ -388,24 +388,30 @@ body.wf-playing .sigring{animation-duration:1.5s}
 </div>
 
 <nav class="panel" id="appmenu" hidden aria-label="All apps">
-  <div class="catgroup" data-cat="games">
-  <div class="cathead" id="cat-games">Games</div>
-  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-snake/"><img src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Snake</span><small class="ds">Snake with wrap walls, frenzy mode and a death explosion</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Breakout</span><small class="ds">Breakout where smashed bricks glitch the board</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/rider-dodger/"><img src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Rider Dodger</span><small class="ds">Dodge rain drops, jump puddles, outrun gusts</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/veil-skiff/"><img src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Veil Skiff<span class="new">NEW</span></span><small class="ds">Pilot a skiff through the White Veil galaxy</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/magnetician/"><img src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Magnetician<span class="new">NEW</span></span><small class="ds">Magnetism puzzler, guide the steel orb home</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/tincture/"><img src="logos/tincture.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Tincture<span class="new">NEW</span></span><small class="ds">Alchemist's elixir-sorting ritual</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/six-deep/"><img src="logos/six-deep.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Six Deep<span class="new">NEW</span></span><small class="ds">Candy ball-sort, tubes 6 deep, 10 colors</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Pantheon Clash<span class="new">NEW</span></span><small class="ds">Gods of Egypt, Greece and Norse in a card clash</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Pyramid Builder<span class="new">NEW</span></span><small class="ds">Rule a reign and raise a pyramid in 12 years</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/ironline/"><img src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Ironline<span class="new">NEW</span></span><small class="ds">Dieselpunk rail switchyard puzzler</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/whiteout/"><img src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Whiteout<span class="new">NEW</span></span><small class="ds">Arctic survival, keep the fire lit</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/myth-choices/"><img src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Myth Story Choices<span class="new">NEW</span></span><small class="ds">Play the real myths of Ra, Osiris and Isis</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/the-last-fare/"><img src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">The Last Fare<span class="new">NEW</span></span><small class="ds">Noir cab-driving story with fifteen endings</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/salt-rush/"><img src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Salt Rush<span class="new">NEW</span></span><small class="ds">Wind-powered land sailing on the salt flats</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/hadal-drift/"><img src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Hadal Drift<span class="new">NEW</span></span><small class="ds">Slow atmospheric deep-sea descent</small></span></a>
-  <a class="approw" href="https://jadestaticbuilds.github.io/dead-orbit/"><img src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Dead Orbit<span class="new">NEW</span></span><small class="ds">Space salvage trajectory game</small></span></a>
+  <div class="catgroup" data-cat="arcade">
+  <div class="cathead" id="cat-arcade">Arcade</div>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-snake/"><img src="logos/glitch-snake.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Snake<span class="new">NEW</span></span><small class="ds">Snake with wrap walls, frenzy mode and a death explosion</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/glitch-breakout/"><img src="logos/glitch-breakout.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Glitch Breakout<span class="new">NEW</span></span><small class="ds">Breakout where smashed bricks glitch the board</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/rider-dodger/"><img src="logos/rider-dodger.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Rider Dodger<span class="new">NEW</span></span><small class="ds">Dodge rain drops, jump puddles, outrun gusts</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/veil-skiff/"><img src="logos/veil-skiff.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Veil Skiff</span><small class="ds">Pilot a skiff through the White Veil galaxy</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/salt-rush/"><img src="logos/salt-rush.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Salt Rush</span><small class="ds">Wind-powered land sailing on the salt flats</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/whiteout/"><img src="logos/whiteout.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Whiteout</span><small class="ds">Arctic survival, keep the fire lit</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/dead-orbit/"><img src="logos/dead-orbit.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Dead Orbit</span><small class="ds">Space salvage trajectory game</small></span></a>
+  </div>
+  <div class="catgroup" data-cat="puzzle">
+  <div class="cathead" id="cat-puzzle">Puzzle</div>
+  <a class="approw" href="https://jadestaticbuilds.github.io/magnetician/"><img src="logos/magnetician.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Magnetician</span><small class="ds">Magnetism puzzler, guide the steel orb home</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/six-deep/"><img src="logos/six-deep.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Six Deep</span><small class="ds">Candy ball-sort, tubes 6 deep, 10 colors</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/tincture/"><img src="logos/tincture.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Tincture</span><small class="ds">Alchemist's elixir-sorting ritual</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/ironline/"><img src="logos/ironline.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Ironline</span><small class="ds">Dieselpunk rail switchyard puzzler</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/pyramid-builder/"><img src="logos/pyramid-builder.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Pyramid Builder</span><small class="ds">Rule a reign and raise a pyramid in 12 years</small></span></a>
+  </div>
+  <div class="catgroup" data-cat="story">
+  <div class="cathead" id="cat-story">Story</div>
+  <a class="approw" href="https://jadestaticbuilds.github.io/the-last-fare/"><img src="logos/the-last-fare.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">The Last Fare</span><small class="ds">Noir cab-driving story with 45 endings</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/myth-choices/"><img src="logos/myth-choices.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Myth Story Choices</span><small class="ds">Play the real myths of Ra, Osiris and Isis</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/pantheon-clash/"><img src="logos/pantheon-clash.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Pantheon Clash</span><small class="ds">Gods of Egypt, Greece and Norse in a card clash</small></span></a>
+  <a class="approw" href="https://jadestaticbuilds.github.io/hadal-drift/"><img src="logos/hadal-drift.webp" alt="" loading="lazy" decoding="async"><span class="nmtx"><span class="nm">Hadal Drift</span><small class="ds">Slow atmospheric deep-sea descent</small></span></a>
   </div>
   <div class="catgroup" data-cat="tools">
   <div class="cathead" id="cat-tools">Tools</div>
