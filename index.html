@@ -111,7 +111,7 @@ svg.sky{touch-action:none}
   text-shadow:0 0 12px rgba(143,224,179,.5);white-space:nowrap}
 /* dropdown panels */
 .panel{position:fixed;z-index:19;top:calc(60px + env(safe-area-inset-top,0));left:12px;right:12px;
-  max-width:480px;max-height:calc(100vh - 92px);max-height:calc(100dvh - 92px);overflow-y:auto;
+  max-width:480px;max-height:calc(100vh - 168px);max-height:calc(100dvh - 168px);overflow-y:auto; /* bottom edge clears the fixed mini-player bar */
   -webkit-overflow-scrolling:touch;background:rgba(3,13,9,.88);
   -webkit-backdrop-filter:blur(12px) saturate(1.2);backdrop-filter:blur(12px) saturate(1.2);
   border:1px solid var(--line);border-radius:16px;padding:8px 8px calc(14px + env(safe-area-inset-bottom,0));
