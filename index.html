@@ -486,7 +486,8 @@ body.wf-playing .sigring{animation-duration:1.5s}
   function showMenu(cat){
     closeAll();
     document.querySelectorAll('#appmenu .catgroup').forEach(function(g){
-      g.hidden=(cat!=='all'&&g.getAttribute('data-cat')!==cat);
+      var dc=g.getAttribute('data-cat');
+      g.hidden=!(cat==='all'||dc===cat||(cat==='games'&&(dc==='arcade'||dc==='puzzle'||dc==='story')));
     });
     menu.hidden=false;burger.setAttribute('aria-expanded','true');
   }
